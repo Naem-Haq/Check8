@@ -3,7 +3,7 @@ package com.check.data;
 import java.util.HashMap;
 import java.util.Map;
 
-//Memento
+//Memento Design Pattern - Memento
 public class GameCache {
     private final Map<String, Object> state;
 
@@ -12,6 +12,6 @@ public class GameCache {
     }
 
     public Map<String, Object> getState() {
-        return state;
+        return new HashMap<>(state);
     }
 }

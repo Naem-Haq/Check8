@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 public class CharacterCreator {
-    public class InvalidCharacterException extends Exception {
+    public static class InvalidCharacterException extends Exception {
         public InvalidCharacterException(String message){
             super(message);
         }
@@ -20,7 +20,7 @@ public class CharacterCreator {
         hashMap.put("knight", (cpu) -> new Knight(cpu));
     }
 
-    public Character createCharacter(String char_type, boolean cpu) throws InvalidCharacterException {
+    public static Character createCharacter(String char_type, boolean cpu) throws InvalidCharacterException {
         // Get the character creator function from the hashmap
         Function<Boolean, Character> charCreator = hashMap.get(char_type.toLowerCase());
         if (charCreator == null) {

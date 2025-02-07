@@ -2,7 +2,7 @@ package com.check.data;
 
 import java.util.Stack;
 
-//caretaker
+//Memento Design Pattern - Caretaker
 public class GameHistory {
     private final Stack<GameCache> history = new Stack<>();
 

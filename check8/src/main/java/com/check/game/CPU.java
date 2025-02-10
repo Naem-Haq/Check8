@@ -1,17 +1,14 @@
 package com.check.game;
 
-public class CPU {
-    private final Handler handlerChain;
-    
-    public CPU() {
-        Handler fullHP = new FullHPHandler();
-        Handler lowHP = new LowHPHandler();
-        
-        fullHP.setNextHandler(lowHP);
-        this.handlerChain = fullHP;
-    }
-    
-    public void generateMove(Character character) {
-        handlerChain.handleCharacterDecision(character);
+// CPU CLASS HANDLING AI DECISIONS
+class CPU {
+    public static void generateMove(CharacterCommand character) {
+        CharacterCommand action;
+        if (character.getHealth() < 50) {
+            action = new Dodge(character);
+        } else {
+            action = new Attack(character);
+        }
+        action.execute();
     }
 }

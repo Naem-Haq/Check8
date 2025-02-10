@@ -1,11 +1,12 @@
 package com.check.game;
 
-public class Handler {
+// CHAIN OF RESPONSIBILITY PATTERN FOR CHARACTER DECISIONS
+abstract class Handler {
     protected Handler nextHandler;
-    
+
     public void setNextHandler(Handler nextHandler) {
         this.nextHandler = nextHandler;
     }
-    
-    public abstract void handleCharacterDecision(Character character);
+
+    abstract void handleCharacterDecision(Character character);
 }

@@ -1,9 +1,10 @@
 package com.check.game;
 
-public class LowHPHandler extends Handler {
-    public void handleCharacterDecision(Character character) {
-        if (character.getHealth() <= 40) {
-            System.out.println("CPU chooses defensive maneuver!");
+class LowHPHandler extends Handler {
+    @Override
+    void handleCharacterDecision(Character character) {
+        if (character.getHealth() > 25) {
+            System.out.println("Character at low health, considering defense.");
         } else if (nextHandler != null) {
             nextHandler.handleCharacterDecision(character);
         }

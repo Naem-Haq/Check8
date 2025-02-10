@@ -1,6 +1,11 @@
 package com.check.characters;
 
+import java.util.Arrays;
+
+import com.check.items.DamagePotion;
+import com.check.items.HealPotion;
 import com.check.items.Inventory;
+import com.check.items.Item;
 import com.check.items.Weapon;
 
 public abstract class Character {
@@ -17,6 +22,12 @@ public abstract class Character {
         this.weapon = weapon;
         this.cpu = cpu;
         this.description = description;
+    }
+
+    public void populateInventory() {
+        // Add items to the inventory
+        Item[] items = new Item[]{new HealPotion(), new HealPotion(), new DamagePotion(), new DamagePotion()};
+        inventory.getItems().addAll(Arrays.asList(items));
     }
 
     public HealthBar getHealthBar() {

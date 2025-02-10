@@ -1,5 +1,5 @@
 package com.check.game;
 
-public class CharacterCommand {
-    
+public interface CharacterCommand {
+    void execute();   
 }

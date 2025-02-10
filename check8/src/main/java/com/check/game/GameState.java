@@ -1,5 +1,6 @@
 package com.check.game;
 
-public class GameState {
-    
+abstract class GameState {
+    public abstract void handleRequest(Game game);
 }
+

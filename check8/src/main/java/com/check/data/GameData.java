@@ -1,36 +1,46 @@
 package com.check.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
 import com.check.characters.Character;
 
-
-//Memento Design Pattern - Originator
+// Memento Design Pattern - Originator
 public class GameData {
-    private Character player1;
-    private Character player2;
-    public void setState(Character player1, Character player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    private List<Character> players = new ArrayList<>(); // ArrayList to store characters
+
+    // Set the state for a list of players
+    public void setState(List<Character> players) {
+        this.players = players;
     }
-    //will update with portions once class is implemented
+
+    // Save the state of all players
     public GameCache save() {
         Map<String, Object> state = new HashMap<>();
-        state.put("player1_health", player1.getHealthBar().getHealth());
-        state.put("player2_health", player2.getHealthBar().getHealth());
+        for (int i = 0; i < players.size(); i++) {
+            state.put("player" + (i + 1) + "_health", players.get(i).getHealthBar().getHealth());
+        }
         return new GameCache(state);
     }
+
+    // Restore the state from the GameCache
     public void restore(GameCache gameCache) {
         Map<String, Object> state = gameCache.getState();
-        player1.getHealthBar().setHealth((int) state.get("player1_health"));
-        player2.getHealthBar().setHealth((int) state.get("player2_health"));
+        for (int i = 0; i < players.size(); i++) {
+            players.get(i).getHealthBar().setHealth((int) state.get("player" + (i + 1) + "_health"));
+        }
     }
 
+    // Print the state of each player
     public void printState() {
-        System.out.println("Player 1: " + player1.getName() + " | Health: " + player1.getHealthBar().getHealth());
-        System.out.println("Player 2: " + player2.getName() + " | Health: " + player2.getHealthBar().getHealth());
+        for (int i = 0; i < players.size(); i++) {
+            System.out.println("Player " + (i + 1) + ": " + players.get(i).getName() + " | Health: " + players.get(i).getHealthBar().getHealth());
+        }
     }
 
-    
+    // Add a player to the game
+    public void addPlayer(Character player) {
+        players.add(player);
+    }
 }

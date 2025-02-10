@@ -13,5 +13,6 @@ public class GameCache {
 
     public Map<String, Object> getState() {
         return new HashMap<>(state);
+
     }
 }

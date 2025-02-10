@@ -38,5 +38,12 @@ public class KnightTest {
         Knight knight = new Knight(true);
         assertEquals("Knight", knight.getName());
     }
+
+    @Test
+    public void testInventory() {
+        Knight knight = new Knight(true);
+        knight.populateInventory();
+        assertEquals(4, knight.getInventory().getItems().size());
+    }
     
 }

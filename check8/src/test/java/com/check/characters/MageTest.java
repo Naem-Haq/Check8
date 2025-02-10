@@ -38,5 +38,12 @@ public class MageTest {
         Mage mage = new Mage(true);
         assertEquals("Mage", mage.getName());
     }
+
+    @Test
+    public void testInventory() {
+        Mage mage = new Mage(true);
+        mage.populateInventory();
+        assertEquals(5, mage.getInventory().getItems().size());
+    }
     
 }

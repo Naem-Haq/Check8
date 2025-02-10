@@ -1,5 +1,6 @@
 package com.check.characters;
 
+import com.check.items.Inventory;
 import com.check.items.Weapon;
 
 public abstract class Character {
@@ -8,6 +9,7 @@ public abstract class Character {
     private String description;
     private boolean cpu;
     private HealthBar healthBar = new HealthBar();
+    private Inventory inventory = new Inventory();
     private Weapon weapon;
 
     public Character(String name, Weapon weapon, boolean cpu, String description) {
@@ -27,6 +29,10 @@ public abstract class Character {
 
     public String getDescription() {
         return description;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 
     public Weapon getWeapon() {

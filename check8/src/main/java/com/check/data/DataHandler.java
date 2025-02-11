@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 
 public class DataHandler {
 
+    private static final String LOGIN_FILE = "check8/src/main/java/com/check/resources/AllUsers.csv";
     private static final String STATS_FILE = "check8/src/main/java/com/check/resources/UserStats.json";
     public void saveUserStats(String name, int gamesPlayed, int gamesLost, int gamesWon){
         try {
@@ -76,8 +78,42 @@ public class DataHandler {
         return allStats;
     }
 
-    public void LoadUserLogin(){} //TODO: implement Login package
-    public void saveUserLogin(){}
+    public boolean loadUserLogin(String name, String hashPassword){
+        final int EXPECTED_PARTS = 2;
+        final int USERNAME_INDEX = 0;
+        final int PASSWORD_INDEX = 1;
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(LOGIN_FILE));
+            for (String line : lines) {
+                String[] parts = line.split(",");
+                if (parts.length == EXPECTED_PARTS && parts[USERNAME_INDEX].equals(name) && parts[PASSWORD_INDEX].equals(hashPassword)) {
+                    System.out.println("Login successful!");
+                    return true;
+                }
+            }
+            System.out.println("Invalid username or password.");
+        } catch (IOException e) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, "File operation error", e);
+        }
+        return false;
+    }
+    public void saveUserLogin(String name, String hashedPassword){
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(LOGIN_FILE));
+            for (String line : lines) {
+                if (line.split(",")[0].equals(name)) {
+                    System.out.println("User already exists.");
+                    return;
+                }
+            }
+
+            Files.write(Paths.get(LOGIN_FILE), (name + "," + hashedPassword + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            System.out.println("User registered successfully.");
+
+        } catch (IOException e) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, "File operation error", e);
+        }
+    }
 
     public static void main(String[] args) {
         DataHandler data = new DataHandler();

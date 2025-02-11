@@ -20,6 +20,6 @@ public class Mage extends Character{
     @Override
     public void populateInventory() {
         Item[] items = new Item[]{new HealPotion(), new HealPotion(), new HealPotion(), new DamagePotion(), new DamagePotion()};
-        getInventory().getItems().addAll(Arrays.asList(items));
+        getInventory().addItems(Arrays.asList(items));
     }
 }

@@ -19,6 +19,6 @@ public class Brute extends Character{
     @Override
     public void populateInventory() {
         Item[] items = new Item[]{new DamagePotion(), new DamagePotion(), new DamagePotion(), new DamagePotion()};
-        getInventory().getItems().addAll(Arrays.asList(items));
+        getInventory().addItems(Arrays.asList(items));
     }
 }

@@ -19,6 +19,6 @@ public class Archer extends Character{
     @Override
     public void populateInventory() {
         Item[] items = new Item[]{new HealPotion(), new HealPotion(), new HealPotion(), new HealPotion()};
-        getInventory().getItems().addAll(Arrays.asList(items));
+        getInventory().addItems(Arrays.asList(items));
     }
 }

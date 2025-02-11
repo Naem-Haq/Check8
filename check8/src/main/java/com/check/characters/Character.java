@@ -27,7 +27,7 @@ public abstract class Character {
     public void populateInventory() {
         // Add items to the inventory
         Item[] items = new Item[]{new HealPotion(), new HealPotion(), new DamagePotion(), new DamagePotion()};
-        inventory.getItems().addAll(Arrays.asList(items));
+        inventory.addItems(Arrays.asList(items));
     }
 
     public HealthBar getHealthBar() {

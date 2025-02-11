@@ -16,6 +16,7 @@ public abstract class Character {
     private HealthBar healthBar = new HealthBar();
     private Inventory inventory = new Inventory();
     private Weapon weapon;
+    private boolean attackable = true;
 
     public Character(String name, Weapon weapon, boolean cpu, String description) {
         this.name = name;
@@ -56,6 +57,14 @@ public abstract class Character {
 
     public void setCPU(boolean cpu) {
         this.cpu = cpu;
+    }
+
+    public boolean isAttackable() {
+        return attackable;
+    }
+
+    public void setAttackable(boolean attackable) {
+        this.attackable = attackable;
     }
 
 }

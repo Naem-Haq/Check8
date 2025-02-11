@@ -38,5 +38,12 @@ public class BruteTest {
         Brute brute = new Brute(true);
         assertEquals(com.check.items.Axe.class, brute.getWeapon().getClass());
     }
+
+    @Test
+    public void testInventory() {
+        Brute brute = new Brute(true);
+        brute.populateInventory();
+        assertEquals(4, brute.getInventory().getItems().size());
+    }
     
 }

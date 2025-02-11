@@ -1,6 +1,6 @@
 package com.check.items;
 
-public abstract class Weapon extends Item {
+public abstract class Weapon{
 
     private int damage;
     private String description;

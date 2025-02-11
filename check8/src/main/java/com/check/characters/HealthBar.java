@@ -7,6 +7,14 @@ public class HealthBar implements Subject{
     private int maxHealth = 100;
     private ArrayList<HealthObserver> healthObservers = new ArrayList<HealthObserver>();
 
+    public HealthBar(){
+        this.health = maxHealth;
+    }
+
+    public HealthBar(int maxHealth){
+        this.health = maxHealth;
+    }
+
     public void setHealth(int health){
         if (health < 0){
             this.health = 0;

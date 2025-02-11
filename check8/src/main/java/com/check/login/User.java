@@ -1,14 +1,7 @@
 package com.check.login;
 
-import java.io.*;
-import java.nio.file.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.check.data.DataHandler;
-import org.json.JSONObject;
-import org.json.JSONException;
 
 
 public class User {
@@ -17,8 +10,6 @@ public class User {
     private int gamesPlayed = 0;
     private int gamesLost = 0;
     private int gamesWon = 0;
-
-    private static final String STATS_FILE = "check8/src/main/java/com/check/resources/UserStats.json";
 
     DataHandler dataHandler = new DataHandler();
 

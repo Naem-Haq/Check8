@@ -1,6 +1,9 @@
 package com.check.game;
 
 // MEMENTO PATTERN FOR SAVING GAME STATE
+import java.util.List;
+import java.util.ArrayList;
+
 class GameCache {
     private final List<Character> characters;
     private final int rounds;

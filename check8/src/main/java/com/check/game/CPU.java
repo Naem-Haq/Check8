@@ -2,12 +2,12 @@ package com.check.game;
 
 // CPU CLASS HANDLING AI DECISIONS
 class CPU {
-    public static void generateMove(CharacterCommand character) {
+    public static void generateMove(com.check.characters.Character character) {
         CharacterCommand action;
-        if (character.getHealth() < 50) {
-            action = new Dodge(character);
+        if (character.getHealthBar().getHealth() < 50) {
+            action = new DodgeCommand(character);
         } else {
-            action = new Attack(character);
+            action = new AttackCommand(character);
         }
         action.execute();
     }

@@ -30,4 +30,16 @@ public class Game {
         this.rounds = cache.getRounds();
         System.out.println("Game state restored.");
     }
+
+    public GameState getState() {
+        return state;
+    }
+
+    public List<Character> getCharacters() {
+        return characters;
+    }
+
+    public int getRounds() {
+        return rounds;
+    }
 }

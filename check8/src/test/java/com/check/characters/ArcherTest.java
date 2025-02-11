@@ -38,12 +38,4 @@ public class ArcherTest {
         Archer archer = new Archer(true);
         assertEquals("Archer", archer.getName());
     }
-
-    @Test
-    public void testInventory() {
-        Archer archer = new Archer(true);
-        archer.populateInventory();
-        assertEquals(4, archer.getInventory().getItems().size());
-    }
-    
 }

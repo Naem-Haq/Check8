@@ -8,17 +8,15 @@ import com.check.data.DataHandler;
 
 public class Login {
 
-    static DataHandler dataHandler = new DataHandler();
-
     public static void signUp(String name, String password) {
         String hashedPassword = hashPassword(password);
-        dataHandler.saveUserLogin(name, hashedPassword);
+        DataHandler.saveUserLogin(name, hashedPassword);
         User newUser = new User(name, password);
         newUser.saveStats();
     }
 
     public static User logIn(String name, String password) {
-        boolean successfulLogin =  dataHandler.loadUserLogin(name, hashPassword(password));
+        boolean successfulLogin =  DataHandler.loadUserLogin(name, hashPassword(password));
         if (successfulLogin) return new User(name, password);
         else return null;
     }

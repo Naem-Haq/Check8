@@ -11,8 +11,6 @@ public class User {
     private int gamesLost = 0;
     private int gamesWon = 0;
 
-    DataHandler dataHandler = new DataHandler();
-
 
     public User(String name, String password) {
         this.name = name;
@@ -45,7 +43,7 @@ public class User {
         String currentUser = name;
 
         // Load all user stats from DataHandler
-        Map<String, Map<String, Integer>> allStats = dataHandler.loadUserStats();
+        Map<String, Map<String, Integer>> allStats = DataHandler.loadUserStats();
 
         // Check if the current user's stats exist
         if (allStats.containsKey(currentUser)) {
@@ -58,7 +56,7 @@ public class User {
     }
 
     public void saveStats() {
-        dataHandler.saveUserStats(name, gamesPlayed, gamesLost, gamesWon);
+        DataHandler.saveUserStats(name, gamesPlayed, gamesLost, gamesWon);
     }
 
     public static void main(String[] args) {

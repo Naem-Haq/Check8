@@ -1,18 +1,20 @@
 package com.check.data;
 
+import com.check.game.Game;
+
 import java.util.Stack;
 
 //Memento Design Pattern - Caretaker
 public class GameHistory {
     private final Stack<GameCache> history = new Stack<>();
 
-    public void save(GameData gameData) {
-        history.push(gameData.save());
+    public void save(Game game) {
+        history.push(game.saveToCache());
     }
 
-    public void undo(GameData character) {
+    public void undo(Game game) {
         if (!history.isEmpty()) {
-            character.restore(history.pop());
+            game.restoreFromCache(history.pop());
         } else {
             System.out.println("No saves to restore!");
         }

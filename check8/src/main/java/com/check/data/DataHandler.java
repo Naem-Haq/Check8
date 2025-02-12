@@ -115,14 +115,4 @@ public class DataHandler {
         }
     }
 
-    public static void main(String[] args) {
-        DataHandler data = new DataHandler();
-        Map<String, Map<String, Integer>> stats = data.loadUserStats();
-
-        for (String user : stats.keySet()) {
-            System.out.println("User: " + user + " Stats: " + stats.get(user));
-        }
-
-    }
-
 }

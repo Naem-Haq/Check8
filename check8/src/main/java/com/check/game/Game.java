@@ -1,5 +1,8 @@
 package com.check.game;
 
+import com.check.characters.Character;
+import com.check.data.GameCache;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -11,6 +14,7 @@ public class Game {
     public Game() {
         this.characters = new ArrayList<>();
         this.state = new Ready();
+        this.rounds = 0;
     }
 
     public void setState(GameState state) {
@@ -21,13 +25,21 @@ public class Game {
         state.handleRequest(this);
     }
 
-    public void saveToCache() {
+
+    public void setCacheState(List<Character> characters, GameState state, int rounds) {
+        this.characters = new ArrayList<>(characters);
+        this.state = state;
+        this.rounds = rounds;
+    }
+    public GameCache saveToCache() {
         System.out.println("Game state saved.");
+        return new GameCache(getCharacters(),getState(), getRounds());
     }
 
     public void restoreFromCache(GameCache cache) {
         this.characters = cache.getCharacters();
         this.rounds = cache.getRounds();
+        this.state = cache.getState();
         System.out.println("Game state restored.");
     }
 

@@ -1,0 +1,23 @@
+<configuration>
+    <!-- File Appender (Logs to File) -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>check8/src/main/logs/app.log</file>
+        <append>true</append> <!-- Ensures logs are appended instead of overwritten -->
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Console Appender (Logs to Terminal) -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root Logger (Logs everything at INFO level and above) -->
+    <root level="info">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

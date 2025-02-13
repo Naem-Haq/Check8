@@ -20,7 +20,12 @@ public class DataHandler {
 
     private static final String LOGIN_FILE = "check8/src/main/java/com/check/resources/AllUsers.csv";
     private static final String STATS_FILE = "check8/src/main/java/com/check/resources/UserStats.json";
-    public void saveUserStats(String name, int gamesPlayed, int gamesLost, int gamesWon){
+
+    private DataHandler() {
+        throw new UnsupportedOperationException("Utility class - cannot be instantiated");
+    }
+
+    public static void saveUserStats(String name, int gamesPlayed, int gamesLost, int gamesWon){
         try {
             JSONObject json = new JSONObject();
             Path statsFilePath = Paths.get(STATS_FILE);
@@ -48,7 +53,7 @@ public class DataHandler {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, "File operation error", e);
         }
     }
-    public Map<String, Map<String, Integer>> loadUserStats() {
+    public static Map<String, Map<String, Integer>> loadUserStats() {
         Map<String, Map<String, Integer>> allStats = new HashMap<>();
         Path statsFilePath = Paths.get(STATS_FILE);
 
@@ -78,7 +83,7 @@ public class DataHandler {
         return allStats;
     }
 
-    public boolean loadUserLogin(String name, String hashPassword){
+    public static boolean loadUserLogin(String name, String hashPassword){
         final int EXPECTED_PARTS = 2;
         final int USERNAME_INDEX = 0;
         final int PASSWORD_INDEX = 1;
@@ -97,7 +102,7 @@ public class DataHandler {
         }
         return false;
     }
-    public void saveUserLogin(String name, String hashedPassword){
+    public static void saveUserLogin(String name, String hashedPassword){
         try {
             List<String> lines = Files.readAllLines(Paths.get(LOGIN_FILE));
             for (String line : lines) {

@@ -25,6 +25,7 @@ public class CharacterCreator {
         Function<Boolean, Character> charCreator = hashMap.get(char_type.toLowerCase());
         if (charCreator == null) {
             throw new InvalidCharacterException("Invalid character type provided");
+            // TODO: ERROR Log "Invalid character type provided"
         }
         // TODO: Log "Creating character of type " + char_type
         // Create the character using the creator function

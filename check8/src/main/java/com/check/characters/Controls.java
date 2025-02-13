@@ -20,19 +20,19 @@ public class Controls {
         buttons[index].execute(target);
     }
 
-    public static int getATTACK(){
+    public static int getAttack(){
         return ATTACK;
     }
 
-    public static int getUSE_HEAL_POTION(){
+    public static int getUseHealPotion(){
         return USE_HEAL_POTION;
     }
 
-    public static int getUSE_DAMAGE_POTION(){
+    public static int getUseDamagePotion(){
         return USE_DAMAGE_POTION;
     }
 
-    public static int getDODGE(){
+    public static int getDodge(){
         return DODGE;
     }
 }

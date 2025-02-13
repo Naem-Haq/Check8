@@ -11,6 +11,7 @@ public class DodgeCommand implements CharacterCommand {
     @Override
     public void execute(Character target) {
         executer.setAttackable(false);
+        // TODO: DEBUG Log "Dodge command executed by " + executer.getName()
     }
 
     @Override

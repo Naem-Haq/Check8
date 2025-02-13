@@ -15,6 +15,7 @@ public class AttackCommand implements CharacterCommand {
         }
         int damage = this.executer.getWeapon().getDamage();
         target.getHealthBar().decreaseHealth(damage);
+        // TODO: DEBUG Log "Attack command executed by " + executer.getName() + " against " + target.getName()
     }
 
     @Override

@@ -26,6 +26,7 @@ public class CharacterCreator {
         if (charCreator == null) {
             throw new InvalidCharacterException("Invalid character type provided");
         }
+        // TODO: Log "Creating character of type " + char_type
         // Create the character using the creator function
         return charCreator.apply(cpu);
     }

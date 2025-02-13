@@ -48,11 +48,11 @@ public class HealthBar implements Subject{
     }
 
     public void attach(HealthObserver healthObserver){
-        return;
+        this.healthObservers.add(healthObserver);
     }
 
     public void detach(HealthObserver healthObserver){
-        return;
+        this.healthObservers.remove(healthObserver);
     }
 
     public void updateAll(){

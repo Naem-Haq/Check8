@@ -3,7 +3,8 @@ package com.check.game;
 class LowHPHandler extends Handler {
     @Override
     void handleCharacterDecision(com.check.characters.Character character) {
-        if (character.getHealthBar().getHealth() >= 25 && character.getHealthBar().getHealth() < 50) {
+        double healthPercentage = (double) character.getHealthBar().getHealth() / character.getHealthBar().getMaxHealth() * 100;
+        if (healthPercentage >= 25 && healthPercentage < 50) {
             System.out.println("Character at low health, considering defense.");
         } else if (nextHandler != null) {
             nextHandler.handleCharacterDecision(character);

@@ -1,5 +1,11 @@
 <!--This is a Logback configuration file written in XML format. It configures
-how logs should be handled in a Java application using SLF4J + Logback.-->
+how logs should be handled in a Java application using SLF4J + Logback.
+
+this is how you call the logger in a class:
+    private static final Logger logger = LoggerFactory.getLogger(ClassName.class);
+    eg:
+        logger.error("text")
+-->
 
 <configuration>
     <!-- File Appender (Logs to File) -->

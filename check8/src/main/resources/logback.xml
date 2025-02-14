@@ -1,0 +1,32 @@
+<!--This is a Logback configuration file written in XML format. It configures
+how logs should be handled in a Java application using SLF4J + Logback.
+
+this is how you call the logger in a class:
+    private static final Logger logger = LoggerFactory.getLogger(ClassName.class);
+    eg:
+        logger.error("text")
+-->
+
+<configuration>
+    <!-- File Appender (Logs to File) -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>check8/src/main/logs/app.log</file> <!-- creates a file in specified location :P -->
+        <append>true</append> <!-- Ensures logs are appended instead of overwritten -->
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Console Appender (Logs to Terminal) -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root Logger (Logs everything at INFO level and above) -->
+    <root level="info">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

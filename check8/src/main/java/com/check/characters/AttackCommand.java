@@ -1,6 +1,10 @@
 package com.check.characters;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AttackCommand implements CharacterCommand {
+    private static Logger logger = LoggerFactory.getLogger(AttackCommand.class.getName());
 
     private Character executer;
 
@@ -14,7 +18,7 @@ public class AttackCommand implements CharacterCommand {
             return;
         }
         this.executer.getWeapon().attack(target);
-        // TODO: DEBUG Log "Attack command executed by " + executer.getName() + " against " + target.getName()
+        logger.debug("Attack command executed by {} against {}", executer.getName(), target.getName());
     }
 
     @Override

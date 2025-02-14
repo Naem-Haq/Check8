@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.check.characters.Character;
 
 public class Inventory {
+    private static Logger logger = LoggerFactory.getLogger(Inventory.class.getName());
+
     private HashMap<String, ArrayList<Item>> items = new HashMap<>();
 
     public HashMap<String, ArrayList<Item>> getItems(){
@@ -24,7 +29,7 @@ public class Inventory {
             items.add(item);
             this.items.put(item.getClass().getSimpleName().toLowerCase(), items);
         }
-        // TODO: DEBUG Log "Added item to inventory: " + item.getClass().getSimpleName()
+        logger.debug("Added item to inventory: {}", item.getClass().getSimpleName());
     }
 
     public void addItems(List<Item> items){
@@ -51,7 +56,7 @@ public class Inventory {
         if(this.items.containsKey(itemType.toLowerCase())){
             ArrayList<Item> items = this.items.get(itemType.toLowerCase());
             items.get(0).use(character);
-            // TODO: DEBUG Log "Used item from inventory: " + item.getClass().getSimpleName()
+            logger.debug("Used item from inventory: {}", itemType);
             items.remove(0);
         }
     }

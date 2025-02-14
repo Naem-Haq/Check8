@@ -20,5 +20,6 @@ public class Brute extends Character{
     public void populateInventory() {
         Item[] items = new Item[]{new DamagePotion(), new DamagePotion(), new DamagePotion(), new DamagePotion()};
         getInventory().addItems(Arrays.asList(items));
+        super.populateInventory();
     }
 }

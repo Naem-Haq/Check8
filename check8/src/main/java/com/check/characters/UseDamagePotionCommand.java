@@ -1,6 +1,11 @@
 package com.check.characters;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class UseDamagePotionCommand implements CharacterCommand {
+
+    private static Logger logger = LoggerFactory.getLogger(UseDamagePotionCommand.class.getName());
 
     private Character executer;
 
@@ -12,7 +17,7 @@ public class UseDamagePotionCommand implements CharacterCommand {
     public void execute(Character target) {
         this.executer.getInventory().useItem("DamagePotion", target);
 
-        // TODO: DEBUG Log "Use Damage Potion command executed by " + executer.getName() + " against " + target.getName()
+        logger.debug("Use Damage Potion command executed by {} against {}", executer.getName(), target.getName());
 
     }
 

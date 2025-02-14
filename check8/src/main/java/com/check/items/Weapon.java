@@ -1,4 +1,5 @@
 package com.check.items;
+import com.check.characters.Character;
 
 public abstract class Weapon{
 
@@ -9,6 +10,10 @@ public abstract class Weapon{
         super();
         this.damage = damage;
         this.description = description;
+    }
+
+    public void attack(Character enemy){
+        enemy.getHealthBar().decreaseHealth(this.getDamage());
     }
 
     public abstract String attackText();

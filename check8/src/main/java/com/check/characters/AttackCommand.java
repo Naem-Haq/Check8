@@ -13,8 +13,8 @@ public class AttackCommand implements CharacterCommand {
         if (!target.isAttackable()) {
             return;
         }
-        int damage = this.executer.getWeapon().getDamage();
-        target.getHealthBar().decreaseHealth(damage);
+        this.executer.getWeapon().attack(target);
+        // TODO: DEBUG Log "Attack command executed by " + executer.getName() + " against " + target.getName()
     }
 
     @Override

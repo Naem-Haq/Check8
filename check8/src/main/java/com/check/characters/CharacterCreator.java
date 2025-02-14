@@ -20,12 +20,14 @@ public class CharacterCreator {
         hashMap.put("knight", (cpu) -> new Knight(cpu));
     }
 
-    public static Character createCharacter(String char_type, boolean cpu) throws InvalidCharacterException {
+    public static Character createCharacter(String charType, boolean cpu) throws InvalidCharacterException {
         // Get the character creator function from the hashmap
-        Function<Boolean, Character> charCreator = hashMap.get(char_type.toLowerCase());
+        Function<Boolean, Character> charCreator = hashMap.get(charType.toLowerCase());
         if (charCreator == null) {
             throw new InvalidCharacterException("Invalid character type provided");
+            // TODO: ERROR Log "Invalid character type provided"
         }
+        // TODO: Log "Creating character of type " + char_type
         // Create the character using the creator function
         return charCreator.apply(cpu);
     }

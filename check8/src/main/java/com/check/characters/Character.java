@@ -23,12 +23,14 @@ public abstract class Character {
         this.weapon = weapon;
         this.cpu = cpu;
         this.description = description;
+        // TODO: Log "Character (type this.class)" + name + " created"
     }
 
     public void populateInventory() {
         // Add items to the inventory
         Item[] items = new Item[]{new HealPotion(), new HealPotion(), new DamagePotion(), new DamagePotion()};
         inventory.addItems(Arrays.asList(items));
+        // TODO: Log "Character " + name + " inventory populated"
     }
 
     public HealthBar getHealthBar() {

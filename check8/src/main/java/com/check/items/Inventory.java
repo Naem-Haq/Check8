@@ -24,6 +24,7 @@ public class Inventory {
             items.add(item);
             this.items.put(item.getClass().getSimpleName().toLowerCase(), items);
         }
+        // TODO: DEBUG Log "Added item to inventory: " + item.getClass().getSimpleName()
     }
 
     public void addItems(List<Item> items){
@@ -50,6 +51,7 @@ public class Inventory {
         if(this.items.containsKey(itemType.toLowerCase())){
             ArrayList<Item> items = this.items.get(itemType.toLowerCase());
             items.get(0).use(character);
+            // TODO: DEBUG Log "Used item from inventory: " + item.getClass().getSimpleName()
             items.remove(0);
         }
     }

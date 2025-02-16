@@ -1,6 +1,10 @@
 package com.check.characters;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DodgeCommand implements CharacterCommand {
+    private static Logger logger = LoggerFactory.getLogger(DodgeCommand.class.getName());
 
     private Character executer;
 
@@ -11,7 +15,7 @@ public class DodgeCommand implements CharacterCommand {
     @Override
     public void execute(Character target) {
         executer.setAttackable(false);
-        // TODO: DEBUG Log "Dodge command executed by " + executer.getName()
+        logger.debug("Dodge command executed by {}", executer.getName());
     }
 
     @Override

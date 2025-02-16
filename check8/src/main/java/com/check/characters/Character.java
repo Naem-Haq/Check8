@@ -1,14 +1,13 @@
 package com.check.characters;
 
-import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.check.items.DamagePotion;
-import com.check.items.HealPotion;
 import com.check.items.Inventory;
-import com.check.items.Item;
 import com.check.items.Weapon;
 
 public abstract class Character {
+    private static Logger logger = LoggerFactory.getLogger(Character.class.getName());
 
     private String name;
     private String description;
@@ -23,14 +22,11 @@ public abstract class Character {
         this.weapon = weapon;
         this.cpu = cpu;
         this.description = description;
-        // TODO: Log "Character (type this.class)" + name + " created"
+        logger.info("Character ({}) created", this.name);
     }
 
     public void populateInventory() {
-        // Add items to the inventory
-        Item[] items = new Item[]{new HealPotion(), new HealPotion(), new DamagePotion(), new DamagePotion()};
-        inventory.addItems(Arrays.asList(items));
-        // TODO: Log "Character " + name + " inventory populated"
+        logger.info("Character {} inventory populated", this.name);
     }
 
     public HealthBar getHealthBar() {

@@ -1,6 +1,11 @@
 package com.check.characters;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Controls {
+    private static Logger logger = LoggerFactory.getLogger(Controls.class.getName());
+
     private CharacterCommand[] buttons = new CharacterCommand[4];
     private Character player;
     private static final int ATTACK = 0;
@@ -16,13 +21,13 @@ public class Controls {
         buttons[USE_HEAL_POTION] = new UseHealPotionCommand(player);
         buttons[USE_DAMAGE_POTION] = new UseDamagePotionCommand(player);
         buttons[DODGE] = new DodgeCommand(player);
-        // TODO: INFO Log "Controls created for " + player.getName()
+        logger.debug("Controls created for {}", player.getName());
 
     }
 
     public void pressButton(int index, Character target) {
         buttons[index].execute(target);
-        // TODO: INFO Log "Character " + player.getName() + " pressed button " + index + " against " + target.getName()
+        logger.info("Character {} pressed button {} against {}", player.getName(), buttons[index].getClass().getSimpleName(), target.getName());
     }
 
     public static int getAttack(){

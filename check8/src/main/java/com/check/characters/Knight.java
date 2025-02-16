@@ -21,5 +21,6 @@ public class Knight extends Character{
     public void populateInventory() {
         Item[] items = new Item[]{new HealPotion(), new HealPotion(), new DamagePotion(), new DamagePotion()};
         getInventory().addItems(Arrays.asList(items));
+        super.populateInventory();
     }
 }

@@ -24,7 +24,7 @@ public class Game {
 
     public Game() {
         this.characters = new ArrayList<>();
-        this.state = new Ready();
+        this.state = new Ready();  // Start with login menu
         this.rounds = 0;
         this.gameHistory = new GameHistory();
         this.scanner = new Scanner(System.in);
@@ -32,38 +32,19 @@ public class Game {
     }
 
     public void start() {
-        try {
-            System.out.println("Choose your character (archer/mage/brute/knight):");
-            String playerChoice = scanner.nextLine().toLowerCase();
-            initializeGame(playerChoice, "knight"); // CPU always uses knight for now
-            
-            while (state instanceof InProgress) {
-                displayGameState();
-                handlePlayerTurn();
-                if (!(state instanceof InProgress)) break;
-                
-                handleCPUTurn();
-                if (!(state instanceof InProgress)) break;
-                
-                rounds++;
-                gameHistory.save(this);
-            }
-            
-            displayGameOver();
-            
-        } catch (CharacterCreator.InvalidCharacterException e) {
-            logger.error("Error starting game: {}", e.getMessage());
+        while (true) {
+            state.handleRequest(this);
         }
     }
 
-    private void displayGameState() {
+    public void displayGameState() {
         System.out.println("\n=== Round " + rounds + " ===");
         System.out.println(player.getName() + " HP: " + player.getHealthBar().getHealth());
         System.out.println(cpu.getName() + " HP: " + cpu.getHealthBar().getHealth());
         System.out.println("Available potions: " + player.getInventory().getItems());
     }
 
-    private void handlePlayerTurn() {
+    public void handlePlayerTurn() {
         System.out.println("\nYour turn! Choose action:");
         System.out.println("1. Attack");
         System.out.println("2. Dodge");
@@ -111,7 +92,7 @@ public class Game {
         }
     }
 
-    private void handleCPUTurn() {
+    public void handleCPUTurn() {
         System.out.println("\nCPU's turn!");
         CPU.generateMove(cpu);
         request();
@@ -188,5 +169,13 @@ public class Game {
         this.rounds = rounds;
         logger.debug("Game state manually set with {} characters, state: {}, rounds: {}", 
             characters.size(), state.getClass().getSimpleName(), rounds);
+    }
+
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public GameHistory getGameHistory() {
+        return gameHistory;
     }
 }

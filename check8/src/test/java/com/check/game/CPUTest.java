@@ -1,24 +1,37 @@
-// package com.check.game;
+package com.check.game;
 
-// import static org.junit.Assert.*;
-// import org.junit.Test;
-// import com.check.characters.Character;
-// import com.check.characters.HealthBar;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import com.check.characters.Character;
+import com.check.characters.CharacterCreator;
 
-// public class CPUTest {
-//     @Test
-//     public void testCPUExists() {
-//         CPU cpu = new CPU();
-//         assertNotNull("CPU should be created", cpu);
-//     }
+public class CPUTest {
+    @Test
+    public void testGenerateMoveLowHealth() throws CharacterCreator.InvalidCharacterException {
+        Character cpu = CharacterCreator.createCharacter("knight", true);
+        cpu.getHealthBar().decreaseHealth(80); // Set health to 20%
+        
+        boolean wasAttackable = cpu.isAttackable();
+        CPU.generateMove(cpu);
+        
+        // CPU should dodge at low health
+        assertNotEquals("CPU should change attackable status when low health", 
+            wasAttackable, cpu.isAttackable());
+    }
 
-//     // Additional tests can be added once CPU.generateMove() is implemented
-//     /* 
-//     @Test
-//     public void testGenerateMove() {
-//         Character character = new Character("Test", new HealthBar());
-//         CPU.generateMove(character);
-//         // Add assertions based on expected behavior
-//     }
-//     */
-// } 
+    @Test
+    public void testGenerateMoveHighHealth() throws CharacterCreator.InvalidCharacterException {
+        Character cpu = CharacterCreator.createCharacter("knight", true);
+        boolean wasAttackable = cpu.isAttackable();
+        CPU.generateMove(cpu);
+        
+        // CPU should attack at high health
+        assertEquals("CPU should not change attackable status at high health", 
+            wasAttackable, cpu.isAttackable());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGenerateMoveNullCharacter() {
+        CPU.generateMove(null);
+    }
+} 

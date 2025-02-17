@@ -1,4 +1,10 @@
 {
+    "Nammerz": {
+        "wins": 0,
+        "gamesPlayed": 0,
+        "losses": 0,
+        "username": "Nammerz"
+    },
     "testUser": {
         "wins": 0,
         "gamesPlayed": 0,

@@ -10,6 +10,7 @@ import com.check.data.GameCache;
 import com.check.characters.CharacterCreator;
 import com.check.characters.Controls;
 import com.check.data.GameHistory;
+import com.check.login.User;
 
 public class Game {
     private static Logger logger = LoggerFactory.getLogger(Game.class.getName());
@@ -21,10 +22,11 @@ public class Game {
     private Controls playerControls;
     private GameHistory gameHistory;
     private Scanner scanner;
+    private User currentUser;
 
     public Game() {
         this.characters = new ArrayList<>();
-        this.state = new Ready();  // Start with login menu
+        this.state = new Ready();
         this.rounds = 0;
         this.gameHistory = new GameHistory();
         this.scanner = new Scanner(System.in);
@@ -37,10 +39,16 @@ public class Game {
         }
     }
 
+    public Scanner getScanner() {
+        return scanner;
+    }
+
     public void displayGameState() {
         System.out.println("\n=== Round " + rounds + " ===");
-        System.out.println(player.getName() + " HP: " + player.getHealthBar().getHealth());
-        System.out.println(cpu.getName() + " HP: " + cpu.getHealthBar().getHealth());
+        System.out.println(player.getName() + " HP: " + player.getHealthBar().getHealth() + 
+                          " (Dodges: " + player.getRemainingDodges() + ")");
+        System.out.println(cpu.getName() + " HP: " + cpu.getHealthBar().getHealth() + 
+                          " (Dodges: " + cpu.getRemainingDodges() + ")");
         System.out.println("Available potions: " + player.getInventory().getItems());
     }
 
@@ -53,13 +61,12 @@ public class Game {
         System.out.println("5. Undo last move");
 
         try {
-            String input = scanner.next();  // Changed from nextInt()
+            String input = scanner.nextLine().trim();
             int choice;
             
             try {
                 choice = Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                // Handle text input like "attack"
                 choice = switch(input.toLowerCase()) {
                     case "attack" -> 1;
                     case "dodge" -> 2;
@@ -84,7 +91,6 @@ public class Game {
             }
 
             playerControls.pressButton(choice - 1, cpu);
-            request();
             
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
@@ -95,10 +101,9 @@ public class Game {
     public void handleCPUTurn() {
         System.out.println("\nCPU's turn!");
         CPU.generateMove(cpu);
-        request();
     }
 
-    private void displayGameOver() {
+    public void displayGameOver() {
         System.out.println("\n=== Game Over ===");
         String winner = player.getHealthBar().getHealth() <= 0 ? cpu.getName() : player.getName();
         System.out.println("Winner: " + winner);
@@ -124,7 +129,6 @@ public class Game {
         playerControls = new Controls(player);
         characters.add(player);
         characters.add(cpu);
-        setState(new InProgress());
         logger.info("Game initialized with {} vs {}", playerCharType, cpuCharType);
     }
 
@@ -171,8 +175,13 @@ public class Game {
             characters.size(), state.getClass().getSimpleName(), rounds);
     }
 
-    public Scanner getScanner() {
-        return scanner;
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        logger.info("User {} logged in", user.getName());
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 
     public GameHistory getGameHistory() {

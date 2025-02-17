@@ -11,7 +11,7 @@ import com.check.characters.CharacterCommand;
 class CPU {
     /**
      * Generates and executes an AI move based on the character's current state.
-     * The AI will dodge when health is low (< 50) and attack otherwise.
+     * Uses Chain of Responsibility to determine the appropriate action.
      * 
      * @param character The character for which to generate a move
      * @throws IllegalArgumentException if character is null
@@ -21,12 +21,17 @@ class CPU {
             throw new IllegalArgumentException("Character cannot be null");
         }
 
-        CharacterCommand action;
-        if (character.getHealthBar().getHealth() < 50) {
-            action = new DodgeCommand(character);
-        } else {
-            action = new AttackCommand(character);
-        }
-        action.execute(character); // Pass target character
+        // Set up the chain of responsibility
+        CriticalHPHandler criticalHandler = new CriticalHPHandler();
+        LowHPHandler lowHandler = new LowHPHandler();
+        MidHPHandler midHandler = new MidHPHandler();
+        FullHPHandler fullHandler = new FullHPHandler();
+
+        criticalHandler.setNextHandler(lowHandler);
+        lowHandler.setNextHandler(midHandler);
+        midHandler.setNextHandler(fullHandler);
+
+        // Start the chain
+        criticalHandler.handleCharacterDecision(character);
     }
 }

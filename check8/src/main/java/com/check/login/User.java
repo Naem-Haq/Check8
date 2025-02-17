@@ -2,6 +2,8 @@ package com.check.login;
 
 import java.util.*;
 import com.check.data.DataHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class User {
@@ -10,6 +12,8 @@ public class User {
     private int gamesPlayed = 0;
     private int gamesLost = 0;
     private int gamesWon = 0;
+
+    private static final Logger logger = LoggerFactory.getLogger(User.class);
 
 
     public User(String name, String password) {
@@ -22,6 +26,10 @@ public class User {
     }
     public String getName() {
         return name;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void addWin() {
@@ -57,11 +65,6 @@ public class User {
 
     public void saveStats() {
         DataHandler.saveUserStats(name, gamesPlayed, gamesLost, gamesWon);
-    }
-
-    public static void main(String[] args) {
-        User michelle = new User("michelle", "pass");
-        System.out.println(michelle.loadStats());
     }
 
 }

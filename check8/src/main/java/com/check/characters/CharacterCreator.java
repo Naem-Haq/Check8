@@ -20,10 +20,10 @@ public class CharacterCreator {
     static HashMap<String, Function<Boolean, Character>> hashMap = new HashMap<>();
 
     static {
-        hashMap.put("archer", (cpu) -> new Archer(cpu));
-        hashMap.put("mage", (cpu) -> new Mage(cpu));
-        hashMap.put("brute", (cpu) -> new Brute(cpu));
-        hashMap.put("knight", (cpu) -> new Knight(cpu));
+        hashMap.put("archer", Archer::new);
+        hashMap.put("mage", Mage::new);
+        hashMap.put("brute", Brute::new);
+        hashMap.put("knight", Knight::new);
     }
 
     public static Character createCharacter(String charType, boolean cpu) throws InvalidCharacterException {

@@ -1,10 +1,17 @@
 package com.check.game;
 
-class MidHPHandler extends Handler {
-    void handleCharacterDecision(com.check.characters.Character character) {
-        if (character.getHealthBar().getHealth() >= 50 && character.getHealthBar().getHealth() < 75) {
+import com.check.characters.Character;
+
+public class MidHPHandler extends Handler {
+    @Override
+    public void handleCharacterDecision(Character character) {
+        double healthPercentage = (double) character.getHealthBar().getHealth() / character.getHealthBar().getMaxHealth() * 100;
+        if (healthPercentage >= 50 && healthPercentage < 75) {
             System.out.println("Character at mid health, attacking.");
-        } else if (nextHandler != null) {
+            character.setAttackable(true);
+            return;
+        }
+        if (nextHandler != null) {
             nextHandler.handleCharacterDecision(character);
         }
     }

@@ -1,67 +1,64 @@
-// package com.check.game;
+package com.check.game;
 
-// import static org.junit.Assert.*;
-// import org.junit.Before;
-// import org.junit.Test;
-// import com.check.characters.Character;
-// import com.check.characters.HealthBar;
-// import com.check.characters.Archer;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import com.check.characters.Character;
+import com.check.characters.CharacterCreator;
 
-// public class HandlerTest {
-//     private CriticalHPHandler criticalHandler;
-//     private LowHPHandler lowHandler;
-//     private MidHPHandler midHandler;
-//     private FullHPHandler fullHandler;
-//     private Character testCharacter;
-//     private HealthBar healthBar;
+public class HandlerTest {
+    private CriticalHPHandler criticalHandler;
+    private LowHPHandler lowHandler;
+    private MidHPHandler midHandler;
+    private FullHPHandler fullHandler;
+    private Character testCharacter;
 
-//     @Before
-//     public void setUp() {
-//         criticalHandler = new CriticalHPHandler();
-//         lowHandler = new LowHPHandler();
-//         midHandler = new MidHPHandler();
-//         fullHandler = new FullHPHandler();
+    @Before
+    public void setUp() throws CharacterCreator.InvalidCharacterException {
+        criticalHandler = new CriticalHPHandler();
+        lowHandler = new LowHPHandler();
+        midHandler = new MidHPHandler();
+        fullHandler = new FullHPHandler();
         
-//         // Set up chain
-//         criticalHandler.setNextHandler(lowHandler);
-//         lowHandler.setNextHandler(midHandler);
-//         midHandler.setNextHandler(fullHandler);
+        // Set up chain
+        criticalHandler.setNextHandler(lowHandler);
+        lowHandler.setNextHandler(midHandler);
+        midHandler.setNextHandler(fullHandler);
         
-//         healthBar = new HealthBar();
-//         testCharacter = new Archer("Test", healthBar);
-//     }
+        testCharacter = CharacterCreator.createCharacter("knight", true);
+    }
 
-//     @Test
-//     public void testCriticalHealthHandling() {
-//         healthBar.setHealth(20);
-//         criticalHandler.handleCharacterDecision(testCharacter);
-//         // Verify health is in critical range
-//         assertTrue(testCharacter.getHealthBar().getHealth() < 25);
-//     }
+    @Test
+    public void testCriticalHealthHandling() {
+        testCharacter.getHealthBar().decreaseHealth(90); // Set health to 10%
+        criticalHandler.handleCharacterDecision(testCharacter);
+        assertTrue("Health should be in critical range", 
+            testCharacter.getHealthBar().getHealth() < 25);
+    }
 
-//     @Test
-//     public void testLowHealthHandling() {
-//         healthBar.setHealth(35);
-//         criticalHandler.handleCharacterDecision(testCharacter);
-//         // Verify health is in low range
-//         assertTrue(testCharacter.getHealthBar().getHealth() >= 25 
-//             && testCharacter.getHealthBar().getHealth() < 50);
-//     }
+    @Test
+    public void testLowHealthHandling() {
+        testCharacter.getHealthBar().decreaseHealth(70); // Set health to 30%
+        criticalHandler.handleCharacterDecision(testCharacter);
+        assertTrue("Health should be in low range", 
+            testCharacter.getHealthBar().getHealth() >= 25 && 
+            testCharacter.getHealthBar().getHealth() < 50);
+    }
 
-//     @Test
-//     public void testMidHealthHandling() {
-//         healthBar.setHealth(60);
-//         criticalHandler.handleCharacterDecision(testCharacter);
-//         // Verify health is in mid range
-//         assertTrue(testCharacter.getHealthBar().getHealth() >= 50 
-//             && testCharacter.getHealthBar().getHealth() < 75);
-//     }
+    @Test
+    public void testMidHealthHandling() {
+        testCharacter.getHealthBar().decreaseHealth(40); // Set health to 60%
+        criticalHandler.handleCharacterDecision(testCharacter);
+        assertTrue("Health should be in mid range", 
+            testCharacter.getHealthBar().getHealth() >= 50 && 
+            testCharacter.getHealthBar().getHealth() < 75);
+    }
 
-//     @Test
-//     public void testFullHealthHandling() {
-//         healthBar.setHealth(85);
-//         criticalHandler.handleCharacterDecision(testCharacter);
-//         // Verify health is in full range
-//         assertTrue(testCharacter.getHealthBar().getHealth() >= 75);
-//     }
-// } 
+    @Test
+    public void testFullHealthHandling() {
+        testCharacter.getHealthBar().decreaseHealth(10); // Set health to 90%
+        criticalHandler.handleCharacterDecision(testCharacter);
+        assertTrue("Health should be in full range", 
+            testCharacter.getHealthBar().getHealth() >= 75);
+    }
+} 

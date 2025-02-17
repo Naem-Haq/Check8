@@ -16,9 +16,24 @@ public class Login {
     }
 
     public static User logIn(String name, String password) {
-        boolean successfulLogin =  DataHandler.loadUserLogin(name, hashPassword(password));
-        if (successfulLogin) return new User(name, password);
-        else return null;
+        Request request = new Request(new User(name, password));
+
+        InterceptorChain i = new InterceptorChain();
+        i.addInterceptor(new LoggingInterceptor());
+        i.addInterceptor(new AuthenticationInterceptor());
+
+        try {
+            i.execute(request);
+            return request.getUser();
+        } catch (SecurityException e) {
+            // Authentication failed, return null
+            System.out.println("Login failed: " + e.getMessage());
+            return null;
+        }
+        catch (Exception e) {
+            System.out.println("Login failed: " + e.getMessage());
+            return null;
+        }
     }
 
     public static String hashPassword(String password) {
@@ -31,4 +46,9 @@ public class Login {
         }
     }
 
+
+    public static void main(String[] args) {
+        Login.signUp("mich", "pass");
+        User user = logIn("mich", "pass");
+    }
 }

@@ -41,9 +41,4 @@ public class Login {
         }
     }
 
-
-    public static void main(String[] args) {
-        Login.signUp("mich", "pass");
-        User user = logIn("mich", "pass");
-    }
 }

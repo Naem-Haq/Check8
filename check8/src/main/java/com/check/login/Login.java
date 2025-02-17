@@ -25,12 +25,7 @@ public class Login {
         try {
             i.execute(request);
             return request.getUser();
-        } catch (SecurityException e) {
-            // Authentication failed, return null
-            System.out.println("Login failed: " + e.getMessage());
-            return null;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Login failed: " + e.getMessage());
             return null;
         }

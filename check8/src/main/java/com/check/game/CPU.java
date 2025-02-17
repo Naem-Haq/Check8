@@ -26,23 +26,15 @@ class CPU {
         }
 
         int health = character.getHealthBar().getHealth();
-        
-        if (health < 25) {
-            logger.info("Character at critical health, taking defensive action.");
-            character.setAttackable(false);
-            new DodgeCommand(character).execute(character);
-        } else if (health < 50) {
-            logger.info("Character at low health, considering defense.");
-            character.setAttackable(false);
-            new DodgeCommand(character).execute(character);
-        } else if (health < 75) {
-            logger.info("Character at mid health, attacking.");
-            character.setAttackable(true);
-            new AttackCommand(character).execute(character);
-        } else {
-            logger.info("Character at full health, attacking.");
-            character.setAttackable(true);
-            new AttackCommand(character).execute(character);
-        }
+        CriticalHPHandler criticalHandler = new CriticalHPHandler();
+        LowHPHandler lowHandler = new LowHPHandler();
+        MidHPHandler midHandler = new MidHPHandler();
+        FullHPHandler fullHandler = new FullHPHandler();
+
+        criticalHandler.setNextHandler(lowHandler);
+        lowHandler.setNextHandler(midHandler);
+        midHandler.setNextHandler(fullHandler);
+
+        criticalHandler.handleCharacterDecision(character);
     }
 }

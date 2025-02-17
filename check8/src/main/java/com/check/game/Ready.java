@@ -1,8 +1,9 @@
 package com.check.game;
 
-public class Ready extends GameState {
+public class Ready implements GameState {
+    @Override
     public void handleRequest(Game game) {
-        System.out.println("Game is now starting...");
+        // Game is ready to start
         game.setState(new InProgress());
     }
 }

@@ -1,12 +1,27 @@
 package com.check.game;
 
-class LowHPHandler extends Handler {
+import com.check.characters.Character;
+import com.check.characters.DodgeCommand;
+import com.check.characters.AttackCommand;
+import com.check.characters.CharacterCommand;
+
+public class LowHPHandler extends Handler {
     @Override
-    void handleCharacterDecision(com.check.characters.Character character) {
-        if (character.getHealthBar().getHealth() >= 25 && character.getHealthBar().getHealth() < 50) {
-            System.out.println("Character at low health, considering defense.");
+    public CharacterCommand handleCharacterDecision(Character character, Character target) {
+        double healthPercentage = (double) character.getHealthBar().getHealth() / character.getHealthBar().getMaxHealth() * 100;
+        if (healthPercentage < 50) {
+            if (character.canDodge()) {
+                System.out.println("Character at low health, dodging!");
+                character.setAttackable(false);
+                return new DodgeCommand(character);
+            } else {
+                System.out.println("No dodges left, attempting to attack!");
+                character.setAttackable(true);
+                return new AttackCommand(character);
+            }
         } else if (nextHandler != null) {
-            nextHandler.handleCharacterDecision(character);
+            return nextHandler.handleCharacterDecision(character, target);
         }
+        return new AttackCommand(character); // Default action
     }
 }

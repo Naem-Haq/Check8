@@ -1,11 +1,14 @@
 package com.check.game;
 
-class FullHPHandler extends Handler {
-    void handleCharacterDecision(com.check.characters.Character character) {
-        if (character.getHealthBar().getHealth() >= 75) {
-            System.out.println("Character at full health, attacking.");
-        } else if (nextHandler != null) {
-            nextHandler.handleCharacterDecision(character);
-        }
+import com.check.characters.Character;
+import com.check.characters.AttackCommand;
+import com.check.characters.CharacterCommand;
+
+public class FullHPHandler extends Handler {
+    @Override
+    public CharacterCommand handleCharacterDecision(Character character, Character target) {
+        System.out.println("Character at full health, attacking.");
+        character.setAttackable(true);
+        return new AttackCommand(character);
     }
 }

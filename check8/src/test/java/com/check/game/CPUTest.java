@@ -1,24 +1,50 @@
-// package com.check.game;
+package com.check.game;
 
-// import static org.junit.Assert.*;
-// import org.junit.Test;
-// import com.check.characters.Character;
-// import com.check.characters.HealthBar;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import com.check.characters.Character;
+import com.check.characters.CharacterCommand;
+import com.check.characters.CharacterCreator;
+import com.check.characters.DodgeCommand;
 
-// public class CPUTest {
-//     @Test
-//     public void testCPUExists() {
-//         CPU cpu = new CPU();
-//         assertNotNull("CPU should be created", cpu);
-//     }
+public class CPUTest {
+    @Test
+    public void testGenerateMoveLowHealth() throws CharacterCreator.InvalidCharacterException {
+        Character cpu = CharacterCreator.createCharacter("knight", true);
+        Character target = CharacterCreator.createCharacter("brute", false);
+        cpu.getHealthBar().decreaseHealth(80); // Set health to 20%
+        
+        CharacterCommand command = CPU.generateMove(cpu, target);
+        
+        assertTrue("CPU should dodge at low health", 
+            command instanceof DodgeCommand);
+    }
 
-//     // Additional tests can be added once CPU.generateMove() is implemented
-//     /* 
-//     @Test
-//     public void testGenerateMove() {
-//         Character character = new Character("Test", new HealthBar());
-//         CPU.generateMove(character);
-//         // Add assertions based on expected behavior
-//     }
-//     */
-// } 
+    @Test
+    public void testGenerateMoveHighHealth() throws CharacterCreator.InvalidCharacterException {
+        Character cpu = CharacterCreator.createCharacter("knight", true);
+        Character target = CharacterCreator.createCharacter("brute", false);
+        
+        CharacterCommand command = CPU.generateMove(cpu, target);
+        
+        assertTrue("CPU should attack at high health", 
+            cpu.isAttackable());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGenerateMoveNullCharacter() {
+        CPU.generateMove(null, null);
+    }
+
+    @Test
+    public void testLowHealthBehavior() throws CharacterCreator.InvalidCharacterException {
+        Character cpu = CharacterCreator.createCharacter("knight", true);
+        Character target = CharacterCreator.createCharacter("brute", false);
+        cpu.getHealthBar().decreaseHealth(60); // Set to low health
+        
+        CharacterCommand command = CPU.generateMove(cpu, target);
+        
+        assertTrue("CPU should dodge at low health", 
+            command instanceof DodgeCommand);
+    }
+} 

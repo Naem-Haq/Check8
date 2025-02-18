@@ -18,14 +18,15 @@ class CPU {
      * Uses Chain of Responsibility to determine the appropriate action.
      * 
      * @param character The character for which to generate a move
-     * @throws IllegalArgumentException if character is null
+     * @param target The target character for the move
+     * @throws IllegalArgumentException if character or target is null
+     * @return CharacterCommand The command to execute
      */
-    public static void generateMove(Character character) {
-        if (character == null) {
-            throw new IllegalArgumentException("Character cannot be null");
+    public static CharacterCommand generateMove(Character character, Character target) {
+        if (character == null || target == null) {
+            throw new IllegalArgumentException("Characters cannot be null");
         }
 
-        int health = character.getHealthBar().getHealth();
         CriticalHPHandler criticalHandler = new CriticalHPHandler();
         LowHPHandler lowHandler = new LowHPHandler();
         MidHPHandler midHandler = new MidHPHandler();
@@ -35,6 +36,6 @@ class CPU {
         lowHandler.setNextHandler(midHandler);
         midHandler.setNextHandler(fullHandler);
 
-        criticalHandler.handleCharacterDecision(character);
+        return criticalHandler.handleCharacterDecision(character, target);
     }
 }

@@ -14,6 +14,7 @@ import com.check.login.User;
 
 public class Game {
     private static Logger logger = LoggerFactory.getLogger(Game.class.getName());
+    private static Game instance;
     private List<Character> characters;
     private GameState state;
     private int rounds;
@@ -31,6 +32,13 @@ public class Game {
         this.gameHistory = new GameHistory();
         this.scanner = new Scanner(System.in);
         logger.info("New game initialized");
+    }
+
+    public static Game getInstance() {
+        if (instance == null) {
+            instance = new Game();
+        }
+        return instance;
     }
 
     public void start() {
@@ -61,6 +69,9 @@ public class Game {
         System.out.println("5. Undo last move");
 
         try {
+            // Reset attackable status at start of player turn
+            player.setAttackable(true);
+            
             String input = scanner.nextLine().trim();
             int choice;
             
@@ -94,13 +105,16 @@ public class Game {
             
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
-            scanner.nextLine(); // Clear the scanner buffer
+            scanner.nextLine();
         }
     }
 
     public void handleCPUTurn() {
         System.out.println("\nCPU's turn!");
-        CPU.generateMove(cpu);
+        // Only reset CPU's attackable status, not the player's
+        cpu.setAttackable(true);
+        
+        CPU.generateMove(cpu, player);
     }
 
     public void displayGameOver() {
@@ -153,6 +167,11 @@ public class Game {
 
     public void incrementRounds() {
         rounds++;
+        // Reset attackable status only at the end of a complete round
+        if (!player.canDodge() && !cpu.canDodge()) {
+            player.setAttackable(true);
+            cpu.setAttackable(true);
+        }
     }
 
     public int getRounds() {
@@ -177,7 +196,11 @@ public class Game {
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
-        logger.info("User {} logged in", user.getName());
+        if (user != null) {
+            logger.info("User {} logged in", user.getName());
+        } else {
+            logger.info("User logged out");
+        }
     }
 
     public User getCurrentUser() {
@@ -186,5 +209,9 @@ public class Game {
 
     public GameHistory getGameHistory() {
         return gameHistory;
+    }
+
+    public Controls getPlayerControls() {
+        return playerControls;
     }
 }

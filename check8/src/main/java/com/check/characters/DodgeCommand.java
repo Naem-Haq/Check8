@@ -14,13 +14,24 @@ public class DodgeCommand implements CharacterCommand {
 
     @Override
     public void execute(Character target) {
-        executer.setAttackable(false);
-        logger.debug("Dodge command executed by {}", executer.getName());
+        if (executer.canDodge()) {
+            executer.setAttackable(false);
+            executer.useDodge();
+            logger.debug("Dodge command executed by {} ({} dodges remaining)", 
+                executer.getName(), executer.getRemainingDodges());
+        } else {
+            logger.debug("{} cannot dodge - no dodges remaining", executer.getName());
+            System.out.println(executer.getName() + " has no dodges remaining!");
+        }
     }
 
     @Override
     public String executionText() {
-        return this.executer.getName() + " dodges!";
+        if (executer.canDodge()) {
+            return this.executer.getName() + " dodges! (" + executer.getRemainingDodges() + " dodges remaining)";
+        } else {
+            return this.executer.getName() + " tries to dodge but has no dodges remaining!";
+        }
     }
     
 }

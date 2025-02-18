@@ -2,47 +2,53 @@ package com.check.characters;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controls {
     private static Logger logger = LoggerFactory.getLogger(Controls.class.getName());
+    private Character character;
+    private List<CharacterCommand> commands;
 
-    private CharacterCommand[] buttons = new CharacterCommand[4];
-    private Character player;
-    private static final int ATTACK = 0;
-    private static final int USE_HEAL_POTION = 1;
-    private static final int USE_DAMAGE_POTION = 2;
-    private static final int DODGE = 3;
-
-
-    public Controls(Character player) {
-        this.player = player;
-        // Hard coded commands
-        buttons[ATTACK] = new AttackCommand(player);
-        buttons[USE_HEAL_POTION] = new UseHealPotionCommand(player);
-        buttons[USE_DAMAGE_POTION] = new UseDamagePotionCommand(player);
-        buttons[DODGE] = new DodgeCommand(player);
-        logger.debug("Controls created for {}", player.getName());
-
+    public Controls(Character character) {
+        this.character = character;
+        this.commands = new ArrayList<>();
+        commands.add(new AttackCommand(character));   // index 0
+        commands.add(new DodgeCommand(character));    // index 1
+        commands.add(new UseHealPotionCommand(character));  // index 2
+        commands.add(new UseDamagePotionCommand(character));  // index 3
     }
 
     public void pressButton(int index, Character target) {
-        buttons[index].execute(target);
-        logger.info("Character {} pressed button {} against {}", player.getName(), buttons[index].getClass().getSimpleName(), target.getName());
+        if (index >= 0 && index < commands.size()) {
+            CharacterCommand command = commands.get(index);
+            command.execute(target);
+            System.out.println(command.executionText());  // Print what the player does
+            logger.info("Character {} pressed button {} against {}", 
+                character.getName(), command.getClass().getSimpleName(), target.getName());
+        }
+    }
+
+    public CharacterCommand getCommand(int index) {
+        if (index >= 0 && index < commands.size()) {
+            return commands.get(index);
+        }
+        throw new IllegalArgumentException("Invalid command index");
     }
 
     public static int getAttack(){
-        return ATTACK;
+        return 0;
     }
 
     public static int getUseHealPotion(){
-        return USE_HEAL_POTION;
+        return 2;
     }
 
     public static int getUseDamagePotion(){
-        return USE_DAMAGE_POTION;
+        return 3;
     }
 
     public static int getDodge(){
-        return DODGE;
+        return 1;
     }
 }

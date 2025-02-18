@@ -34,4 +34,18 @@ public class CPUTest {
     public void testGenerateMoveNullCharacter() {
         CPU.generateMove(null);
     }
+
+    @Test
+    public void testLowHealthBehavior() {
+        Character cpu = CharacterCreator.createCharacter("knight", true);
+        Character target = CharacterCreator.createCharacter("brute", false);
+        cpu.getHealthBar().decreaseHealth(60); // Set to low health
+        
+        boolean wasAttackable = cpu.isAttackable();
+        CPU.generateMove(cpu, target);
+        
+        // CPU should dodge at low health
+        assertNotEquals("CPU should change attackable status when low health", 
+            wasAttackable, cpu.isAttackable());
+    }
 } 

@@ -30,8 +30,9 @@ public class HandlerTest {
 
     @Test
     public void testCriticalHealthHandling() {
+        Character target = CharacterCreator.createCharacter("knight", true);
         testCharacter.getHealthBar().decreaseHealth(90); // Set health to 10%
-        criticalHandler.handleCharacterDecision(testCharacter);
+        criticalHandler.handleCharacterDecision(testCharacter, target);
         assertTrue("Health should be in critical range", 
             testCharacter.getHealthBar().getHealth() < 25);
     }

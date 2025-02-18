@@ -1,14 +1,26 @@
 {
     "Nammerz": {
+        "wins": 1,
+        "gamesPlayed": 1,
+        "losses": 0,
+        "username": "Nammerz"
+    },
+    "Nammmer": {
         "wins": 0,
         "gamesPlayed": 0,
         "losses": 0,
-        "username": "Nammerz"
+        "username": "Nammmer"
     },
     "testUser": {
         "wins": 0,
         "gamesPlayed": 0,
         "losses": 0,
         "username": "testUser"
+    },
+    "ellic": {
+        "wins": 0,
+        "gamesPlayed": 1,
+        "losses": 1,
+        "username": "ellic"
     }
 }

@@ -19,8 +19,8 @@ public class DataHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(DataHandler.class);
 
-    private static final String LOGIN_FILE = "check8/src/main/java/com/check/resources/AllUsers.csv";
-    private static final String STATS_FILE = "check8/src/main/java/com/check/resources/UserStats.json";
+    private static final String LOGIN_FILE = "src/main/java/com/check/resources/AllUsers.csv";
+    private static final String STATS_FILE = "src/main/java/com/check/resources/UserStats.json";
 
     private DataHandler() {
         throw new UnsupportedOperationException("Utility class - cannot be instantiated");

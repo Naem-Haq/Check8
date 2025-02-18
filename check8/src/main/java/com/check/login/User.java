@@ -35,14 +35,17 @@ public class User {
     public void addWin() {
         gamesWon++;
         addGamePlayed();
+        logger.info("Game win added to {}", getName());
     }
     public void addLoss() {
         gamesLost++;
         addGamePlayed();
+        logger.info("Game loss added to {}", getName());
     }
     public void addGamePlayed() {
         gamesPlayed++;
         saveStats();
+        logger.info("total games played increased to {} but User {}", gamesPlayed, getName());
     }
 
     public Map<String, Integer> loadStats() {
@@ -60,11 +63,13 @@ public class User {
             saveStats();
         }
 
+        logger.info("Game stats for User {} loaded.", getName());
         return stats;
     }
 
     public void saveStats() {
         DataHandler.saveUserStats(name, gamesPlayed, gamesLost, gamesWon);
+        logger.info("Game stats for user {} saved", getName());
     }
 
 }

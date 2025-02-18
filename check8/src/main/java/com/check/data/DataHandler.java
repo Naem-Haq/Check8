@@ -18,7 +18,6 @@ import java.util.Map;
 public class DataHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(DataHandler.class);
-
     private static final String LOGIN_FILE = "check8/src/main/java/com/check/resources/AllUsers.csv";
     private static final String STATS_FILE = "check8/src/main/java/com/check/resources/UserStats.json";
 
@@ -94,6 +93,7 @@ public class DataHandler {
                 String[] parts = line.split(",");
                 if (parts.length == EXPECTED_PARTS && parts[USERNAME_INDEX].equals(name) && parts[PASSWORD_INDEX].equals(hashPassword)) {
                     System.out.println("Login successful!");
+                    logger.info("User {} login details match file data. Login success", name);
                     return true;
                 }
             }
@@ -115,7 +115,7 @@ public class DataHandler {
             }
 
             Files.write(Paths.get(LOGIN_FILE), (name + "," + hashedPassword + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            logger.info("User registered successfully.");
+            logger.info("User {} details registered to file AllUsers.csv", name);
 
         } catch (IOException e) {
             logger.error("File operation error", e);

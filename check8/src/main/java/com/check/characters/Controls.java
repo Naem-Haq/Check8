@@ -6,7 +6,8 @@ import org.slf4j.LoggerFactory;
 public class Controls {
     private static Logger logger = LoggerFactory.getLogger(Controls.class.getName());
 
-    private CharacterCommand[] buttons = new CharacterCommand[4];
+    private static final int NUM_COMMANDS = 4;
+    private CharacterCommand[] buttons = new CharacterCommand[NUM_COMMANDS];
     private Character player;
     private static final int ATTACK = 0;
     private static final int USE_HEAL_POTION = 1;
@@ -44,5 +45,12 @@ public class Controls {
 
     public static int getDodge(){
         return DODGE;
+    }
+
+    public CharacterCommand getCommand(int index) {
+        if (index >= 0 && index < buttons.length) {
+            return buttons[index];
+        }
+        throw new IllegalArgumentException("Invalid command index");
     }
 }

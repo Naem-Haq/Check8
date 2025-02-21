@@ -27,29 +27,7 @@ public class UI {
             System.out.println("Enter a number");
         }
 
-        switch (option) {
-            case 1:
-                displaySignUp();
-                break;
-            case 2:
-                displayLogIn();
-                break;
-            case 3:
-                displayHowToPlay();
-                break;
-            case 4:
-                System.out.println("Play feature not implemented yet.");
-                break;
-            case 5:
-                System.out.println("Stats feature not implemented yet.");
-                break;
-            case 6:
-                System.out.println("Character options feature not implemented yet.");
-                break;
-            default:
-                System.out.println("Invalid option. Please enter a valid number.");
-                displayOptionScreen();
-        }
+       returnUserOption(option);
     }
 
     public void displaySignUp() {
@@ -102,6 +80,38 @@ public class UI {
         System.out.println("\nPress any key to return to the main menu...");
         playerInput.nextLine();
         displayOptionScreen();
+    }
+
+    public void returnUserOption(int option) {
+        switch (option) {
+            case 1:
+                displaySignUp();
+                break;
+            case 2:
+                displayLogIn();
+                break;
+            case 3:
+                displayHowToPlay();
+                break;
+            case 4:
+                System.out.println("Play feature not implemented yet.");
+                break;
+            case 5:
+                System.out.println("Stats feature not implemented yet.");
+                break;
+            case 6:
+                System.out.println("Character options feature not implemented yet.");
+                break;
+            default:
+                System.out.println("Invalid option. Please enter a valid number.");
+                displayOptionScreen();
+        }
+    }
+
+    public static void main(String[] args) {
+        UI ui = new UI();
+        ui.displayWelcomeScreen();
+        ui.displayOptionScreen();
     }
 
 }

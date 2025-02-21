@@ -15,6 +15,7 @@ public class AttackCommand implements CharacterCommand {
     @Override
     public void execute(Character target) {
         if (!target.isAttackable()) {
+            System.out.println(target.getName() + " dodged the attack!");
             return;
         }
         this.executer.getWeapon().attack(target);
@@ -25,5 +26,4 @@ public class AttackCommand implements CharacterCommand {
     public String executionText() {
         return this.executer.getName() + " attacks!";
     }
-    
 }

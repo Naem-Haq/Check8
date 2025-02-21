@@ -57,4 +57,10 @@ public class Game {
     public int getRounds() {
         return rounds;
     }
+
+    public void start() {
+        // Initialize game state and start the game
+        state = new Ready(); // Using Ready state instead of GameState
+        // Add any other initialization logic
+    }
 }

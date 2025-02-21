@@ -7,8 +7,9 @@ import java.util.List;
 
 public class Controls {
     private static Logger logger = LoggerFactory.getLogger(Controls.class.getName());
-    private static final int NUM_COMMANDS = 4;
+
     private List<CharacterCommand> commands;
+    private Character character;
 
     // Command indices as constants
     private static final int ATTACK = 0;
@@ -18,14 +19,9 @@ public class Controls {
 
     public Controls(Character character) {
         this.character = character;
-        this.commands = new ArrayList<>(4);  // Initialize with capacity
+        this.commands = new ArrayList<>();
         
-        // Initialize list with nulls to allow insert
-        for (int i = 0; i < 4; i++) {
-            commands.add(null);
-        }
-
-        // Insert commands at specific indices
+        // Then set commands
         commands.set(ATTACK, new AttackCommand(character));
         commands.set(DODGE, new DodgeCommand(character));
         commands.set(USE_HEAL_POTION, new UseHealPotionCommand(character));

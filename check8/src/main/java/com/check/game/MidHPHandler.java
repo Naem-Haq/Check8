@@ -4,28 +4,34 @@ import com.check.characters.Character;
 import com.check.characters.DodgeCommand;
 import com.check.characters.AttackCommand;
 import com.check.characters.CharacterCommand;
+import com.check.characters.Controls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MidHPHandler extends Handler {
     private static Logger logger = LoggerFactory.getLogger(MidHPHandler.class.getName());
+    private static final double DODGE_PROBABILITY = 0.4;  // 40% chance to dodge at mid health
+
+    public MidHPHandler(Controls controls) {
+        super(controls);
+    }
 
     @Override
     public CharacterCommand handleCharacterDecision(Character character, Character target) {
         double healthPercentage = (double) character.getHealthBar().getHealth() / character.getHealthBar().getMaxHealth() * PERCENTAGE_MULTIPLIER;
-        if (healthPercentage >= LOW_HEALTH && healthPercentage < MID_HEALTH) {
-            if (character.canDodge() && random.nextDouble() < DODGE_CHANCE) {
+        if (healthPercentage >= LOW_HEALTH_P && healthPercentage < MID_HEALTH_P) {
+            if (character.canDodge() && random.nextDouble() < DODGE_PROBABILITY) {
                 logger.debug("Mid health: choosing to dodge");
                 character.setAttackable(false);
-                return new DodgeCommand(character);
+                return controls.getCommand(Controls.getDodge());
             } else {
                 logger.debug("Mid health: choosing to attack");
                 character.setAttackable(true);
-                return new AttackCommand(character);
+                return controls.getCommand(Controls.getAttack());
             }
         } else if (nextHandler != null) {
             return nextHandler.handleCharacterDecision(character, target);
         }
-        return new AttackCommand(character);
+        return controls.getCommand(Controls.getAttack());
     }
 }

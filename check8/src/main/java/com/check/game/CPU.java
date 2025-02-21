@@ -2,6 +2,7 @@ package com.check.game;
 
 import com.check.characters.Character;
 import com.check.characters.CharacterCommand;
+import com.check.characters.Controls;
 
 /**
  * CPU class responsible for controlling AI character behavior and decision making.
@@ -16,10 +17,12 @@ class CPU {
      * @return CharacterCommand The command to execute
      */
     public static CharacterCommand generateMove(Character character, Character target) {
-        CriticalHPHandler criticalHandler = new CriticalHPHandler();
-        LowHPHandler lowHandler = new LowHPHandler();
-        MidHPHandler midHandler = new MidHPHandler();
-        FullHPHandler fullHandler = new FullHPHandler();
+        Controls controls = new Controls(character);  // Create controls for CPU
+
+        CriticalHPHandler criticalHandler = new CriticalHPHandler(controls);
+        LowHPHandler lowHandler = new LowHPHandler(controls);
+        MidHPHandler midHandler = new MidHPHandler(controls);
+        FullHPHandler fullHandler = new FullHPHandler(controls);
 
         criticalHandler.setNextHandler(lowHandler);
         lowHandler.setNextHandler(midHandler);

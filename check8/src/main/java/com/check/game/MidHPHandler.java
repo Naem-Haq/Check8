@@ -8,24 +8,24 @@ import com.check.characters.Controls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LowHPHandler extends Handler {
-    private static Logger logger = LoggerFactory.getLogger(LowHPHandler.class.getName());
-    private static final double DODGE_PROBABILITY = 0.6;  // 60% chance to dodge when low
+public class MidHPHandler extends Handler {
+    private static Logger logger = LoggerFactory.getLogger(MidHPHandler.class.getName());
+    private static final double DODGE_PROBABILITY = 0.4;  // 40% chance to dodge at mid health
 
-    public LowHPHandler(Controls controls) {
+    public MidHPHandler(Controls controls) {
         super(controls);
     }
 
     @Override
     public CharacterCommand handleCharacterDecision(Character character, Character target) {
         double healthPercentage = (double) character.getHealthBar().getHealth() / character.getHealthBar().getMaxHealth() * PERCENTAGE_MULTIPLIER;
-        if (healthPercentage < LOW_HEALTH_P) {
+        if (healthPercentage >= LOW_HEALTH_P && healthPercentage < MID_HEALTH_P) {
             if (character.canDodge() && random.nextDouble() < DODGE_PROBABILITY) {
-                logger.debug("Low health: choosing to dodge");
+                logger.debug("Mid health: choosing to dodge");
                 character.setAttackable(false);
                 return controls.getCommand(Controls.getDodge());
             } else {
-                logger.debug("Low health: choosing to attack");
+                logger.debug("Mid health: choosing to attack");
                 character.setAttackable(true);
                 return controls.getCommand(Controls.getAttack());
             }

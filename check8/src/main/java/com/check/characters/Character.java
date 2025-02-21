@@ -8,6 +8,7 @@ import com.check.items.Weapon;
 
 public abstract class Character {
     private static Logger logger = LoggerFactory.getLogger(Character.class.getName());
+    private int noOfDodges = 3;  // Initialize with 3 dodges
 
     private String name;
     private String description;
@@ -65,4 +66,17 @@ public abstract class Character {
         this.attackable = attackable;
     }
 
+    public boolean canDodge() {
+        return noOfDodges > 0;
+    }
+
+    public void useDodge() {
+        if (noOfDodges > 0) {
+            noOfDodges--;
+        }
+    }
+
+    public int getRemainingDodges() {
+        return noOfDodges;
+    }
 }

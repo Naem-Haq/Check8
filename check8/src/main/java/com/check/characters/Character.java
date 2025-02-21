@@ -8,8 +8,7 @@ import com.check.items.Weapon;
 
 public abstract class Character {
     private static Logger logger = LoggerFactory.getLogger(Character.class.getName());
-    private static final int MAX_DODGES = 3;
-    private int remainingDodges;
+    private int noOfDodges = 3;  // Initialize with 3 dodges
 
     private String name;
     private String description;
@@ -24,7 +23,6 @@ public abstract class Character {
         this.weapon = weapon;
         this.cpu = cpu;
         this.description = description;
-        this.remainingDodges = MAX_DODGES;
         logger.info("Character ({}) created", this.name);
     }
 
@@ -69,16 +67,16 @@ public abstract class Character {
     }
 
     public boolean canDodge() {
-        return remainingDodges > 0;
+        return noOfDodges > 0;
     }
 
     public void useDodge() {
-        if (remainingDodges > 0) {
-            remainingDodges--;
+        if (noOfDodges > 0) {
+            noOfDodges--;
         }
     }
 
     public int getRemainingDodges() {
-        return remainingDodges;
+        return noOfDodges;
     }
 }

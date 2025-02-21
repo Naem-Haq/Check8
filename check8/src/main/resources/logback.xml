@@ -17,16 +17,9 @@ this is how you call the logger in a class:
         </encoder>
     </appender>
 
-    <!-- Console Appender (Logs to Terminal) -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
 
     <!-- Root Logger (Logs everything at INFO level and above) -->
     <root level="info">
         <appender-ref ref="FILE"/>
-        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

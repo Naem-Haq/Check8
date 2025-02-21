@@ -16,6 +16,7 @@ public class Login {
         String hashedPassword = hashPassword(password);
         DataHandler.saveUserLogin(name, hashedPassword);
         User newUser = new User(name, password);
+        newUser.loadStats();
         newUser.saveStats();
         logger.info("{} user signed up", DataHandler.maskUsername(name));
     }
@@ -30,6 +31,7 @@ public class Login {
         try {
             i.execute(request);
             logger.info("Login succeeded for {}.", DataHandler.maskUsername(request.getUser().getName()));
+            request.getUser().loadStats();
             return request.getUser();
         } catch (Exception e) {
             logger.error("Login failed for user {}. {}", DataHandler.maskUsername(request.getUser().getName()), e.getMessage());

@@ -95,12 +95,19 @@ public class UI {
                 break;
             case 4:
                 System.out.println("Play feature not implemented yet.");
+                displayOptionScreen();
                 break;
             case 5:
                 System.out.println("Stats feature not implemented yet.");
+                displayOptionScreen();
                 break;
             case 6:
                 System.out.println("Character options feature not implemented yet.");
+                displayOptionScreen();
+                break;
+            case 7:
+                System.out.println("Leaderboard feature not implemented yet.");
+                displayOptionScreen();
                 break;
             default:
                 System.out.println("Invalid option. Please enter a valid number.");

@@ -63,13 +63,13 @@ public class User {
             saveStats();
         }
 
-        logger.info("Game stats for User {} loaded.", getName());
+        logger.info("Game stats for User {} loaded.", DataHandler.maskUsername(getName()));
         return stats;
     }
 
     public void saveStats() {
         DataHandler.saveUserStats(name, gamesPlayed, gamesLost, gamesWon);
-        logger.info("Game stats for user {} saved", getName());
+        logger.info("Game stats for user {} saved", DataHandler.maskUsername(getName()));
     }
 
 }

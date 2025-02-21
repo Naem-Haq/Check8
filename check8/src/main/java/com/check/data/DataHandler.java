@@ -93,7 +93,7 @@ public class DataHandler {
                 String[] parts = line.split(",");
                 if (parts.length == EXPECTED_PARTS && parts[USERNAME_INDEX].equals(name) && parts[PASSWORD_INDEX].equals(hashPassword)) {
                     System.out.println("Login successful!");
-                    logger.info("User {} login details match file data. Login success", name);
+                    logger.info("User {} login details match file data. Login success", maskUsername(name));
                     return true;
                 }
             }
@@ -108,18 +108,22 @@ public class DataHandler {
             List<String> lines = Files.readAllLines(Paths.get(LOGIN_FILE));
             for (String line : lines) {
                 if (line.split(",")[0].equals(name)) {
-                    logger.warn("User '{}' already exists.", name);
+                    logger.warn("User '{}' already exists.", maskUsername(name));
                     System.out.println("User already exists.");
                     return;
                 }
             }
 
             Files.write(Paths.get(LOGIN_FILE), (name + "," + hashedPassword + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            logger.info("User {} details registered to file AllUsers.csv", name);
+            logger.info("User {} details registered to file AllUsers.csv", maskUsername(name));
 
         } catch (IOException e) {
             logger.error("File operation error", e);
         }
+    }
+    public static String maskUsername(String username) {
+        if (username.length() < 4) return "***";
+        return username.substring(0, 3) + "***";
     }
 
 }

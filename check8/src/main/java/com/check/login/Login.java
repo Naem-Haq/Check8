@@ -17,7 +17,7 @@ public class Login {
         DataHandler.saveUserLogin(name, hashedPassword);
         User newUser = new User(name, password);
         newUser.saveStats();
-        logger.info("{} user signed up", name);
+        logger.info("{} user signed up", DataHandler.maskUsername(name));
     }
 
     public static User logIn(String name, String password) {
@@ -29,10 +29,10 @@ public class Login {
 
         try {
             i.execute(request);
-            logger.info("Login succeeded for {}.", request.getUser().getName());
+            logger.info("Login succeeded for {}.", DataHandler.maskUsername(request.getUser().getName()));
             return request.getUser();
         } catch (Exception e) {
-            logger.error("Login failed for user {}. {}", request.getUser().getName(), e.getMessage());
+            logger.error("Login failed for user {}. {}", DataHandler.maskUsername(request.getUser().getName()), e.getMessage());
             System.out.println("Login failed");
             return null;
         }

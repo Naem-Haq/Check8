@@ -2,11 +2,14 @@ package com.check.game;
 
 import com.check.characters.Character;
 import com.check.data.GameCache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.ArrayList;
 
 public class Game {
+    private static final Logger logger = LoggerFactory.getLogger(Game.class);
     private List<Character> characters;
     private int rounds;
     private GameState state;
@@ -32,7 +35,7 @@ public class Game {
         this.rounds = rounds;
     }
     public GameCache saveToCache() {
-        System.out.println("Game state saved.");
+        logger.info("Game state saved onto stack");
         return new GameCache(getCharacters(),getState(), getRounds());
     }
 
@@ -40,7 +43,7 @@ public class Game {
         this.characters = cache.getCharacters();
         this.rounds = cache.getRounds();
         this.state = cache.getState();
-        System.out.println("Game state restored.");
+        logger.info("Game state restored from stack");
     }
 
     public GameState getState() {

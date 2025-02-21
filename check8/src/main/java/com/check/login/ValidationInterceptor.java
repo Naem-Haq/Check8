@@ -23,8 +23,7 @@ public class ValidationInterceptor implements Interceptor{
         boolean isAuthenticated = DataHandler.loadUserLogin(username, hashedPassword);
 
         if (!isAuthenticated) {
-            logger.error("Validation Failed: Incorrect username or password.");
-            throw new SecurityException("Validation Failed: Incorrect username or password.");
+            logger.error("Validation Failed: Incorrect username or password.",new SecurityException("Validation Failed: Incorrect username or password." ));
         }
     }
 

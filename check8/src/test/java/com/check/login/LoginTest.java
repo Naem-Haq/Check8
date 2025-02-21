@@ -44,7 +44,7 @@ public class LoginTest {
     }
 
     @Test
-    void testLogIn_Success() {
+    void testLogInSuccess() {
         User user = Login.logIn("testUser", "testPass");
 
         assertNotNull(user, "User should be created for valid credentials.");
@@ -52,21 +52,21 @@ public class LoginTest {
     }
 
     @Test
-    void testLogIn_Failure_WrongPassword() {
+    void testLogInFailureWrongPassword() {
         User user = Login.logIn("testUser", "wrongPass");
 
         assertNull(user, "User should be null for incorrect password.");
     }
 
     @Test
-    void testLogIn_Failure_NonExistentUser() {
+    void testLogInFailureNonExistentUser() {
         User user = Login.logIn("nonExistentUser", "somePass");
 
         assertNull(user, "User should be null for a non-existent username.");
     }
 
     @Test
-    void testHashPassword_Consistency() {
+    void testHashPasswordConsistency() {
         String hash1 = Login.hashPassword("samePassword");
         String hash2 = Login.hashPassword("samePassword");
 
@@ -74,7 +74,7 @@ public class LoginTest {
     }
 
     @Test
-    void testHashPassword_DifferentPasswords() {
+    void testHashPasswordDifferentPasswords() {
         String hash1 = Login.hashPassword("password1");
         String hash2 = Login.hashPassword("password2");
 

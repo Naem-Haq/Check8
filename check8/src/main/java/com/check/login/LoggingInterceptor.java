@@ -1,5 +1,6 @@
 package com.check.login;
 
+import com.check.data.DataHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,6 +10,6 @@ public class LoggingInterceptor implements Interceptor{
     @Override
     public void execute(Request request) {
         User user = request.getUser();
-        logger.info("User {} attempted login.", user.getName());
+        logger.info("User {} attempted login.", DataHandler.maskUsername(user.getName()));
     }
 }

@@ -21,7 +21,6 @@ public class DodgeCommand implements CharacterCommand {
                 executer.getName(), executer.getRemainingDodges());
         } else {
             logger.debug("{} cannot dodge - no dodges remaining", executer.getName());
-            System.out.println(executer.getName() + " has no dodges remaining!");
         }
     }
 

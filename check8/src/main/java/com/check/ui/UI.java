@@ -1,5 +1,6 @@
 package com.check.ui;
 
+import com.check.data.DataHandler;
 import com.check.login.Login;
 import com.check.login.User;
 import com.check.characters.Character;
@@ -8,6 +9,8 @@ import com.check.characters.Controls;
 import com.check.characters.CharacterCreator.InvalidCharacterException;
 import com.check.game.Game;
 import com.check.game.GameState;
+
+import java.util.Map;
 import java.util.Scanner;
 import com.check.game.CPU;
 
@@ -16,14 +19,18 @@ public class UI {
     Scanner playerInput = new Scanner(System.in);
     User currentUser;
 
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
     public void displayWelcomeScreen() {
-        System.out.println("Welcome to factions! this is a turn based fighting game!\nPress any key to begin");
+        System.out.println("Welcome to factions! this is a turn based fighting game!\nPress enter to begin");
         playerInput.nextLine();
         displayOptionScreen();
     }
 
     public void displayOptionScreen() {
-        System.out.println("1. Sign-up \n2. Login \n3. How to play \n4. Play\n5. Stats\n6. Character options\n7. LeaderBoard");
+        System.out.println("1. Sign-up \n2. Login \n3. How to play \n4. Play\n5. Character options\n6. Stats\n7. LeaderBoard");
 
         int option = -1;
         if (playerInput.hasNextInt()) {
@@ -44,6 +51,7 @@ public class UI {
         String password = playerInput.nextLine();
         Login.signUp(userName, password);
         currentUser = Login.logIn(userName, password);
+        setCurrentUser(currentUser);
         if (currentUser != null) {
             System.out.println("Signup and login successful! welcome " + userName);
         }
@@ -58,6 +66,7 @@ public class UI {
         currentUser = Login.logIn(userName, password);
         if (currentUser != null) {
             System.out.println("login successful! welcome " + userName);
+            setCurrentUser(currentUser);
         }
         displayOptionScreen();
     }
@@ -187,10 +196,43 @@ public class UI {
         System.out.println("- **Leaderboards:** Compare your skills with other players.");
 
         System.out.println("\nMaster your strategies, experiment with different characters, and become the strongest fighter in Factions!");
-        System.out.println("\nPress any key to return to the main menu...");
+        System.out.println("Press enter to continue...");
         playerInput.nextLine();
         displayOptionScreen();
     }
+
+    public void displayUserStats(User currentUser) {
+        System.out.println(currentUser.getName() + "'s stats:");
+        Map<String, Integer> userStats = currentUser.loadStats();
+        System.out.println("Games Played: " + userStats.get("gamesPlayed"));
+        System.out.println("Games Won: " + userStats.get("wins"));
+        System.out.println("Games Lost: " + userStats.get("losses"));
+        System.out.println();
+        System.out.println("Press enter to continue...");
+        playerInput.nextLine();
+        displayOptionScreen();
+    }
+
+    public void displayLeaderboard() {
+        Map<String, Map<String, Integer>> playerStats = DataHandler.loadUserStats();
+        int leaderboardLimit = 3;
+
+        System.out.println("🏆 Leaderboard (Top 3) 🏆");
+
+        playerStats.entrySet().stream()
+                .sorted((a, b) -> Integer.compare(b.getValue().get("wins"), a.getValue().get("wins"))) // Sort by wins (descending)
+                .limit(leaderboardLimit)
+                .forEachOrdered(entry -> {
+                    String username = entry.getKey();
+                    int wins = entry.getValue().get("wins");
+                    System.out.println(username + " - Wins: " + wins);
+                });
+        System.out.println();
+        System.out.println("Press enter to continue...");
+        playerInput.nextLine();
+        displayOptionScreen();
+    }
+
 
     public void returnUserOption(int option) {
         switch (option) {
@@ -207,17 +249,16 @@ public class UI {
                 chooseCharacter();
                 break;
             case 5:
-                System.out.println("Stats feature not implemented yet.");
-                displayOptionScreen();
-                break;
-            case 6:
                 System.out.println("Character options feature not implemented yet.");
                 displayOptionScreen();
                 break;
+            case 6:
+                if (currentUser != null) {displayUserStats(currentUser);}
+                else {System.out.println("Please login first.");
+                displayOptionScreen();}
+                break;
             case 7:
-
-                System.out.println("Leaderboard feature not implemented yet.");
-                displayOptionScreen();
+                displayLeaderboard();
                 break;
             default:
                 System.out.println("Invalid option. Please enter a valid number.");
@@ -228,7 +269,7 @@ public class UI {
     public static void main(String[] args) {
         UI ui = new UI();
         ui.displayWelcomeScreen();
-        ui.displayOptionScreen();
+
     }
 
 

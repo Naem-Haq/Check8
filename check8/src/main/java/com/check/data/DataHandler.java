@@ -103,24 +103,27 @@ public class DataHandler {
         }
         return false;
     }
-    public static void saveUserLogin(String name, String hashedPassword){
+    public static boolean saveUserLogin(String name, String hashedPassword) {
         try {
             List<String> lines = Files.readAllLines(Paths.get(LOGIN_FILE));
             for (String line : lines) {
                 if (line.split(",")[0].equals(name)) {
                     logger.warn("User '{}' already exists.", maskUsername(name));
                     System.out.println("User already exists.");
-                    return;
+                    return false;
                 }
             }
 
             Files.write(Paths.get(LOGIN_FILE), (name + "," + hashedPassword + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             logger.info("User {} details registered to file AllUsers.csv", maskUsername(name));
+            return true;
 
         } catch (IOException e) {
             logger.error("File operation error", e);
         }
+        return false;
     }
+
     public static String maskUsername(String username) {
         if (username.length() < 4) return "***";
         return username.substring(0, 3) + "***";

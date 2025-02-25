@@ -22,7 +22,6 @@ public class User {
         this.gamesPlayed = 0;
         this.gamesLost = 0;
         this.gamesWon = 0;
-      //  loadStats();
     }
     public String getName() {
         return name;

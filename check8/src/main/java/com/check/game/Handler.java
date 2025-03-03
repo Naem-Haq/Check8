@@ -9,7 +9,7 @@ import java.util.Random;
 public abstract class Handler {
     protected Handler nextHandler;
     protected static final Random random = new Random();  // Add Random for all handlers
-    protected final Controls controls;  // Add Controls reference
+    protected final Controls controls = null;  // Add Controls reference
     
     // Health thresholds as percentages
     protected static final double CRITICAL_HEALTH_P = 25.0;
@@ -17,9 +17,6 @@ public abstract class Handler {
     protected static final double MID_HEALTH_P = 75.0;
     protected static final double PERCENTAGE_MULTIPLIER = 100.0;  // Add this constant
 
-    public Handler(Controls controls) {
-        this.controls = controls;
-    }
 
     public void setNextHandler(Handler handler) {
         this.nextHandler = handler;
@@ -29,7 +26,7 @@ public abstract class Handler {
         return nextHandler;
     }
 
-    public abstract CharacterCommand handleCharacterDecision(Character character, Character target);
+    public abstract int handleCharacterDecision(Character character);
 
     protected double calculateHealthPercentage(Character character) {
         return (double) character.getHealthBar().getHealth() / 

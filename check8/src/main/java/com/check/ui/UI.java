@@ -2,8 +2,15 @@ package com.check.ui;
 
 import com.check.login.Login;
 import com.check.login.User;
-
+import com.check.characters.Character;
+import com.check.characters.CharacterCreator;
+import com.check.characters.Controls;
+import com.check.characters.CharacterCreator.InvalidCharacterException;
+import com.check.game.Game;
+import com.check.game.GameState;
 import java.util.Scanner;
+import java.util.ResourceBundle.Control;
+import com.check.game.CPU;
 
 public class UI {
 
@@ -54,6 +61,103 @@ public class UI {
         }
         displayOptionScreen();
     }
+    public void playGame(Character player1, Character player2) {
+        System.out.println("game starting");
+        System.out.println(player1.getName()+ player2.getName());
+        try {
+            Game game = new Game(player1, player2);
+            System.out.println(game.request());
+            while (game.getState().getType() == GameState.Type.IN_PROGRESS) {
+                int player1Move = displayChooseMove(game.getPlayer1());
+                int player2Move = displayChooseMove(game.getPlayer2());
+                
+                game.newRound(player1Move, player2Move);
+                System.out.println(game.request());
+            }
+            System.out.println(game.request());
+
+        } catch (InvalidCharacterException e) {
+            System.out.println("Bad Character choiuce soz: " + e.getMessage());
+        }
+
+    }
+
+    public int displayChooseMove(Character player) {
+        if (!player.isCPU()){
+            System.out.println("Player choose ur move");
+            System.out.println("Press "+ Controls.getAttack() +" to attack");
+            System.out.println("Press "+ Controls.getDodge() +" to dodge");
+            System.out.println("Press "+ Controls.getUseHealPotion() +" to use heal potion");
+            System.out.println("Press "+ Controls.getUseDamagePotion() +" to use damage potion");
+            int playerMove = playerInput.nextInt();
+            return playerMove;
+        }
+        else{
+            int CPUMove = CPU.generateMove(player);
+            return CPUMove;
+        }
+    }
+
+    public void chooseCharacter() {
+        System.out.println("choos ur character");
+        Character chosenCharacter = displayCharacterChoices();
+        System.out.println("choose enemy");
+        Character enemyCharacter = displayCharacterChoices();
+        playGame(chosenCharacter,enemyCharacter);
+
+    }
+
+    public Character displayCharacterChoices() {
+        Character c = null;
+        System.out.println("CPU (1) or Player (0)");
+        int cpu_int = playerInput.nextInt();
+        if (cpu_int != 0 && cpu_int != 1) {
+            System.out.println("Invalid choice");
+            displayCharacterChoices();
+        }
+        boolean player;
+        if (cpu_int == 0){
+            player = false;
+        }
+        else{
+            player = true;
+        }
+        System.out.println("Choose character");
+        System.out.println("1. Knight");
+        System.out.println("2. Mage");
+        System.out.println("3. Brute");
+        System.out.println("4. Archer");
+        playerInput.nextLine();
+
+        try{
+            int characterChoice = playerInput.nextInt();
+            switch (characterChoice){
+                case 1:
+                System.out.println("Knight chosen");
+                    c = CharacterCreator.createCharacter("Knight", player);
+                    break;
+                case 2:
+                    c = CharacterCreator.createCharacter("Mage", player);
+                    break;
+                case 3:
+                    c = CharacterCreator.createCharacter("Brute", player);
+                    break;
+                case 4:
+                    c = CharacterCreator.createCharacter("Archer", player);
+                    break;
+                default:
+                    throw new InvalidCharacterException("Invalid character choice");
+            }
+        }
+        catch(InvalidCharacterException e){
+            System.out.println("Invalid character choice");
+            displayCharacterChoices();
+        }
+        System.out.println("Character chosen: " + c.getName());
+        return c;
+    }
+
+
 
     public void displayHowToPlay() {
         System.out.println("=== How to Play Factions ===\n");
@@ -94,8 +198,7 @@ public class UI {
                 displayHowToPlay();
                 break;
             case 4:
-                System.out.println("Play feature not implemented yet.");
-                displayOptionScreen();
+                chooseCharacter();
                 break;
             case 5:
                 System.out.println("Stats feature not implemented yet.");
@@ -106,6 +209,7 @@ public class UI {
                 displayOptionScreen();
                 break;
             case 7:
+
                 System.out.println("Leaderboard feature not implemented yet.");
                 displayOptionScreen();
                 break;
@@ -120,5 +224,6 @@ public class UI {
         ui.displayWelcomeScreen();
         ui.displayOptionScreen();
     }
+
 
 }

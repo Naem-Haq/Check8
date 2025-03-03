@@ -1,5 +1,12 @@
 package com.check.game;
 
-public abstract class GameState {
-    public abstract void handleRequest(Game game);
+public interface GameState {
+    enum Type {
+        READY,
+        IN_PROGRESS,
+        GAME_OVER
+    }
+
+    String play(Game game);
+    Type getType();
 }

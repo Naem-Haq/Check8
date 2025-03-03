@@ -12,26 +12,26 @@ public class LowHPHandler extends Handler {
     private static Logger logger = LoggerFactory.getLogger(LowHPHandler.class.getName());
     private static final double DODGE_PROBABILITY = 0.6;  // 60% chance to dodge when low
 
-    public LowHPHandler(Controls controls) {
-        super(controls);
+    public LowHPHandler() {
+        super();
     }
 
     @Override
-    public CharacterCommand handleCharacterDecision(Character character, Character target) {
+    public int handleCharacterDecision(Character character) {
         double healthPercentage = (double) character.getHealthBar().getHealth() / character.getHealthBar().getMaxHealth() * PERCENTAGE_MULTIPLIER;
         if (healthPercentage < LOW_HEALTH_P) {
             if (character.canDodge() && random.nextDouble() < DODGE_PROBABILITY) {
                 logger.debug("Low health: choosing to dodge");
                 character.setAttackable(false);
-                return controls.getCommand(Controls.getDodge());
+                return Controls.getDodge();
             } else {
                 logger.debug("Low health: choosing to attack");
                 character.setAttackable(true);
-                return controls.getCommand(Controls.getAttack());
+                return Controls.getAttack();
             }
         } else if (nextHandler != null) {
-            return nextHandler.handleCharacterDecision(character, target);
+            return nextHandler.handleCharacterDecision(character);
         }
-        return controls.getCommand(Controls.getAttack());
+        return Controls.getAttack();
     }
 }

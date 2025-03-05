@@ -1,15 +1,12 @@
 package com.check.game;
 
 import com.check.characters.Character;
-import com.check.characters.CharacterCommand;
-import com.check.characters.Controls;
 import java.util.Random;
 
 // CHAIN OF RESPONSIBILITY PATTERN FOR CHARACTER DECISIONS
 public abstract class Handler {
     protected Handler nextHandler;
     protected static final Random random = new Random();  // Add Random for all handlers
-    protected final Controls controls = null;  // Add Controls reference
     
     // Health thresholds as percentages
     protected static final double CRITICAL_HEALTH_P = 25.0;

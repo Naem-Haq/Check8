@@ -44,14 +44,6 @@ public class Game implements HealthObserver{
         logger.info("Game initialized with {} vs {}", player1, player2);
     }
 
-    // // Singleton getInstance method
-    // public static Game getInstance() {
-    //     if (instance == null) {
-    //         instance = new Game();
-    //     }
-    //     return instance;
-    // }
-
     public void start() {
         while (state.getType() != GameState.Type.GAME_OVER) {
             state.play(this);
@@ -67,12 +59,6 @@ public class Game implements HealthObserver{
         numRounds++;
         logger.debug("Round incremented to: {}", numRounds);
     }
-
-    // // Update rounds when round changes
-    // public void startNewRound() {
-    //     currentRound = new Round(numRounds, player1, player2, player1Controls);
-    //     logger.debug("Started round {}", numRounds);
-    // }
 
     // Memento pattern methods
     public GameCache saveToCache() {
@@ -123,16 +109,6 @@ public class Game implements HealthObserver{
             characters.size(), state.getClass().getSimpleName());
     }
 
-    // Game flow methods
-    public void startGame(String player1Type, String player2Type) throws CharacterCreator.InvalidCharacterException {
-        player1 = CharacterCreator.createCharacter(player1Type, false);
-        player2 = CharacterCreator.createCharacter(player2Type, true);
-        player1Controls = new Controls(player1);
-        player2Controls = new Controls(player2);
-        logger.info("Game initialized with {} vs {}", player1Type, player2Type);
-        setState(new InProgress());
-    }
-
     public void endGame() {
         setState(new GameOver());
     }
@@ -141,21 +117,7 @@ public class Game implements HealthObserver{
         setState(new Ready());
     }
 
-    // public void handlePlayerTurn(int choice) {
-    //     try {
-    //         currentRound.executePlayerAction(choice);
-    //     } catch (Exception e) {
-    //         logger.error("Error in player turn: {}", e.getMessage());
-    //         throw e;
-    //     }
-    // }
-
-    // public void handleCPUTurn() {
-    //     currentRound.executeCPUAction();
-    //     currentRound.complete();
-    // }
-
-    public String request() {
+    public String display() {
         return state.play(this);
     }
 
@@ -174,7 +136,7 @@ public class Game implements HealthObserver{
     }
 
     public void newRound(int player1Input, int player2Input) {
-        Round round = new Round(numRounds, player1, player2, player1Controls);
+        Round round = new Round(numRounds, player1, player2, player1Controls, player2Controls);
         round.executeAction(player1Input, player2Input);
         if (round.isComplete()) {
             incrementRounds();

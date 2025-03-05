@@ -35,7 +35,6 @@ public class Controls {
             CharacterCommand command = commands.get(index);
             command.execute(target);
             System.out.println(command.executionText());
-            System.out.println(command.executionText());
             logger.info("Character {} pressed button {} against {}", 
                 character.getName(), command.getClass().getSimpleName(), target.getName());
         }

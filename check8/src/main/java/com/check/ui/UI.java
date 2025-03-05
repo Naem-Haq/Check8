@@ -2,12 +2,19 @@ package com.check.ui;
 
 import com.check.login.Login;
 import com.check.login.User;
-
+import com.check.characters.Character;
+import com.check.characters.CharacterCreator;
+import com.check.characters.Controls;
+import com.check.characters.CharacterCreator.InvalidCharacterException;
+import com.check.game.Game;
+import com.check.game.GameState;
 import java.util.Scanner;
+import com.check.game.CPU;
 
 public class UI {
 
     Scanner playerInput = new Scanner(System.in);
+    User currentUser;
 
     public void displayWelcomeScreen() {
         System.out.println("Welcome to factions! this is a turn based fighting game!\nPress any key to begin");
@@ -36,8 +43,8 @@ public class UI {
         System.out.println("password: ");
         String password = playerInput.nextLine();
         Login.signUp(userName, password);
-        User player = Login.logIn(userName, password);
-        if (player != null) {
+        currentUser = Login.logIn(userName, password);
+        if (currentUser != null) {
             System.out.println("Signup and login successful! welcome " + userName);
         }
         displayOptionScreen();
@@ -48,12 +55,115 @@ public class UI {
         String userName = playerInput.nextLine();
         System.out.println("password: ");
         String password = playerInput.nextLine();
-        User player = Login.logIn(userName, password);
-        if (player != null) {
+        currentUser = Login.logIn(userName, password);
+        if (currentUser != null) {
             System.out.println("login successful! welcome " + userName);
         }
         displayOptionScreen();
     }
+    public void playGame(Character player1, Character player2) {
+        System.out.println("Game is starting");
+        try {
+            Game game = new Game(player1, player2);
+            System.out.println(game.display());
+            String any_input = playerInput.nextLine();
+
+            while (game.getState().getType() == GameState.Type.IN_PROGRESS) {
+                int player1Move = displayChooseMove(game.getPlayer1());
+                int player2Move = displayChooseMove(game.getPlayer2());
+                
+                game.newRound(player1Move, player2Move);
+                System.out.println(game.display());
+            }
+            System.out.println(game.display());
+
+        } catch (InvalidCharacterException e) {
+            System.out.println("Bad Character choiuce soz: " + e.getMessage());
+        }
+
+    }
+
+    public int displayChooseMove(Character player) {
+        if (!player.isCPU()){
+            System.out.println("Player "+ player.getName() +" choose ur move\n");
+            System.out.println("===========================================");
+            System.out.println("Press "+ Controls.getAttack() +" to attack");
+            System.out.println("Press "+ Controls.getDodge() +" to dodge");
+            System.out.println("Press "+ Controls.getUseHealPotion() +" to use heal potion");
+            System.out.println("Press "+ Controls.getUseDamagePotion() +" to use damage potion");
+            System.out.println("===========================================\n");
+            int playerMove = playerInput.nextInt();
+            return playerMove;
+        }
+        else{
+            int CPUMove = CPU.generateMove(player);
+            return CPUMove;
+        }
+    }
+
+    public void chooseCharacter() {
+        System.out.println("Choose Your character - Player 1");
+        Character chosenCharacter = displayCharacterChoices(0);
+        playerInput.nextLine();
+
+        System.out.println("Choose Your character - Player 2");
+        System.out.println("Player (0) or CPU (1)");
+        int cpu_int = playerInput.nextInt();
+        if (cpu_int != 0 && cpu_int != 1) {
+            System.out.println("====== ! Invalid choice ! ======");
+            chooseCharacter();
+        }
+        playerInput.nextLine();
+        Character enemyCharacter = displayCharacterChoices(cpu_int);
+
+        playGame(chosenCharacter,enemyCharacter);
+
+    }
+
+    public Character displayCharacterChoices(int cpu_int) {
+        Character character = null;
+        boolean cpu;
+        if (cpu_int == 0){
+            cpu = false;
+        }
+        else{
+            cpu = true;
+        }
+        
+        System.out.println("Choose character");
+        System.out.println("1. Knight");
+        System.out.println("2. Mage");
+        System.out.println("3. Brute");
+        System.out.println("4. Archer");
+
+        try{
+            int characterChoice = playerInput.nextInt();
+            switch (characterChoice){
+                case 1:
+                    character = CharacterCreator.createCharacter("Knight", cpu);
+                    break;
+                case 2:
+                    character = CharacterCreator.createCharacter("Mage", cpu);
+                    break;
+                case 3:
+                    character = CharacterCreator.createCharacter("Brute", cpu);
+                    break;
+                case 4:
+                    character = CharacterCreator.createCharacter("Archer", cpu);
+                    break;
+                default:
+                    throw new InvalidCharacterException("Invalid character choice");
+            }
+        }
+        catch(InvalidCharacterException e){
+            System.out.println("Invalid character choice");
+            displayCharacterChoices(cpu_int);
+        }
+        System.out.println("Character chosen: " + character.getName() + "\n\n");
+        return character;
+    }
+
+
 
     public void displayHowToPlay() {
         System.out.println("=== How to Play Factions ===\n");
@@ -94,8 +204,7 @@ public class UI {
                 displayHowToPlay();
                 break;
             case 4:
-                System.out.println("Play feature not implemented yet.");
-                displayOptionScreen();
+                chooseCharacter();
                 break;
             case 5:
                 System.out.println("Stats feature not implemented yet.");
@@ -106,6 +215,7 @@ public class UI {
                 displayOptionScreen();
                 break;
             case 7:
+
                 System.out.println("Leaderboard feature not implemented yet.");
                 displayOptionScreen();
                 break;
@@ -120,5 +230,6 @@ public class UI {
         ui.displayWelcomeScreen();
         ui.displayOptionScreen();
     }
+
 
 }

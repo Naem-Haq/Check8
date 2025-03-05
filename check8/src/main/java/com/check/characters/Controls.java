@@ -19,13 +19,13 @@ public class Controls {
 
     public Controls(Character character) {
         this.character = character;
-        this.commands = new ArrayList<>();
+        this.commands = new ArrayList<>(4);
         
         // Then set commands
-        commands.set(ATTACK, new AttackCommand(character));
-        commands.set(DODGE, new DodgeCommand(character));
-        commands.set(USE_HEAL_POTION, new UseHealPotionCommand(character));
-        commands.set(USE_DAMAGE_POTION, new UseDamagePotionCommand(character));
+        commands.add(ATTACK, new AttackCommand(character));
+        commands.add(DODGE, new DodgeCommand(character));
+        commands.add(USE_HEAL_POTION, new UseHealPotionCommand(character));
+        commands.add(USE_DAMAGE_POTION, new UseDamagePotionCommand(character));
         
         logger.debug("Controls created for {}", character.getName());
     }
@@ -34,7 +34,6 @@ public class Controls {
         if (index >= 0 && index < commands.size()) {
             CharacterCommand command = commands.get(index);
             command.execute(target);
-            System.out.println(command.executionText());
             System.out.println(command.executionText());
             logger.info("Character {} pressed button {} against {}", 
                 character.getName(), command.getClass().getSimpleName(), target.getName());

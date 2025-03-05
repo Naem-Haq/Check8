@@ -12,15 +12,15 @@ public class Round {
     private final Character player2;
     private final Controls player1Controls;
     private final Controls player2Controls;
-    private boolean isComplete;
+    private boolean complete;
 
-    public Round(int roundNumber, Character player1, Character player2, Controls player1Controls) {
+    public Round(int roundNumber, Character player1, Character player2, Controls player1Controls, Controls player2Controls) {
         this.roundNumber = roundNumber;
         this.player1 = player1;
         this.player2 = player2;
         this.player1Controls = player1Controls;
-        this.player2Controls = new Controls(player2);
-        this.isComplete = false;
+        this.player2Controls = player2Controls;
+        this.complete = false;
         logger.debug("Round {} initialized", roundNumber);
     }
 
@@ -28,9 +28,11 @@ public class Round {
         if (player1Input == Controls.getDodge() ^ player2Input == Controls.getDodge()) {
             if (player1Input == Controls.getDodge()) {
             player2Controls.pressButton(player2Input, player1);
+            player1Controls.pressButton(player1Input, player2);
             logger.debug("Player 1 dodged in round {}", roundNumber);
             } else {
             player1Controls.pressButton(player1Input, player2);
+            player2Controls.pressButton(player2Input, player1);
             logger.debug("Player 2 dodged in round {}", roundNumber);
             }
         } else {
@@ -38,16 +40,11 @@ public class Round {
             player2Controls.pressButton(player2Input, player1);
             logger.debug("Both players executed actions in round {}", roundNumber);
         }
-        complete();
-    }
-
-    public boolean isComplete() {
-        return isComplete;
-    }
-    
-    private void complete() {
-        this.isComplete = true;
+        complete = true;
         logger.debug("Round {} completed", roundNumber);
     }
 
+    public boolean isComplete() {
+        return complete;
+    }
 } 

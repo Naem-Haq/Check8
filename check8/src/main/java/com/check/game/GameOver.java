@@ -10,8 +10,9 @@ public class GameOver implements GameState {
     @Override
     public String play(Game game) {
         updateStats(game);
-        game.setState(new Ready());
         logger.info("Game over. Returning to Ready state");
+        game.setState(new Ready());
+
         String result = String.format("Player 1 Health: %d, Player 2 Health: %d", game.getPlayer1().getHealthBar().getHealth(), game.getPlayer2().getHealthBar().getHealth());
         logger.info(result);
         return result;
@@ -21,14 +22,6 @@ public class GameOver implements GameState {
     public Type getType() {
         return Type.GAME_OVER;
     }
-    
-    // @Override
-    // public void update(int health) {
-    //     if (health <= 0) {
-    //         isGameOver = true;
-    //         logger.debug("Game over triggered by health reaching 0");
-    //     }
-    // }
     
     private void updateStats(Game game) {
         User user = game.getCurrentUser();

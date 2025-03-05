@@ -9,12 +9,12 @@ import com.check.characters.CharacterCreator.InvalidCharacterException;
 import com.check.game.Game;
 import com.check.game.GameState;
 import java.util.Scanner;
-import java.util.ResourceBundle.Control;
 import com.check.game.CPU;
 
 public class UI {
 
     Scanner playerInput = new Scanner(System.in);
+    User currentUser;
 
     public void displayWelcomeScreen() {
         System.out.println("Welcome to factions! this is a turn based fighting game!\nPress any key to begin");
@@ -43,8 +43,8 @@ public class UI {
         System.out.println("password: ");
         String password = playerInput.nextLine();
         Login.signUp(userName, password);
-        User player = Login.logIn(userName, password);
-        if (player != null) {
+        currentUser = Login.logIn(userName, password);
+        if (currentUser != null) {
             System.out.println("Signup and login successful! welcome " + userName);
         }
         displayOptionScreen();
@@ -55,26 +55,27 @@ public class UI {
         String userName = playerInput.nextLine();
         System.out.println("password: ");
         String password = playerInput.nextLine();
-        User player = Login.logIn(userName, password);
-        if (player != null) {
+        currentUser = Login.logIn(userName, password);
+        if (currentUser != null) {
             System.out.println("login successful! welcome " + userName);
         }
         displayOptionScreen();
     }
     public void playGame(Character player1, Character player2) {
-        System.out.println("game starting");
-        System.out.println(player1.getName()+ player2.getName());
+        System.out.println("Game is starting");
         try {
             Game game = new Game(player1, player2);
-            System.out.println(game.request());
+            System.out.println(game.display());
+            String any_input = playerInput.nextLine();
+
             while (game.getState().getType() == GameState.Type.IN_PROGRESS) {
                 int player1Move = displayChooseMove(game.getPlayer1());
                 int player2Move = displayChooseMove(game.getPlayer2());
                 
                 game.newRound(player1Move, player2Move);
-                System.out.println(game.request());
+                System.out.println(game.display());
             }
-            System.out.println(game.request());
+            System.out.println(game.display());
 
         } catch (InvalidCharacterException e) {
             System.out.println("Bad Character choiuce soz: " + e.getMessage());
@@ -84,11 +85,13 @@ public class UI {
 
     public int displayChooseMove(Character player) {
         if (!player.isCPU()){
-            System.out.println("Player choose ur move");
+            System.out.println("Player "+ player.getName() +" choose ur move\n");
+            System.out.println("===========================================");
             System.out.println("Press "+ Controls.getAttack() +" to attack");
             System.out.println("Press "+ Controls.getDodge() +" to dodge");
             System.out.println("Press "+ Controls.getUseHealPotion() +" to use heal potion");
             System.out.println("Press "+ Controls.getUseDamagePotion() +" to use damage potion");
+            System.out.println("===========================================\n");
             int playerMove = playerInput.nextInt();
             return playerMove;
         }
@@ -99,51 +102,54 @@ public class UI {
     }
 
     public void chooseCharacter() {
-        System.out.println("choos ur character");
-        Character chosenCharacter = displayCharacterChoices();
-        System.out.println("choose enemy");
-        Character enemyCharacter = displayCharacterChoices();
+        System.out.println("Choose Your character - Player 1");
+        Character chosenCharacter = displayCharacterChoices(0);
+        playerInput.nextLine();
+
+        System.out.println("Choose Your character - Player 2");
+        System.out.println("Player (0) or CPU (1)");
+        int cpu_int = playerInput.nextInt();
+        if (cpu_int != 0 && cpu_int != 1) {
+            System.out.println("====== ! Invalid choice ! ======");
+            chooseCharacter();
+        }
+        playerInput.nextLine();
+        Character enemyCharacter = displayCharacterChoices(cpu_int);
+
         playGame(chosenCharacter,enemyCharacter);
 
     }
 
-    public Character displayCharacterChoices() {
-        Character c = null;
-        System.out.println("CPU (1) or Player (0)");
-        int cpu_int = playerInput.nextInt();
-        if (cpu_int != 0 && cpu_int != 1) {
-            System.out.println("Invalid choice");
-            displayCharacterChoices();
-        }
-        boolean player;
+    public Character displayCharacterChoices(int cpu_int) {
+        Character character = null;
+        boolean cpu;
         if (cpu_int == 0){
-            player = false;
+            cpu = false;
         }
         else{
-            player = true;
+            cpu = true;
         }
+        
         System.out.println("Choose character");
         System.out.println("1. Knight");
         System.out.println("2. Mage");
         System.out.println("3. Brute");
         System.out.println("4. Archer");
-        playerInput.nextLine();
 
         try{
             int characterChoice = playerInput.nextInt();
             switch (characterChoice){
                 case 1:
-                System.out.println("Knight chosen");
-                    c = CharacterCreator.createCharacter("Knight", player);
+                    character = CharacterCreator.createCharacter("Knight", cpu);
                     break;
                 case 2:
-                    c = CharacterCreator.createCharacter("Mage", player);
+                    character = CharacterCreator.createCharacter("Mage", cpu);
                     break;
                 case 3:
-                    c = CharacterCreator.createCharacter("Brute", player);
+                    character = CharacterCreator.createCharacter("Brute", cpu);
                     break;
                 case 4:
-                    c = CharacterCreator.createCharacter("Archer", player);
+                    character = CharacterCreator.createCharacter("Archer", cpu);
                     break;
                 default:
                     throw new InvalidCharacterException("Invalid character choice");
@@ -151,10 +157,10 @@ public class UI {
         }
         catch(InvalidCharacterException e){
             System.out.println("Invalid character choice");
-            displayCharacterChoices();
+            displayCharacterChoices(cpu_int);
         }
-        System.out.println("Character chosen: " + c.getName());
-        return c;
+        System.out.println("Character chosen: " + character.getName() + "\n\n");
+        return character;
     }
 
 

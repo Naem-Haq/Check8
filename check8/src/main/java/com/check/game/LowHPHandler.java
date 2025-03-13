@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 public class LowHPHandler extends Handler {
     private static Logger logger = LoggerFactory.getLogger(LowHPHandler.class.getName());
     private static final double DODGE_PROBABILITY = 0.6;  // 60% chance to dodge when low
+    private static final double HEAL_POTION_PROBABILITY = 0.8;  // 80% chance to use heal potion when low
+    private static final double DAMAGE_POTION_PROBABILITY = 0.4;  // 40% chance to use damage potion when low
 
     public LowHPHandler() {
         super();
@@ -17,9 +19,12 @@ public class LowHPHandler extends Handler {
     public int handleCharacterDecision(Character character) {
         double healthPercentage = (double) character.getHealthBar().getHealth() / character.getHealthBar().getMaxHealth() * PERCENTAGE_MULTIPLIER;
         if (healthPercentage < LOW_HEALTH_P) {
-            if (character.hasItem("HealPotion")) {
+            if (character.hasItem("HealPotion") && random.nextDouble() < HEAL_POTION_PROBABILITY) {
                 logger.debug("Low health: using heal potion");
                 return Controls.getUseHealPotion();
+            } else if (character.hasItem("DamagePotion") && random.nextDouble() < DAMAGE_POTION_PROBABILITY) {
+                logger.debug("Low health: using damage potion");
+                return Controls.getUseDamagePotion();
             } else if (character.canDodge() && random.nextDouble() < DODGE_PROBABILITY) {
                 logger.debug("Low health: choosing to dodge");
                 character.setAttackable(false);

@@ -15,10 +15,9 @@ public class UseDamagePotionCommand implements CharacterCommand {
     
     @Override
     public void execute(Character target) {
-        this.executer.getInventory().useItem("DamagePotion", target);
-
+        this.executer.getInventory().useItem("DamagePotion", executer);
+        target.getHealthBar().decreaseHealth(20); // Apply damage effect
         logger.debug("Use Damage Potion command executed by {} against {}", executer.getName(), target.getName());
-
     }
 
     @Override

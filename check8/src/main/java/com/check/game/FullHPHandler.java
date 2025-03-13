@@ -1,7 +1,6 @@
 package com.check.game;
 
 import com.check.characters.Character;
-import com.check.characters.CharacterCommand;
 import com.check.characters.Controls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +17,10 @@ public class FullHPHandler extends Handler {
     public int handleCharacterDecision(Character character) {
         double healthPercentage = (double) character.getHealthBar().getHealth() / character.getHealthBar().getMaxHealth() * PERCENTAGE_MULTIPLIER;
         if (healthPercentage >= MID_HEALTH_P) {
-            if (character.canDodge() && random.nextDouble() < DODGE_PROBABILITY) {
+            if (character.hasItem("DamagePotion")) {
+                logger.debug("Full health: using damage potion");
+                return Controls.getUseDamagePotion();
+            } else if (character.canDodge() && random.nextDouble() < DODGE_PROBABILITY) {
                 logger.debug("Full health: choosing to dodge");
                 character.setAttackable(false);
                 return Controls.getDodge();

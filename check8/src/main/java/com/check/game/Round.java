@@ -40,6 +40,8 @@ public class Round {
             player2Controls.pressButton(player2Input, player1);
             logger.debug("Both players executed actions in round {}", roundNumber);
         }
+        player1.getHealthBar().updateAll();
+        player2.getHealthBar().updateAll();
         complete = true;
         logger.debug("Round {} completed", roundNumber);
     }
@@ -47,4 +49,4 @@ public class Round {
     public boolean isComplete() {
         return complete;
     }
-} 
+}

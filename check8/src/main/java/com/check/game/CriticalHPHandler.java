@@ -23,7 +23,10 @@ public class CriticalHPHandler extends Handler {
         double healthPercentage = (double) character.getHealthBar().getHealth() / 
             character.getHealthBar().getMaxHealth() * PERCENTAGE_MULTIPLIER;
         if (healthPercentage < CRITICAL_HEALTH_P) {
-            if (character.canDodge() && random.nextDouble() < DODGE_PROBABILITY) {
+            if (character.hasItem("HealPotion")) {
+                logger.debug("Critical health: using heal potion");
+                return Controls.getUseHealPotion();
+            } else if (character.canDodge() && random.nextDouble() < DODGE_PROBABILITY) {
                 logger.debug("Critical health: choosing to dodge");
                 character.setAttackable(false);
                 return Controls.getDodge();

@@ -83,4 +83,8 @@ public abstract class Character {
     public int getRemainingDodges() {
         return noOfDodges;
     }
+
+    public boolean hasItem(String itemName) {
+        return inventory.hasItem(itemName);
+    }
 }

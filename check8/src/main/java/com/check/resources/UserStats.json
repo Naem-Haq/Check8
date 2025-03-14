@@ -2,7 +2,15 @@
     "testUser": {
         "wins": 0,
         "gamesPlayed": 0,
+        "ties": 0,
         "losses": 0,
         "username": "testUser"
+    },
+    "m": {
+        "wins": 2,
+        "gamesPlayed": 2,
+        "ties": 0,
+        "losses": 0,
+        "username": "m"
     }
 }

@@ -12,6 +12,7 @@ public class User {
     private int gamesPlayed = 0;
     private int gamesLost = 0;
     private int gamesWon = 0;
+    private int gamesTie = 0;
 
     private static final Logger logger = LoggerFactory.getLogger(User.class);
 
@@ -22,6 +23,7 @@ public class User {
         this.gamesPlayed = 0;
         this.gamesLost = 0;
         this.gamesWon = 0;
+        this.gamesTie = 0;
     }
     public String getName() {
         return name;
@@ -40,6 +42,11 @@ public class User {
         gamesLost++;
         addGamePlayed();
         logger.info("Game loss added to {}", getName());
+    }
+    public void addTie() {
+        gamesTie++;
+        addGamePlayed();
+        logger.info("Game tie added to {}", getName());
     }
     public void addGamePlayed() {
         gamesPlayed++;
@@ -67,7 +74,7 @@ public class User {
     }
 
     public void saveStats() {
-        DataHandler.saveUserStats(name, gamesPlayed, gamesLost, gamesWon);
+        DataHandler.saveUserStats(name, gamesPlayed, gamesLost, gamesWon, gamesTie);
         logger.info("Game stats for user {} saved", DataHandler.maskUsername(getName()));
     }
 

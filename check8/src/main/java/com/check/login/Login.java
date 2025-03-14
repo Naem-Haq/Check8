@@ -13,13 +13,24 @@ public class Login {
     private static final Logger logger = LoggerFactory.getLogger(Login.class);
 
     public static void signUp(String name, String password) {
+        if (name == null || name.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            logger.warn("Invalid username or password. Cannot be empty.");
+            System.out.println("Error: Username and password cannot be empty.");
+            return;
+        }
+
         String hashedPassword = hashPassword(password);
-        DataHandler.saveUserLogin(name, hashedPassword);
+
+        if (!DataHandler.saveUserLogin(name, hashedPassword)) {
+            System.out.println("Signup failed. User already exists.");
+            return;
+        }
+
         User newUser = new User(name, password);
-        newUser.loadStats();
         newUser.saveStats();
         logger.info("{} user signed up", DataHandler.maskUsername(name));
     }
+
 
     public static User logIn(String name, String password) {
         Request request = new Request(new User(name, password));

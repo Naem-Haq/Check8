@@ -207,6 +207,7 @@ public class UI {
         System.out.println("Games Played: " + userStats.get("gamesPlayed"));
         System.out.println("Games Won: " + userStats.get("wins"));
         System.out.println("Games Lost: " + userStats.get("losses"));
+        System.out.println("Games Tie: " + userStats.get("ties"));
         System.out.println();
         System.out.println("Press enter to continue...");
         playerInput.nextLine();

@@ -33,7 +33,7 @@ public class LoginTest {
         // Return an empty stats map for loadUserStats
         mockedDataHandler.when(DataHandler::loadUserStats).thenReturn(new HashMap<>());
         // For saveUserStats, do nothing (or return null)
-        mockedDataHandler.when(() -> DataHandler.saveUserStats(anyString(), anyInt(), anyInt(), anyInt()))
+        mockedDataHandler.when(() -> DataHandler.saveUserStats(anyString(), anyInt(), anyInt(), anyInt(), anyInt()))
                 .thenAnswer(invocation -> null);
     }
 

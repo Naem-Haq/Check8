@@ -25,7 +25,7 @@ public class DataHandler {
         throw new UnsupportedOperationException("Utility class - cannot be instantiated");
     }
 
-    public static void saveUserStats(String name, int gamesPlayed, int gamesLost, int gamesWon){
+    public static void saveUserStats(String name, int gamesPlayed, int gamesLost, int gamesWon, int gamesTie){
         try {
             JSONObject json = new JSONObject();
             Path statsFilePath = Paths.get(STATS_FILE);
@@ -42,6 +42,7 @@ public class DataHandler {
             userStats.put("gamesPlayed", gamesPlayed);
             userStats.put("wins", gamesWon);
             userStats.put("losses", gamesLost);
+            userStats.put("ties", gamesTie);
 
             // Update the JSON with user stats under their username as the key
             json.put(name, userStats);
@@ -72,6 +73,7 @@ public class DataHandler {
                 stats.put("gamesPlayed", userStats.getInt("gamesPlayed"));
                 stats.put("wins", userStats.getInt("wins"));
                 stats.put("losses", userStats.getInt("losses"));
+                stats.put("ties", userStats.getInt("ties"));
 
                 allStats.put(user, stats);
             }

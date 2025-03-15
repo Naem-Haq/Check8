@@ -13,12 +13,6 @@ public class Inventory {
     private static Logger logger = LoggerFactory.getLogger(Inventory.class.getName());
 
     private HashMap<String, ArrayList<Item>> items = new HashMap<>();
-    private HashMap<String, Integer> potionUsageLimits = new HashMap<>();
-
-    public Inventory() {
-        potionUsageLimits.put("healpotion", 3);
-        potionUsageLimits.put("damagepotion", 3);
-    }
 
     public HashMap<String, ArrayList<Item>> getItems(){
         return this.items;
@@ -58,25 +52,13 @@ public class Inventory {
     }
 
     public void useItem(String itemType, Character character){
-        // If the item is in the inventory, use it and remove it from the list of items of the same type
+        // If the item is in the inventory,use it and remove it from the list of items of the same type
         if(this.items.containsKey(itemType.toLowerCase())){
             ArrayList<Item> items = this.items.get(itemType.toLowerCase());
-            if (potionUsageLimits.containsKey(itemType.toLowerCase()) && potionUsageLimits.get(itemType.toLowerCase()) > 0) {
-                items.get(0).use(character);
-                logger.debug("Used item from inventory: {}", itemType);
-                items.remove(0);
-                potionUsageLimits.put(itemType.toLowerCase(), potionUsageLimits.get(itemType.toLowerCase()) - 1);
-            } else if (!potionUsageLimits.containsKey(itemType.toLowerCase())) {
-                items.get(0).use(character);
-                logger.debug("Used item from inventory: {}", itemType);
-                items.remove(0);
-            } else {
-                logger.debug("Cannot use item {} anymore, usage limit reached", itemType);
-            }
+            items.get(0).use(character);
+            logger.debug("Used item from inventory: {}", itemType);
+            items.remove(0);
+            logger.debug("Character {} health after using {}: {}", character.getName(), itemType, character.getHealthBar().getHealth());
         }
-    }
-
-    public boolean hasItem(String itemType) {
-        return this.items.containsKey(itemType.toLowerCase()) && !this.items.get(itemType.toLowerCase()).isEmpty();
     }
 }

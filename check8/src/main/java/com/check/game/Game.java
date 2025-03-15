@@ -41,6 +41,8 @@ public class Game implements HealthObserver{
         this.player2Controls = new Controls(this.player2);
         this.player1.getHealthBar().attach(this);
         this.player2.getHealthBar().attach(this);
+        this.player1.populateInventory();
+        this.player2.populateInventory();
         logger.info("Game initialized with {} vs {}", player1, player2);
     }
 
@@ -130,6 +132,7 @@ public class Game implements HealthObserver{
 
     @Override
     public void update(int health) {
+        logger.debug("Health update received: {}", health);
         if (health <= 0) {
             endGame();
         }
@@ -141,6 +144,14 @@ public class Game implements HealthObserver{
         if (round.isComplete()) {
             incrementRounds();
         }
-    
+        logger.debug("Player 1 Health after round: {}", player1.getHealthBar().getHealth());
+        logger.debug("Player 2 Health after round: {}", player2.getHealthBar().getHealth());
+        // Add debug logs to confirm health updates
+        logger.info("Player 1 health after round: {}", player1.getHealthBar().getHealth());
+        logger.info("Player 2 health after round: {}", player2.getHealthBar().getHealth());
+        if (player1.getHealthBar().getHealth() <= 0 || player2.getHealthBar().getHealth() <= 0) {
+            state = new GameOver();
+            logger.info("Game over. Returning to Ready state");
+        }
     }
 }

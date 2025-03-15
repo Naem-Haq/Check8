@@ -19,21 +19,23 @@ public class FullHPHandler extends Handler {
     public int handleCharacterDecision(Character character) {
         double healthPercentage = (double) character.getHealthBar().getHealth() / character.getHealthBar().getMaxHealth() * PERCENTAGE_MULTIPLIER;
         if (healthPercentage >= MID_HEALTH_P) {
-            if (character.hasItem("DamagePotion") && random.nextDouble() < DAMAGE_POTION_PROBABILITY) {
-                logger.debug("Full health: using damage potion");
-                return Controls.getUseDamagePotion();
-            } else if (character.hasItem("HealPotion") && random.nextDouble() < HEAL_POTION_PROBABILITY) {
-                logger.debug("Full health: using heal potion");
-                return Controls.getUseHealPotion();
-            } else if (character.canDodge() && random.nextDouble() < DODGE_PROBABILITY) {
+            double rand = random.nextDouble();
+            if (rand < DODGE_PROBABILITY) {
                 logger.debug("Full health: choosing to dodge");
                 character.setAttackable(false);
                 return Controls.getDodge();
+            } else if (rand < DODGE_PROBABILITY + DAMAGE_POTION_PROBABILITY) {
+                logger.debug("Full health: using damage potion");
+                return Controls.getUseDamagePotion();
+            } else if (rand < DODGE_PROBABILITY + DAMAGE_POTION_PROBABILITY + HEAL_POTION_PROBABILITY) {
+                logger.debug("Full health: using heal potion");
+                return Controls.getUseHealPotion();
             } else {
                 logger.debug("Full health: choosing to attack");
-                character.setAttackable(true);
                 return Controls.getAttack();
             }
+        } else if (nextHandler != null) {
+            return nextHandler.handleCharacterDecision(character);
         }
         return Controls.getAttack();
     }

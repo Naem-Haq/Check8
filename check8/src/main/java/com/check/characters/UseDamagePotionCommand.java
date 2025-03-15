@@ -15,14 +15,12 @@ public class UseDamagePotionCommand implements CharacterCommand {
     
     @Override
     public void execute(Character target) {
-        this.executer.getInventory().useItem("DamagePotion", executer);
-        target.getHealthBar().decreaseHealth(20); // Apply damage effect
-        logger.debug("Use Damage Potion command executed by {} against {}", executer.getName(), target.getName());
+        logger.debug("Executing Use Damage Potion command by {} against {}", executer.getName(), target.getName());
+        this.executer.getInventory().useItem("DamagePotion", target);
     }
 
     @Override
     public String executionText() {
         return this.executer.getName() + " uses a damage potion!";
     }
-    
 }

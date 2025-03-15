@@ -74,7 +74,7 @@ public class UI {
                 
                 game.newRound(player1Move, player2Move);
                 System.out.println(game.display());
-                displayHealth(player1, player2);  // Display health after each round
+                displayHealth(game.getPlayer1(), game.getPlayer2());  // Display health after each round
             }
             System.out.println(game.display());
 

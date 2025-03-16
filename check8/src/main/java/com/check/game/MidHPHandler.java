@@ -4,20 +4,18 @@ import com.check.characters.Character;
 import com.check.characters.Controls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Random;
 
 public class MidHPHandler extends Handler {
     private static Logger logger = LoggerFactory.getLogger(MidHPHandler.class.getName());
-    private static final double DODGE_PROBABILITY = 0.3;  // 30% chance to dodge at mid health
-    private static final double DAMAGE_POTION_PROBABILITY = 0.4;  // 40% chance to use damage potion at mid health
-    private static final double HEAL_POTION_PROBABILITY = 0.3;  // 30% chance to use heal potion at mid health
-
-    public MidHPHandler() {
-        super();
-    }
+    private static final Random random = new Random();
+    private static final double DODGE_PROBABILITY = 0.3;  // 30%
+    private static final double DAMAGE_POTION_PROBABILITY = 0.4;  // 40%
+    private static final double HEAL_POTION_PROBABILITY = 0.3;  // 30%
 
     @Override
     public int handleCharacterDecision(Character character) {
-        double healthPercentage = (double) character.getHealthBar().getHealth() / character.getHealthBar().getMaxHealth() * PERCENTAGE_MULTIPLIER;
+        double healthPercentage = calculateHealthPercentage(character);
         if (healthPercentage >= LOW_HEALTH_P && healthPercentage < MID_HEALTH_P) {
             double rand = random.nextDouble();
             if (rand < DODGE_PROBABILITY) {
@@ -25,11 +23,23 @@ public class MidHPHandler extends Handler {
                 character.setAttackable(false);
                 return Controls.getDodge();
             } else if (rand < DODGE_PROBABILITY + DAMAGE_POTION_PROBABILITY) {
-                logger.debug("Mid health: using damage potion");
-                return Controls.getUseDamagePotion();
+                if (character.getInventory().hasDamagePotion()) {
+                    logger.debug("Mid health: using damage potion");
+                    return Controls.getUseDamagePotion();
+                } else {
+                    logger.debug("Damage potion not available in mid health, defaulting to attack");
+                    System.out.println(character.getName() + " defaults to attack (no damage potion available)");
+                    return Controls.getAttack();
+                }
             } else if (rand < DODGE_PROBABILITY + DAMAGE_POTION_PROBABILITY + HEAL_POTION_PROBABILITY) {
-                logger.debug("Mid health: using heal potion");
-                return Controls.getUseHealPotion();
+                if (character.getInventory().hasHealPotion()) {
+                    logger.debug("Mid health: using heal potion");
+                    return Controls.getUseHealPotion();
+                } else {
+                    logger.debug("Heal potion not available in mid health, defaulting to attack");
+                    System.out.println(character.getName() + " defaults to attack (no heal potion available)");
+                    return Controls.getAttack();
+                }
             } else {
                 logger.debug("Mid health: choosing to attack");
                 return Controls.getAttack();

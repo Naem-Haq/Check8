@@ -87,7 +87,7 @@ public class UI {
             }
             System.out.println(game.display());
 
-        } catch (InvalidCharacterException e) {
+        } catch (Exception e) {
             System.out.println("Bad Character choiuce soz: " + e.getMessage());
         }
 

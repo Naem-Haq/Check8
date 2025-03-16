@@ -30,7 +30,7 @@ public class Game implements HealthObserver{
     private final GameHistory gameHistory;
 
 
-    // Private constructor for singleton
+    // Public constructor
     public Game(Character player1, Character player2) throws InvalidCharacterException {
         this.state = new Ready();
         this.gameHistory = new GameHistory();
@@ -44,6 +44,11 @@ public class Game implements HealthObserver{
         this.player1.populateInventory();
         this.player2.populateInventory();
         logger.info("Game initialized with {} vs {}", player1, player2);
+    }
+
+    // Method to get a new instance of Game
+    public static Game getInstance(Character player1, Character player2) throws InvalidCharacterException {
+        return new Game(player1, player2);
     }
 
     public void start() {
@@ -72,6 +77,7 @@ public class Game implements HealthObserver{
         this.player1 = characters.get(0);
         this.player2 = characters.get(1);
         this.state = cache.getState();
+        this.numRounds = cache.getRounds(); // Ensure numRounds is restored
         logger.info("Game restored from cache");
     }
 

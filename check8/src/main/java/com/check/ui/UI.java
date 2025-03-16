@@ -83,6 +83,7 @@ public class UI {
                 
                 game.newRound(player1Move, player2Move);
                 System.out.println(game.display());
+                displayHealth(game.getPlayer1(), game.getPlayer2());  // Display health after each round
             }
             System.out.println(game.display());
 
@@ -90,6 +91,11 @@ public class UI {
             System.out.println("Bad Character choiuce soz: " + e.getMessage());
         }
 
+    }
+
+    public void displayHealth(Character player1, Character player2) {
+        System.out.println(player1.getName() + " Health: " + player1.getHealthBar().getHealth());
+        System.out.println(player2.getName() + " Health: " + player2.getHealthBar().getHealth());
     }
 
     public int displayChooseMove(Character player) {

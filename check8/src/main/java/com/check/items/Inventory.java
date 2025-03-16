@@ -58,6 +58,7 @@ public class Inventory {
             items.get(0).use(character);
             logger.debug("Used item from inventory: {}", itemType);
             items.remove(0);
+            logger.debug("Character {} health after using {}: {}", character.getName(), itemType, character.getHealthBar().getHealth());
         }
     }
 }

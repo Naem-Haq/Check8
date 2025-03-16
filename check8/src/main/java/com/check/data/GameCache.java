@@ -3,23 +3,26 @@ package com.check.data;
 import com.check.game.GameState;
 import com.check.characters.Character;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //Memento Design Pattern - Memento
 public class GameCache{
-    private final List<Character> characters;
+    private final Character player1;
+    private final Character player2;
     private final GameState state;
     private final int rounds;
 
-    public GameCache(List<Character> characters, GameState state, int rounds) {
-        this.characters = new ArrayList<>(characters);
+    public GameCache(Character player1, Character player2, GameState state, int rounds) {
+        this.player1 = player1;
+        this.player2 = player2;
         this.state = state;
         this.rounds = rounds;
     }
 
-    public List<Character> getCharacters() {
-        return characters;
+    public Character getPlayer1() {
+        return player1;
+    }
+
+    public Character getPlayer2() {
+        return player2;
     }
 
     public int getRounds() {

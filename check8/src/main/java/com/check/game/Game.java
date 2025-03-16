@@ -72,13 +72,12 @@ public class Game implements HealthObserver{
     
     // Memento pattern methods
     public GameCache saveToCache() {
-        return new GameCache(getCharacters(), getState(), getNumRounds());
+        return new GameCache(player1, player2, state, numRounds);
     }
     
     public void restoreFromCache(GameCache cache) {
-        List<Character> characters = cache.getCharacters();
-        this.player1 = characters.get(0);
-        this.player2 = characters.get(1);
+        this.player1 = cache.getPlayer1();
+        this.player2 = cache.getPlayer2();
         this.state = cache.getState();
         this.numRounds = cache.getRounds();
         logger.info("Game restored from cache");

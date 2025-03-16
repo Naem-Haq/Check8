@@ -38,8 +38,6 @@ public class Game implements HealthObserver{
         this.player2Controls = new Controls(this.player2);
         this.player1.getHealthBar().attach(this);
         this.player2.getHealthBar().attach(this);
-        this.player1.populateInventory();
-        this.player2.populateInventory();
         logger.info("Game initialized with {} vs {}", player1, player2);
     }
     

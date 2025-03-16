@@ -15,6 +15,7 @@ public class Mage extends Character{
         He is a master of the arcane arts and can cast powerful spells to destroy his foes.
         He is a wise and cunning warrior who uses his intelligence to outsmart his enemies.
         """);
+        populateInventory();
     }
 
     @Override

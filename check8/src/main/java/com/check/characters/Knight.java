@@ -15,6 +15,7 @@ public class Knight extends Character{
         He is a strong and brave warrior who is always ready to fight for his kingdom.
         He is a master of the sword and can defeat any enemy that comes his way.
         """);
+        populateInventory();
     }
 
     @Override

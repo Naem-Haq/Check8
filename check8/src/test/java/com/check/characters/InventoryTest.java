@@ -13,7 +13,6 @@ public class InventoryTest {
     @Test
     public void testGetItem() throws InvalidCharacterException{
         Character character = CharacterCreator.createCharacter("Archer", true);
-        character.populateInventory();
         Inventory inventory = character.getInventory();
         // Check if items are added
         assertNotNull(inventory.getItem("HealPotion"));
@@ -22,7 +21,6 @@ public class InventoryTest {
     @Test
     public void testUseItem() throws InvalidCharacterException{
         Character character = CharacterCreator.createCharacter("Brute", false);
-        character.populateInventory();
         Character enemy = CharacterCreator.createCharacter("Archer", true);
         Inventory inventory = character.getInventory();
         // Check if items are used

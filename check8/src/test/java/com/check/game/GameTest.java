@@ -1,66 +1,77 @@
-// package com.check.game;
+package com.check.game;
 
-// import org.junit.Test;
-// import org.junit.Before;
-// import static org.junit.Assert.*;
-// import java.util.List;
-// import com.check.characters.Character;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import com.check.characters.Character;
+import com.check.characters.Knight;
+import com.check.characters.Brute;
+import com.check.login.User;
+import com.check.characters.Controls;
+import com.check.data.GameCache;
 
-// public class GameTest {
-//     private Game game;
+public class GameTest {
+    private Game game;
+    private Character player1;
+    private Character player2;
+    private User user;
 
-//     @Before
-//     public void setUp() {
-//         game = new Game();
-//     }
+    @Before
+    public void setUp() throws Exception {
+        player1 = new Knight(false);
+        player2 = new Brute(true);
+        user = new User("testUser", "testPass");
+        game = new Game(player1, player2);
+        game.setCurrentUser(user);
+    }
 
-//     @Test
-//     public void testInitialState() {
-//         assertNotNull("Game should be initialized", game);
-//         assertTrue("Initial state should be Ready", game.getState() instanceof Ready);
-//     }
+    @Test
+    public void testInitialState() {
+        assertEquals("Initial state should be Ready", GameState.Type.READY, game.getState().getType());
+    }
 
-//     @Test
-//     public void testStateTransition() {
-//         GameState newState = new InProgress();
-//         game.setState(newState);
-//         assertEquals("Game state should be updated", newState, game.getState());
-//     }
+    @Test
+    public void testStateTransitionToInProgress() {
+        game.setState(new InProgress());
+        assertEquals("State should transition to InProgress", GameState.Type.IN_PROGRESS, game.getState().getType());
+    }
 
-//     @Test
-//     public void testRequest() {
-//         // Create a mock state that we can verify was called
-//         MockGameState mockState = new MockGameState();
-//         game.setState(mockState);
-//         game.request();
-//         assertTrue("Request should be handled by current state", mockState.wasHandleRequestCalled());
-//     }
+    @Test
+    public void testStateTransitionToGameOver() {
+        game.setState(new GameOver());
+        assertEquals("State should transition to GameOver", GameState.Type.GAME_OVER, game.getState().getType());
+    }
 
-//     @Test
-//     public void testGameCache() {
-//         // Setup some game data
-//         GameCache cache = new GameCache();
-//         List<Character> characters = List.of(new Character(), new Character());
-//         cache.setCharacters(characters);
-//         cache.setRounds(5);
+    @Test
+    public void testRoundExecution() {
+        game.setState(new InProgress());
+        game.newRound(Controls.getAttack(), Controls.getAttack());
+        assertEquals("Round should be incremented", 1, game.getNumRounds());
+    }
 
-//         // Test restore from cache
-//         game.restoreFromCache(cache);
-//         assertEquals("Characters should be restored", characters, game.getCharacters());
-//         assertEquals("Rounds should be restored", 5, game.getRounds());
-//     }
+    @Test
+    public void testHealthUpdate() {
+        player1.getHealthBar().decreaseHealth(50);
+        assertEquals("Player1 health should be 50", 50, player1.getHealthBar().getHealth());
+    }
 
-//     // Helper mock class for testing state behavior
-//     private class MockGameState implements GameState {
-//         private boolean handleRequestCalled = false;
+    @Test
+    public void testGameOverState() {
+        player1.getHealthBar().setHealth(0);
+        game.update(player1.getHealthBar().getHealth());
+        assertEquals("Game should be in GameOver state", GameState.Type.GAME_OVER, game.getState().getType());
+    }
 
-//         @Override
-//         public void handleRequest(Game game) {
-//             handleRequestCalled = true;
-//         }
+    @Test
+    public void testSaveAndRestoreGameState() {
+        game.setState(new InProgress());
+        game.newRound(Controls.getAttack(), Controls.getAttack());
+        GameCache cache = game.saveToCache();
 
-//         public boolean wasHandleRequestCalled() {
-//             return handleRequestCalled;
-//         }
-//     }
-// } 
+        game.setState(new Ready());
+        game.restoreFromCache(cache);
+
+        assertEquals("State should be restored to InProgress", GameState.Type.IN_PROGRESS, game.getState().getType());
+        assertEquals("Round number should be restored", 1, game.getNumRounds());
+    }
+}

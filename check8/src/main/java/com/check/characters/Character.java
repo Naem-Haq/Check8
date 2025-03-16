@@ -34,6 +34,10 @@ public abstract class Character {
         return healthBar;
     }
 
+    public void setHealthBar(HealthBar healthBar) {
+        this.healthBar = healthBar;
+    }
+
     public String getName() {
         return name;
     }

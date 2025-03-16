@@ -9,9 +9,14 @@ import com.check.characters.Controls;
 import com.check.characters.CharacterCreator.InvalidCharacterException;
 import com.check.game.Game;
 import com.check.game.GameState;
+import com.check.items.Inventory.InvalidCPUMoveException;
+import com.check.items.Inventory.OutOfItemException;
 
 import java.util.Map;
 import java.util.Scanner;
+
+import javax.sound.sampled.Control;
+
 import com.check.game.CPU;
 
 public class UI {
@@ -80,8 +85,19 @@ public class UI {
             while (game.getState().getType() == GameState.Type.IN_PROGRESS) {
                 int player1Move = displayChooseMove(game.getPlayer1());
                 int player2Move = displayChooseMove(game.getPlayer2());
-                
-                game.newRound(player1Move, player2Move);
+                try {
+                    game.newRound(player1Move, player2Move);
+                } catch (OutOfItemException e) {
+                    System.out.println("You have run out of the selected potion. Please choose a different move.");
+                    // Clear the input buffer in case of any lingering errors
+                    playerInput.nextLine();
+                    continue;
+                } catch (InvalidCPUMoveException e) {
+                    System.out.println("Invalid CPU move: " + e.getMessage() + ". Defaulting to attack.");
+                    player2.setAttackable(true);
+                    System.out.println(player2.getName() + " defaults to attack");
+                    game.newRound(player1Move, Controls.getAttack());
+                }
                 System.out.println(game.display());
                 displayHealth(game.getPlayer1(), game.getPlayer2());  // Display health after each round
             }
@@ -100,19 +116,26 @@ public class UI {
 
     public int displayChooseMove(Character player) {
         if (!player.isCPU()){
-            System.out.println("Player "+ player.getName() +" choose ur move\n");
-            System.out.println("===========================================");
-            System.out.println("Press "+ Controls.getAttack() +" to attack");
-            System.out.println("Press "+ Controls.getDodge() +" to dodge");
-            System.out.println("Press "+ Controls.getUseHealPotion() +" to use heal potion");
-            System.out.println("Press "+ Controls.getUseDamagePotion() +" to use damage potion");
-            System.out.println("===========================================\n");
-            int playerMove = playerInput.nextInt();
-            return playerMove;
-        }
-        else{
-            int CPUMove = CPU.generateMove(player);
-            return CPUMove;
+            while (true) {
+                try {
+                    System.out.println("Player " + player.getName() + " choose ur move\n");
+                    System.out.println("===========================================");
+                    System.out.println("Press " + Controls.getAttack() + " to attack");
+                    System.out.println("Press " + Controls.getDodge() + " to dodge");
+                    System.out.println("Press " + Controls.getUseHealPotion() + " to use heal potion");
+                    System.out.println("Press " + Controls.getUseDamagePotion() + " to use damage potion");
+                    System.out.println("===========================================\n");
+                    int playerMove = playerInput.nextInt();
+                    return playerMove;
+                } catch (OutOfItemException e) {
+                    System.out.println("You have run out of the selected potion. Please choose a different move.");
+                    // Clear the input buffer in case of any lingering errors
+                    playerInput.nextLine();
+                }
+            }
+        } else {
+            // Removed try/catch since handlers now verify item availability
+            return CPU.generateMove(player);
         }
     }
 

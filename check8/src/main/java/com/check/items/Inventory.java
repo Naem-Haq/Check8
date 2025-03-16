@@ -52,13 +52,47 @@ public class Inventory {
     }
 
     public void useItem(String itemType, Character character){
-        // If the item is in the inventory,use it and remove it from the list of items of the same type
-        if(this.items.containsKey(itemType.toLowerCase())){
-            ArrayList<Item> items = this.items.get(itemType.toLowerCase());
+        String key = itemType.toLowerCase();
+        if(this.items.containsKey(key) && !this.items.get(key).isEmpty()){
+            ArrayList<Item> items = this.items.get(key);
             items.get(0).use(character);
             logger.debug("Used item from inventory: {}", itemType);
             items.remove(0);
             logger.debug("Character {} health after using {}: {}", character.getName(), itemType, character.getHealthBar().getHealth());
+        }
+        else{
+            if (character.isCPU() && itemType.equals("HealPotion")) {
+                throw new InvalidCPUMoveException("CPU tried to use a HealPotion when it had none!");
+            }
+            if (character.isCPU() && itemType.equals("DamagePotion")) {
+                throw new InvalidCPUMoveException("CPU tried to use a DamagePotion when it had none!");
+            } else {
+            throw new OutOfItemException("No " + itemType + " available in the inventory!");
+            }
+        }
+    }
+
+    public boolean hasHealPotion() {
+        boolean hasPotion = this.items.containsKey("healpotion") && !this.items.get("healpotion").isEmpty();
+        logger.debug("Checking for HealPotion: {}", hasPotion);
+        return hasPotion;
+    }
+
+    public boolean hasDamagePotion() {
+        boolean hasPotion = this.items.containsKey("damagepotion") && !this.items.get("damagepotion").isEmpty();
+        logger.debug("Checking for DamagePotion: {}", hasPotion);
+        return hasPotion;
+    }
+
+    public class OutOfItemException extends RuntimeException {
+        public OutOfItemException(String message){
+            super(message);
+        }
+    }
+
+    public class InvalidCPUMoveException extends RuntimeException {
+        public InvalidCPUMoveException(String message){
+            super(message);
         }
     }
 }

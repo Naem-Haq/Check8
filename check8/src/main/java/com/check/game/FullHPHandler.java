@@ -28,7 +28,6 @@ public class FullHPHandler extends Handler {
                     return Controls.getUseDamagePotion();
                 } else {
                     logger.debug("Damage potion not available at full health, defaulting to attack");
-                    System.out.println(character.getName() + " defaults to attack (no damage potion available)");
                     return Controls.getAttack();
                 }
             } else if (rand < DODGE_PROBABILITY + DAMAGE_POTION_PROBABILITY + HEAL_POTION_PROBABILITY) {
@@ -37,7 +36,6 @@ public class FullHPHandler extends Handler {
                     return Controls.getUseHealPotion();
                 } else {
                     logger.debug("Heal potion not available at full health, defaulting to attack");
-                    System.out.println(character.getName() + " defaults to attack (no heal potion available)");
                     return Controls.getAttack();
                 }
             } else {

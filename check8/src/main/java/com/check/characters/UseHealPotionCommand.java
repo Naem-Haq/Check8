@@ -14,13 +14,9 @@ public class UseHealPotionCommand implements CharacterCommand {
     }
     
     @Override
-    public void execute(Character target) {
+    public String execute(Character target) {
         logger.debug("Executing Use Heal Potion command by {} (applied on self)", executer.getName());
         this.executer.getInventory().useItem("HealPotion", executer);
-    }
-
-    @Override
-    public String executionText() {
         return this.executer.getName() + " uses a heal potion!";
     }
 }

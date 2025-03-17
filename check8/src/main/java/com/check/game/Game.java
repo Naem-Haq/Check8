@@ -8,7 +8,6 @@ import com.check.characters.Character;
 import com.check.characters.HealthObserver;
 import com.check.data.GameCache;
 import com.check.characters.Controls;
-import com.check.data.GameHistory;
 import com.check.login.User;
 import java.util.Arrays;
 
@@ -25,12 +24,10 @@ public class Game implements HealthObserver{
     
     // Game status
     private int numRounds;  
-    private final GameHistory gameHistory;
 
 
     public Game(Character player1, Character player2){
         this.state = new Ready();
-        this.gameHistory = new GameHistory();
         this.numRounds = 0; 
         this.player1 = player1;
         this.player2 = player2;
@@ -88,7 +85,6 @@ public class Game implements HealthObserver{
     public Character getPlayer2() { return player2; }
     public Controls getPlayer1Controls() { return player1Controls; }
     public Controls getPlayer2Controls() { return player2Controls; }
-    public GameHistory getGameHistory() { return gameHistory; }
     public User getCurrentUser() { return currentUser; }
     public int getNumRounds() { return numRounds; }
     public GameState getState() { return state; }

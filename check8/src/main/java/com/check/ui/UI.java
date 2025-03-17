@@ -32,6 +32,8 @@ public class UI {
         System.out.println("5. Character options");
         System.out.println("6. Stats");
         System.out.println("7. LeaderBoard");
+        System.out.println("8. Resume Game");
+        System.out.println("9. Exit");
         System.out.println("========================================");
         System.out.println("Enter your choice:");
     }
@@ -72,6 +74,7 @@ public class UI {
         System.out.println("Press "+ Controls.getDodge() +" to dodge");
         System.out.println("Press "+ Controls.getUseHealPotion() +" to use heal potion");
         System.out.println("Press "+ Controls.getUseDamagePotion() +" to use damage potion");
+        System.out.println("Press 9 to Save and exit game");
         System.out.println("===========================================\n");
     }
 

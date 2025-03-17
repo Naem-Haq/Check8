@@ -14,6 +14,7 @@ public class Brute extends Character{
         He is a master of close combat and can overpower any enemy that comes his way.
         He is a fierce and powerful warrior who can crush his enemies with his bare hands and large axe.
         """);
+        populateInventory();
     }
 
     @Override

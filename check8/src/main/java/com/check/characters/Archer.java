@@ -14,6 +14,7 @@ public class Archer extends Character{
         He is a master of the bow and can hit any target with deadly accuracy.
         He is a quick and agile warrior who can move swiftly to avoid his enemies' attacks.
         """);
+        populateInventory();
     }
 
     @Override

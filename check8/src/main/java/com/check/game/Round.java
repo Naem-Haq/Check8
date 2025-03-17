@@ -25,34 +25,39 @@ public class Round {
         logger.debug("Round {} initialized", roundNumber);
     }
 
-    public void executeAction(int player1Input, int player2Input) {
-        try {
-            if (player1Input == Controls.getDodge() ^ player2Input == Controls.getDodge()) {
-                if (player1Input == Controls.getDodge()) {
-                    player2Controls.pressButton(player2Input, player1);
-                    logger.debug("Player 1 dodged in round {}", roundNumber);
-                    player1.setAttackable(true);
-                } else {
-                    player1Controls.pressButton(player1Input, player2);
-                    logger.debug("Player 2 dodged in round {}", roundNumber);
-                    player2.setAttackable(true);
-                }
+    public String executeAction(int player1Input, int player2Input) {
+        String p1Output;
+        String p2Output;
+        String totalOutput;
+        if (player1Input == Controls.getDodge() ^ player2Input == Controls.getDodge()) {
+            if (player1Input == Controls.getDodge()) {
+                p1Output = player1Controls.pressButton(player1Input, player2);
+                p2Output = player2Controls.pressButton(player2Input, player1);
+                totalOutput = p1Output + "\n" + p2Output;
+                logger.debug("Player 1 dodged in round {}", roundNumber);
+                player1.setAttackable(true);
+                player2.setAttackable(true);
             } else {
-                player1Controls.pressButton(player1Input, player2);
-                player2Controls.pressButton(player2Input, player1);
-                logger.debug("Both players executed actions in round {}", roundNumber);
+                p2Output = player2Controls.pressButton(player2Input, player1);
+                p1Output = player1Controls.pressButton(player1Input, player2);
+                totalOutput = p2Output + "\n" + p1Output;
+                logger.debug("Player 2 dodged in round {}", roundNumber);
+                player1.setAttackable(true);
+                player2.setAttackable(true);
             }
-        } catch (Exception e) {
-            logger.error("Error executing action", e);
+        } else {
+            p1Output = player1Controls.pressButton(player1Input, player2);
+            p2Output = player2Controls.pressButton(player2Input, player1);
+            totalOutput = p1Output + "\n" + p2Output;
+            logger.debug("Both players executed actions in round {}", roundNumber);
             player1.setAttackable(true);
             player2.setAttackable(true);
-            player1Controls.pressButton(Controls.getAttack(), player2);
-            player2Controls.pressButton(Controls.getAttack(), player1);
         }
         logger.debug("Player 1 Health: {}", player1.getHealthBar().getHealth());
         logger.debug("Player 2 Health: {}", player2.getHealthBar().getHealth());
         complete = true;
         logger.debug("Round {} completed", roundNumber);
+        return totalOutput;
     }
 
     public boolean isComplete() {

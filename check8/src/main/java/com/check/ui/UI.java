@@ -30,8 +30,19 @@ public class UI {
     }
 
     public void displayOptionScreen() {
-        System.out.println("1. Sign-up \n2. Login \n3. How to play \n4. Play\n5. Character options\n6. Stats\n7. LeaderBoard");
-
+        System.out.println("========================================");
+        System.out.println("              Main Menu                 ");
+        System.out.println("========================================");
+        System.out.println("1. Sign-up");
+        System.out.println("2. Login");
+        System.out.println("3. How to play");
+        System.out.println("4. Play");
+        System.out.println("5. Character options");
+        System.out.println("6. Stats");
+        System.out.println("7. LeaderBoard");
+        System.out.println("========================================");
+        System.out.println("Enter your choice:");
+    
         int option = -1;
         if (playerInput.hasNextInt()) {
             option = playerInput.nextInt();
@@ -40,14 +51,17 @@ public class UI {
             playerInput.nextLine();
             System.out.println("Enter a number");
         }
-
-       returnUserOption(option);
+    
+        returnUserOption(option);
     }
 
     public void displaySignUp() {
-        System.out.println("Player sign up \nusername: ");
+        String yellow = "\u001B[33m";
+        String reset = "\u001B[0m";
+        
+        System.out.println(yellow + "Player sign up \nusername: " + reset);
         String userName = playerInput.nextLine();
-        System.out.println("password: ");
+        System.out.println(yellow + "password: " + reset);
         String password = playerInput.nextLine();
         Login.signUp(userName, password);
         currentUser = Login.logIn(userName, password);
@@ -59,9 +73,12 @@ public class UI {
     }
 
     public void displayLogIn() {
-        System.out.println("Player Login \nusername: ");
+        String yellow = "\u001B[33m";
+        String reset = "\u001B[0m";
+        
+        System.out.println(yellow + "Player Login \nusername: " + reset);
         String userName = playerInput.nextLine();
-        System.out.println("password: ");
+        System.out.println(yellow + "password: " + reset);
         String password = playerInput.nextLine();
         currentUser = Login.logIn(userName, password);
         if (currentUser != null) {
@@ -71,31 +88,38 @@ public class UI {
         displayOptionScreen();
     }
     public void playGame(Character player1, Character player2) {
+        String yellow = "\u001B[33m";
+        String reset = "\u001B[0m";
+    
         System.out.println("Game is starting");
         try {
             Game game = new Game(player1, player2);
             System.out.println(game.display());
             String any_input = playerInput.nextLine();
-
+    
             while (game.getState().getType() == GameState.Type.IN_PROGRESS) {
                 int player1Move = displayChooseMove(game.getPlayer1());
                 int player2Move = displayChooseMove(game.getPlayer2());
-                
+    
                 game.newRound(player1Move, player2Move);
-                System.out.println(game.display());
+                System.out.println("Round " + game.getNumRounds() + " complete");
                 displayHealth(game.getPlayer1(), game.getPlayer2());  // Display health after each round
             }
             System.out.println(game.display());
-
+    
         } catch (Exception e) {
-            System.out.println("Bad Character choiuce soz: " + e.getMessage());
+            System.out.println("Bad Character choice soz: " + e.getMessage());
         }
-
     }
 
     public void displayHealth(Character player1, Character player2) {
-        System.out.println(player1.getName() + " Health: " + player1.getHealthBar().getHealth());
-        System.out.println(player2.getName() + " Health: " + player2.getHealthBar().getHealth());
+        String green = "\u001B[32m";
+        String blue = "\u001B[34m";
+        String red = "\u001B[31m";
+        String reset = "\u001B[0m";
+    
+        System.out.println(blue + player1.getName() + reset + " Health: " + green + player1.getHealthBar().getHealth() + reset);
+        System.out.println(red + player2.getName() + reset + " Health: " + green + player2.getHealthBar().getHealth() + reset);
     }
 
     public int displayChooseMove(Character player) {
@@ -117,43 +141,54 @@ public class UI {
     }
 
     public void chooseCharacter() {
-        System.out.println("Choose Your character - Player 1");
+        String cyan = "\u001B[36m";
+        String orange = "\u001B[33m";
+        String green = "\u001B[32m";
+        String red = "\u001B[31m";
+        String reset = "\u001B[0m";
+    
+        System.out.println(cyan + "Choose Your character - Player 1" + reset);
         Character chosenCharacter = displayCharacterChoices(0);
         playerInput.nextLine();
-
-        System.out.println("Choose Your character - Player 2");
-        System.out.println("Player (0) or CPU (1)");
+    
+        System.out.println(cyan + "Choose Your character - Player 2" + reset);
+        System.out.println(green + "Player (0)" + reset + " or " + orange + "CPU (1)" + reset);
         int cpu_int = playerInput.nextInt();
         if (cpu_int != 0 && cpu_int != 1) {
-            System.out.println("====== ! Invalid choice ! ======");
+            System.out.println(red + "====== ! Invalid choice ! ======" + reset);
             chooseCharacter();
         }
         playerInput.nextLine();
         Character enemyCharacter = displayCharacterChoices(cpu_int);
-
-        playGame(chosenCharacter,enemyCharacter);
-
+    
+        playGame(chosenCharacter, enemyCharacter);
     }
 
     public Character displayCharacterChoices(int cpu_int) {
+        String cyan = "\u001B[36m";
+        String orange = "\u001B[33m";
+        String red = "\u001B[31m";
+        String reset = "\u001B[0m";
+    
         Character character = null;
         boolean cpu;
-        if (cpu_int == 0){
+        if (cpu_int == 0) {
             cpu = false;
-        }
-        else{
+        } else {
             cpu = true;
         }
-        
-        System.out.println("Choose character");
+    
+        System.out.println(cyan + "Choose character" + reset);
         System.out.println("1. Knight");
         System.out.println("2. Mage");
         System.out.println("3. Brute");
         System.out.println("4. Archer");
+        System.out.println("==========================================="); 
 
-        try{
+    
+        try {
             int characterChoice = playerInput.nextInt();
-            switch (characterChoice){
+            switch (characterChoice) {
                 case 1:
                     character = CharacterCreator.createCharacter("Knight", cpu);
                     break;
@@ -167,11 +202,10 @@ public class UI {
                     character = CharacterCreator.createCharacter("Archer", cpu);
                     break;
                 default:
-                    throw new InvalidCharacterException("Invalid character choice");
+                    throw new InvalidCharacterException(orange + "Invalid character choice" + reset);
             }
-        }
-        catch(InvalidCharacterException e){
-            System.out.println("Invalid character choice");
+        } catch (InvalidCharacterException e) {
+            System.out.println(red + "Invalid character choice" + reset);
             displayCharacterChoices(cpu_int);
         }
         System.out.println("Character chosen: " + character.getName() + "\n\n");
@@ -208,12 +242,17 @@ public class UI {
     }
 
     public void displayUserStats(User currentUser) {
+        String green = "\u001B[32m";
+        String red = "\u001B[31m";
+        String orange = "\u001B[33m";
+        String reset = "\u001B[0m";
+    
         System.out.println(currentUser.getName() + "'s stats:");
         Map<String, Integer> userStats = currentUser.loadStats();
         System.out.println("Games Played: " + userStats.get("gamesPlayed"));
-        System.out.println("Games Won: " + userStats.get("wins"));
-        System.out.println("Games Lost: " + userStats.get("losses"));
-        System.out.println("Games Tie: " + userStats.get("ties"));
+        System.out.println(green + "Games Won: " + userStats.get("wins") + reset);
+        System.out.println(red + "Games Lost: " + userStats.get("losses") + reset);
+        System.out.println(orange + "Games Tie: " + userStats.get("ties") + reset);
         System.out.println();
         System.out.println("Press enter to continue...");
         playerInput.nextLine();

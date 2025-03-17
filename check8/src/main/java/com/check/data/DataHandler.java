@@ -94,7 +94,6 @@ public class DataHandler {
             for (String line : lines) {
                 String[] parts = line.split(",");
                 if (parts.length == EXPECTED_PARTS && parts[USERNAME_INDEX].equals(name) && parts[PASSWORD_INDEX].equals(hashPassword)) {
-                    System.out.println("Login successful!");
                     logger.info("User {} login details match file data. Login success", maskUsername(name));
                     return true;
                 }

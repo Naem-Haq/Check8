@@ -162,6 +162,8 @@ public class Controller {
                 break;
             case 4:
                 chooseCharacter();
+                pressEnter();
+                loadMainMenu();
                 break;
             case 5:
                 throw new UnsupportedOperationException("Character options feature not implemented yet.");
@@ -170,7 +172,7 @@ public class Controller {
                     ui.displayUserStats(currentUser);
                     pressEnter();
                     loadMainMenu();}
-                else {ui.displayMessage("Please login first.");;
+                else {ui.displayMessage("Please login first.");
                     loadMainMenu();}
                 break;
             case 7:

@@ -55,7 +55,8 @@ public class Controller {
             int player1Move = move(game.getPlayer1());
             int player2Move = move(game.getPlayer2());
 
-            game.newRound(player1Move, player2Move);
+            String roundResult = game.newRound(player1Move, player2Move);
+            ui.displayMessage(roundResult + "\n");
             ui.displayCompleteRound(game.getNumRounds());
             ui.displayHealth(game.getPlayer1(), game.getPlayer2());
         }
@@ -166,7 +167,10 @@ public class Controller {
                 loadMainMenu();
                 break;
             case 5:
-                throw new UnsupportedOperationException("Character options feature not implemented yet.");
+                ui.displayCharacterDetails();
+                pressEnter();
+                loadMainMenu();
+                break;                
             case 6:
                 if (currentUser != null) {
                     ui.displayUserStats(currentUser);

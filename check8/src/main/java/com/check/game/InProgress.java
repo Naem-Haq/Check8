@@ -8,7 +8,6 @@ public class InProgress implements GameState {
 
     @Override
     public String play(Game game) {
-        game.getGameHistory().save(game);
         return "Round " + game.getNumRounds() + " complete";
     }
 

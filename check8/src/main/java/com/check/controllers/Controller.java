@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.check.game.CPU;
 import com.check.game.Game;
+import com.check.game.GameOver;
 import com.check.login.Login;
 import com.check.login.User;
 import com.check.ui.UI;
@@ -11,11 +12,14 @@ import com.check.characters.Character;
 import com.check.characters.CharacterCreator;
 import com.check.characters.CharacterCreator.InvalidCharacterException;
 import com.check.characters.Controls;
+import com.check.data.GameHistory;
 import com.check.game.GameState;
 
 public class Controller {
     Scanner playerInput = new Scanner(System.in);
-    User currentUser;
+    private GameHistory history = new GameHistory();
+    private Game game;
+    private User currentUser;
     private final UI ui;
 
     public Controller() {
@@ -26,13 +30,27 @@ public class Controller {
         this.currentUser = currentUser;
     }
 
+    public Game getGame() {
+        if (game != null) {
+            return game;
+        }
+        throw new NullPointerException("Game is null");
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
     public void playGame(Character player1, Character player2) {
         ui.displayMessage("Game is starting");
         Game game = new Game(player1, player2);
+        setGame(game);
         ui.displayMessage(game.display());
         playerInput.nextLine();
+        playLoop();
+    }
 
-        
+    public void playLoop(){
         while (game.getState().getType() == GameState.Type.IN_PROGRESS) {
             int player1Move = move(game.getPlayer1());
             int player2Move = move(game.getPlayer2());
@@ -49,6 +67,12 @@ public class Controller {
             if (!player.isCPU()){
                 ui.displayMoveOptions(player);
                 int playerMove = playerInput.nextInt();
+                if (playerMove == 9) {
+                    ui.displayMessage("You have forfeited the game. Progress saved.");
+                    history.save(getGame());
+                    game.setState(new GameOver());
+                    loadMainMenu();
+                }
 
                 // Guard for item availability and dodge count
                 if (playerMove == Controls.getUseHealPotion() && !player.getInventory().hasHealPotion()) {
@@ -154,6 +178,21 @@ public class Controller {
                 pressEnter();
                 loadMainMenu();
                 break;
+            case 8:
+                try {
+                    history.undo(getGame());
+                    ui.displayMessage("Game has been restored to previous state.");
+                }catch (NullPointerException e) {
+                    ui.displayMessage("No game to restore.");
+                    loadMainMenu();
+                }
+                playLoop();
+                loadMainMenu();
+                break;
+            case 9:
+                ui.displayMessage("Goodbye!");
+                System.exit(0);
+                return;
             default:
                 ui.invalidChoice();
                 loadMainMenu();

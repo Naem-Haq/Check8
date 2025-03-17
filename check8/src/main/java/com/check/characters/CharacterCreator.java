@@ -1,6 +1,7 @@
 package com.check.characters;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 import org.slf4j.Logger;
@@ -24,6 +25,10 @@ public class CharacterCreator {
         hashMap.put("mage", Mage::new);
         hashMap.put("brute", Brute::new);
         hashMap.put("knight", Knight::new);
+    }
+    
+    public static Map<String, Function<Boolean, Character>> getHashMap() {
+        return hashMap;
     }
 
     public static Character createCharacter(String charType, boolean cpu) throws InvalidCharacterException {

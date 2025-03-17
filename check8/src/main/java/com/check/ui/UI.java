@@ -3,9 +3,11 @@ package com.check.ui;
 import com.check.data.DataHandler;
 import com.check.login.User;
 import com.check.characters.Character;
+import com.check.characters.CharacterCreator;
 import com.check.characters.Controls;
 
 import java.util.Map;
+import java.util.function.Function;
 
 public class UI {
 
@@ -38,6 +40,21 @@ public class UI {
         System.out.println("Enter your choice:");
     }
 
+    public void displayCharacterDetails(){
+        for (Function<Boolean, Character> charMaker : CharacterCreator.getHashMap().values()) {
+            Character character = charMaker.apply(true);
+            System.out.println("===========================================");
+            System.out.println(YELLOW + character.getName() + RESET + ":\n" + character.getDescription());
+            System.out.println(YELLOW + "Weapon:\n" + RESET + character.getWeapon().getDescription());
+            System.out.println();
+            System.out.println(YELLOW + "Inventory:\n" + RESET);
+            character.getInventory().getItems().forEach((item, quantity) -> 
+                System.out.println(item + ": " + quantity.size())
+            );
+            System.out.println("===========================================");
+        }
+    }
+
     public void displayPlayerSignUp(){
         System.out.println(YELLOW + "Player sign up \nusername: " + RESET);
     }
@@ -55,7 +72,7 @@ public class UI {
     }
 
     public void loginSuccess(String userName){
-        System.out.println("login successful! welcome " + userName);
+        System.out.println("Login successful! Welcome " + userName);
     }
 
     public void displayCompleteRound(int roundNum){

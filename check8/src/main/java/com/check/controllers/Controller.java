@@ -166,7 +166,10 @@ public class Controller {
                 loadMainMenu();
                 break;
             case 5:
-                throw new UnsupportedOperationException("Character options feature not implemented yet.");
+                ui.displayCharacterDetails();
+                pressEnter();
+                loadMainMenu();
+                break;                
             case 6:
                 if (currentUser != null) {
                     ui.displayUserStats(currentUser);

@@ -4,7 +4,6 @@ import com.check.characters.Character;
 import com.check.characters.Controls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.check.items.Inventory.InvalidCPUMoveException;
 
 public class Round {
     private static final Logger logger = LoggerFactory.getLogger(Round.class.getName());

@@ -53,6 +53,7 @@ public class Game implements HealthObserver{
     public void update(int health) {
         logger.debug("Health update received: {}", health);
         if (health <= 0) {
+            logger.debug("Health is 0 or less, setting state to GameOver");
             setState(new GameOver());
         }
     }

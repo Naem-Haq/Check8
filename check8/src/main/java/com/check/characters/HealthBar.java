@@ -18,9 +18,11 @@ public class HealthBar implements Subject{
     public void setHealth(int health){
         if (health < 0){
             this.health = 0;
+            updateAll();
             return;
         } else if (health > this.maxHealth){
             this.health = this.maxHealth;
+            updateAll();
             return;
         }
         this.health = health;

@@ -52,13 +52,13 @@ public class Controller {
 
                 // Guard for item availability and dodge count
                 if (playerMove == Controls.getUseHealPotion() && !player.getInventory().hasHealPotion()) {
-                    System.out.println("You have run out of heal potions. Please choose a different move.");
+                    ui.displayMessage("You have run out of heal potions. Please choose a different move.");
                     continue;
                 } else if (playerMove == Controls.getUseDamagePotion() && !player.getInventory().hasDamagePotion()) {
-                    System.out.println("You have run out of damage potions. Please choose a different move.");
+                    ui.displayMessage("You have run out of damage potions. Please choose a different move.");
                     continue;
                 } else if (playerMove == Controls.getDodge() && !player.canDodge()) {
-                    System.out.println("You cannot dodge anymore. Please choose a different move.");
+                    ui.displayMessage("You cannot dodge anymore. Please choose a different move.");
                     continue;
                 }
                 return playerMove;

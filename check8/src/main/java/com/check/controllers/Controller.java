@@ -1,5 +1,6 @@
 package com.check.controllers;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.check.game.CPU;
@@ -67,33 +68,43 @@ public class Controller {
         while (true){
             if (!player.isCPU()){
                 ui.displayMoveOptions(player);
-                int playerMove = playerInput.nextInt();
-                if (playerMove == 9) {
-                    ui.displayMessage("You have forfeited the game. Progress saved.");
-                    history.save(getGame());
-                    game.setState(new GameOver());
-                    loadMainMenu();
+                try {
+                    int playerMove = playerInput.nextInt();
+                    if (playerMove == 9) {
+                        ui.displayMessage("You have forfeited the game. Progress saved.");
+                        history.save(getGame());
+                        game.setState(new GameOver());
+                        loadMainMenu();
+                    }
+                    
+                    // Guard for item availability and dodge count
+                    if (playerMove == Controls.getUseHealPotion() && !player.getInventory().hasHealPotion()) {
+                        ui.displayMessage("You have run out of heal potions. Please choose a different move.");
+                        continue;
+                    } else if (playerMove == Controls.getUseDamagePotion() && !player.getInventory().hasDamagePotion()) {
+                        ui.displayMessage("You have run out of damage potions. Please choose a different move.");
+                        continue;
+                    } else if (playerMove == Controls.getDodge() && !player.canDodge()) {
+                        ui.displayMessage("You cannot dodge anymore. Please choose a different move.");
+                        continue;
+                    }
+                    return playerMove;
+                } catch (InputMismatchException e) {
+                    ui.invalidChoice();
+                    playerInput.nextLine(); // Clear the invalid input
                 }
-
-                // Guard for item availability and dodge count
-                if (playerMove == Controls.getUseHealPotion() && !player.getInventory().hasHealPotion()) {
-                    ui.displayMessage("You have run out of heal potions. Please choose a different move.");
-                    continue;
-                } else if (playerMove == Controls.getUseDamagePotion() && !player.getInventory().hasDamagePotion()) {
-                    ui.displayMessage("You have run out of damage potions. Please choose a different move.");
-                    continue;
-                } else if (playerMove == Controls.getDodge() && !player.canDodge()) {
-                    ui.displayMessage("You cannot dodge anymore. Please choose a different move.");
-                    continue;
-                }
-                return playerMove;
-            }else{
+                }else{
                 return CPU.generateMove(player);
             }
         }
     }
 
     public void chooseCharacter() {
+        if (currentUser == null) {
+            ui.displayMessage("Please login first.");
+            loadMainMenu();
+            return;
+        }
         ui.chooseCharacterText(1);
         Character chosenCharacter = displayCharacterChoices(0);
         playerInput.nextLine();

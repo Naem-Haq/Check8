@@ -57,14 +57,15 @@ public class Game implements HealthObserver{
         }
     }
 
-    public void newRound(int player1Input, int player2Input) {
+    public String newRound(int player1Input, int player2Input) {
         Round round = new Round(numRounds, player1, player2, player1Controls, player2Controls);
-        round.executeAction(player1Input, player2Input);
+        String roundOutput = round.executeAction(player1Input, player2Input);
         if (round.isComplete()) {
             numRounds++;
         }
         logger.debug("Player 1 Health after round: {}", player1.getHealthBar().getHealth());
         logger.debug("Player 2 Health after round: {}", player2.getHealthBar().getHealth());
+        return roundOutput;
     }
     
     // Memento pattern methods

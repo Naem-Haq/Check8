@@ -30,14 +30,15 @@ public class Controls {
         logger.debug("Controls created for {}", character.getName());
     }
 
-    public void pressButton(int index, Character target) {
+    public String pressButton(int index, Character target) {
         if (index >= 0 && index < commands.size()) {
             CharacterCommand command = commands.get(index);
-            command.execute(target);
-            System.out.println(command.executionText());
+            String commandOutput = command.execute(target);
             logger.info("Character {} pressed button {} against {}", 
                 character.getName(), command.getClass().getSimpleName(), target.getName());
+            return commandOutput;
         }
+        return "Invalid command index";
     }
 
     public CharacterCommand getCommand(int index) {

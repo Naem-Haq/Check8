@@ -4,7 +4,6 @@ import com.check.characters.Character;
 import com.check.characters.Controls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.check.items.Inventory.InvalidCPUMoveException;
 
 public class Round {
     private static final Logger logger = LoggerFactory.getLogger(Round.class.getName());
@@ -26,50 +25,44 @@ public class Round {
     }
 
     public void executeAction(int player1Input, int player2Input) {
-        try {
-            if (player1Input == Controls.getDodge() && !player1.canDodge()) {
-                logger.debug("Player 1 tries to dodge but has no dodges remaining");
-                player1.setAttackable(true); // Ensure player1 is attackable
-                player1Input = Controls.getAttack(); // Default to attack
-            }
-            if (player2Input == Controls.getDodge() && !player2.canDodge()) {
-                logger.debug("Player 2 tries to dodge but has no dodges remaining");
-                player2.setAttackable(true); // Ensure player2 is attackable
-                player2Input = Controls.getAttack(); // Default to attack
-            }
+        // Guard for player1's move
+        if (player1Input == Controls.getUseHealPotion() && !player1.getInventory().hasHealPotion()) {
+            player1Input = Controls.getAttack();
+        } else if (player1Input == Controls.getUseDamagePotion() && !player1.getInventory().hasDamagePotion()) {
+            player1Input = Controls.getAttack();
+        } else if (player1Input == Controls.getDodge() && !player1.canDodge()) {
+            player1Input = Controls.getAttack();
+        }
 
+        // Guard for player2's move
+        if (player2Input == Controls.getUseHealPotion() && !player2.getInventory().hasHealPotion()) {
+            player2Input = Controls.getAttack();
+        } else if (player2Input == Controls.getUseDamagePotion() && !player2.getInventory().hasDamagePotion()) {
+            player2Input = Controls.getAttack();
+        } else if (player2Input == Controls.getDodge() && !player2.canDodge()) {
+            player2Input = Controls.getAttack();
+        }
+
+        try {
             if (player1Input == Controls.getDodge() ^ player2Input == Controls.getDodge()) {
                 if (player1Input == Controls.getDodge()) {
                     player2Controls.pressButton(player2Input, player1);
                     logger.debug("Player 1 dodged in round {}", roundNumber);
-                    player1.setAttackable(true); // Ensure player1 is attackable after dodge
+                    player1.setAttackable(true);
                 } else {
                     player1Controls.pressButton(player1Input, player2);
                     logger.debug("Player 2 dodged in round {}", roundNumber);
-                    player2.setAttackable(true); // Ensure player2 is attackable after dodge
+                    player2.setAttackable(true);
                 }
             } else {
                 player1Controls.pressButton(player1Input, player2);
                 player2Controls.pressButton(player2Input, player1);
                 logger.debug("Both players executed actions in round {}", roundNumber);
             }
-        } catch (InvalidCPUMoveException e) {
-            logger.error("Invalid CPU move: {}. Defaulting to attack.", e.getMessage());
-            if (player1.isCPU()) {
-                player1.setAttackable(true);
-                System.out.println(player1.getName() + " defaults to attack");
-                player1Controls.pressButton(Controls.getAttack(), player2);
-            }
-            if (player2.isCPU()) {
-                player2.setAttackable(true);
-                System.out.println(player2.getName() + " defaults to attack");
-                player2Controls.pressButton(Controls.getAttack(), player1);
-            }
         } catch (Exception e) {
             logger.error("Error executing action", e);
-            player1.setAttackable(true); // Ensure player1 is attackable
-            player2.setAttackable(true); // Ensure player2 is attackable
-            System.out.println(player1.getName() + " and " + player2.getName() + " default to attack");
+            player1.setAttackable(true);
+            player2.setAttackable(true);
             player1Controls.pressButton(Controls.getAttack(), player2);
             player2Controls.pressButton(Controls.getAttack(), player1);
         }

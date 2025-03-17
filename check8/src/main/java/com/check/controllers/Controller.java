@@ -10,6 +10,7 @@ import com.check.ui.UI;
 import com.check.characters.Character;
 import com.check.characters.CharacterCreator;
 import com.check.characters.CharacterCreator.InvalidCharacterException;
+import com.check.characters.Controls;
 import com.check.game.GameState;
 
 public class Controller {
@@ -44,11 +45,26 @@ public class Controller {
     }
 
     public int move(Character player) {
-        if (!player.isCPU()){
-            ui.displayMoveOptions(player);
-            return playerInput.nextInt();
-        }else{
-            return CPU.generateMove(player);
+        while (true){
+            if (!player.isCPU()){
+                ui.displayMoveOptions(player);
+                int playerMove = playerInput.nextInt();
+
+                // Guard for item availability and dodge count
+                if (playerMove == Controls.getUseHealPotion() && !player.getInventory().hasHealPotion()) {
+                    System.out.println("You have run out of heal potions. Please choose a different move.");
+                    continue;
+                } else if (playerMove == Controls.getUseDamagePotion() && !player.getInventory().hasDamagePotion()) {
+                    System.out.println("You have run out of damage potions. Please choose a different move.");
+                    continue;
+                } else if (playerMove == Controls.getDodge() && !player.canDodge()) {
+                    System.out.println("You cannot dodge anymore. Please choose a different move.");
+                    continue;
+                }
+                return playerMove;
+            }else{
+                return CPU.generateMove(player);
+            }
         }
     }
 

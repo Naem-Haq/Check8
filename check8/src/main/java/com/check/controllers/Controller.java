@@ -14,6 +14,8 @@ import com.check.characters.CharacterCreator.InvalidCharacterException;
 import com.check.characters.Controls;
 import com.check.data.GameHistory;
 import com.check.game.GameState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Controller {
     Scanner playerInput = new Scanner(System.in);
@@ -21,6 +23,7 @@ public class Controller {
     private Game game;
     private User currentUser;
     private final UI ui;
+    private static final Logger logger = LoggerFactory.getLogger(Controller.class.getName());
 
     public Controller() {
         this.ui = new UI();
@@ -50,7 +53,7 @@ public class Controller {
         playLoop();
     }
 
-    public void playLoop(){
+    public void playLoop() {
         while (game.getState().getType() == GameState.Type.IN_PROGRESS) {
             int player1Move = move(game.getPlayer1());
             int player2Move = move(game.getPlayer2());
@@ -59,6 +62,12 @@ public class Controller {
             ui.displayMessage(roundResult + "\n");
             ui.displayCompleteRound(game.getNumRounds());
             ui.displayHealth(game.getPlayer1(), game.getPlayer2());
+
+            // Check if the game state has changed to GameOver
+            if (game.getState().getType() == GameState.Type.GAME_OVER) {
+                logger.info("Game state changed to GAME_OVER, breaking loop");
+                break;
+            }
         }
         ui.displayMessage(game.display());
     }

@@ -62,12 +62,6 @@ public class Controller {
             ui.displayMessage(roundResult + "\n");
             ui.displayCompleteRound(game.getNumRounds());
             ui.displayHealth(game.getPlayer1(), game.getPlayer2());
-
-            // Check if the game state has changed to GameOver
-            if (game.getState().getType() == GameState.Type.GAME_OVER) {
-                logger.info("Game state changed to GAME_OVER, breaking loop");
-                break;
-            }
         }
         ui.displayMessage(game.display());
     }

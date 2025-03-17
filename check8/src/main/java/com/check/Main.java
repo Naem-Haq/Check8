@@ -1,10 +1,10 @@
 package com.check;
 
-import com.check.ui.UI;
+import com.check.controllers.Controller;
 
 public class Main {
     public static void main(String[] args) {
-        UI ui = new UI();
-        ui.displayWelcomeScreen();
+        Controller controller = new Controller();
+        controller.displayWelcomeScreen();
     }
 } 

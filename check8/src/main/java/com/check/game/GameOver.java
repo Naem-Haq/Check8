@@ -26,10 +26,17 @@ public class GameOver implements GameState {
     private void updateStats(Game game) {
         User user = game.getCurrentUser();
         if (user != null) {
-            if (game.getPlayer1().getHealthBar().getHealth() <= 0) {
+            int player1Health = game.getPlayer1().getHealthBar().getHealth();
+            int player2Health = game.getPlayer2().getHealthBar().getHealth();
+            
+            if (player1Health <= 0 && player2Health <= 0) {
+                user.addTie();
+            } else if (player1Health <= 0) {
                 user.addLoss();
-            } else {
+            } else if (player2Health <= 0) {
                 user.addWin();
+            } else {
+                user.addTie();
             }
             user.saveStats();
         }

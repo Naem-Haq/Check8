@@ -26,24 +26,6 @@ public class Round {
     }
 
     public void executeAction(int player1Input, int player2Input) {
-        // Guard for player1's move
-        if (player1Input == Controls.getUseHealPotion() && !player1.getInventory().hasHealPotion()) {
-            player1Input = Controls.getAttack();
-        } else if (player1Input == Controls.getUseDamagePotion() && !player1.getInventory().hasDamagePotion()) {
-            player1Input = Controls.getAttack();
-        } else if (player1Input == Controls.getDodge() && !player1.canDodge()) {
-            player1Input = Controls.getAttack();
-        }
-
-        // Guard for player2's move
-        if (player2Input == Controls.getUseHealPotion() && !player2.getInventory().hasHealPotion()) {
-            player2Input = Controls.getAttack();
-        } else if (player2Input == Controls.getUseDamagePotion() && !player2.getInventory().hasDamagePotion()) {
-            player2Input = Controls.getAttack();
-        } else if (player2Input == Controls.getDodge() && !player2.canDodge()) {
-            player2Input = Controls.getAttack();
-        }
-
         try {
             if (player1Input == Controls.getDodge() ^ player2Input == Controls.getDodge()) {
                 if (player1Input == Controls.getDodge()) {

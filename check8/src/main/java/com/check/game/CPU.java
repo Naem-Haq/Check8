@@ -28,11 +28,9 @@ public class CPU {
         int move = criticalHandler.handleCharacterDecision(character);
 
         // Guard for item availability and dodge count
-        if (move == Controls.getUseHealPotion() && !character.getInventory().hasHealPotion()) {
-            return Controls.getAttack();
-        } else if (move == Controls.getUseDamagePotion() && !character.getInventory().hasDamagePotion()) {
-            return Controls.getAttack();
-        } else if (move == Controls.getDodge() && !character.canDodge()) {
+        if ((move == Controls.getUseHealPotion() && !character.getInventory().hasHealPotion()) ||
+            (move == Controls.getUseDamagePotion() && !character.getInventory().hasDamagePotion()) ||
+            (move == Controls.getDodge() && !character.canDodge())) {
             return Controls.getAttack();
         }
 

@@ -15,14 +15,12 @@ public class Login {
     public static void signUp(String name, String password) {
         if (name == null || name.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             logger.warn("Invalid username or password. Cannot be empty.");
-            System.out.println("Error: Username and password cannot be empty.");
             return;
         }
 
         String hashedPassword = hashPassword(password);
 
         if (!DataHandler.saveUserLogin(name, hashedPassword)) {
-            System.out.println("Signup failed. User already exists.");
             return;
         }
 
@@ -46,7 +44,6 @@ public class Login {
             return request.getUser();
         } catch (Exception e) {
             logger.error("Login failed for user {}. {}", DataHandler.maskUsername(request.getUser().getName()), e.getMessage());
-            System.out.println("Login failed");
             return null;
         }
     }

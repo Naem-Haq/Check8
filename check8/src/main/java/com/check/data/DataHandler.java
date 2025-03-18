@@ -98,7 +98,7 @@ public class DataHandler {
                     return true;
                 }
             }
-            System.out.println("Invalid username or password.");
+
         } catch (IOException e) {
             logger.error("File operation error", e);
         }
@@ -110,7 +110,6 @@ public class DataHandler {
             for (String line : lines) {
                 if (line.split(",")[0].equals(name)) {
                     logger.warn("User '{}' already exists.", maskUsername(name));
-                    System.out.println("User already exists.");
                     return false;
                 }
             }

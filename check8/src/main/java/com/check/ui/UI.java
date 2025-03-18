@@ -121,28 +121,33 @@ public class UI {
     }
 
     public void displayHowToPlay() {
-        System.out.println("=== How to Play Factions ===\n");
-        System.out.println("Factions is a turn-based fighter game where strategy and luck determine the outcome of battles.");
-        System.out.println("Your goal is to defeat your opponent by carefully choosing attacks, dodging, and using potions.");
+        System.out.println(CYAN + "========================== How to Play =========================="+ RESET);
+        System.out.println("Factions is a turn-based fighter game where strategy and luck determine the outcome.");
+        System.out.println("Defeat your opponent by choosing attacks, dodging, and using potions wisely.\n");
 
-        System.out.println("\n--- Game Flow ---");
-        System.out.println("1. **Sign Up or Log In** – Create an account or log in to track your progress.");
-        System.out.println("2. **Main Menu** – Choose from options like starting a new game, viewing stats, or selecting a character.");
-        System.out.println("3. **Character Selection** – Pick a unique fighter with specialized weapons and abilities.");
-        System.out.println("4. **Battle Begins** – Each turn, both you and the AI choose an action simultaneously.");
-        System.out.println("5. **Actions Available:**");
-        System.out.println("   - **Attack** – Deal damage to your opponent.");
-        System.out.println("   - **Dodge** – Attempt to evade the enemy’s attack.");
-        System.out.println("   - **Use a Potion** – Heal yourself or enhance your attack power.");
-        System.out.println("6. **Victory or Defeat** – The battle continues until one fighter’s health reaches zero.");
+        System.out.println("--- Game Options ---");
+        System.out.println("1. Sign Up / Log In – Create an account or log in to track progress.");
+        System.out.println("2. Main Menu – Start a new game, view stats, or choose a character.");
+        System.out.println("3. Character Selection – Pick a unique fighter with special abilities.");
+        System.out.println("4. Battle Begins – Both players select an action each turn.");
 
-        System.out.println("\n--- Additional Features ---");
-        System.out.println("- **Track Stats:** View your past performance and battle history.");
-        System.out.println("- **Change Characters:** Try different fighters and strategies.");
-        System.out.println("- **Leaderboards:** Compare your skills with other players.");
+        System.out.println("\n   Actions Available:");
+        System.out.println("   - Attack – Deal damage to your opponent.");
+        System.out.println("   - Dodge – Attempt to evade an incoming attack.");
+        System.out.println("   - Use a Potion – Heal yourself or boost attack power.");
 
-        System.out.println("\nMaster your strategies, experiment with different characters, and become the strongest fighter in Factions!");
+        System.out.println("\n5. Victory or Defeat – The battle continues until one fighter’s health reaches zero.\n");
+
+        System.out.println("--- Additional Features ---");
+        System.out.println("- Track Stats: Review past battles and performance.");
+        System.out.println("- Change Characters: Experiment with different fighters.");
+        System.out.println("- Leaderboards: Compete with other players.");
+        System.out.println("- Saved State: Stop anywhere in the game and resume where left off\n");
+
+        System.out.println("Master your strategies, adapt to opponents, and become the strongest fighter in Factions!");
+        System.out.println(CYAN + "====================================================================" + RESET);
     }
+
 
     public void displayUserStats(User currentUser) {
         System.out.println(currentUser.getName() + "'s stats:");

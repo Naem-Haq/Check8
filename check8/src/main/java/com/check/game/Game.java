@@ -83,6 +83,7 @@ public class Game implements HealthObserver{
         this.player2.getHealthBar().setHealth(cache.getPlayer2Health());
         this.player1.getHealthBar().attach(this);
         this.player2.getHealthBar().attach(this);
+        this.numRounds++; 
         logger.info("Game restored from cache");
     }
     

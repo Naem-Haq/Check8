@@ -1,13 +1,16 @@
 package com.check.game;
 
 import com.check.characters.Character;
-import com.check.characters.CharacterCommand;
 import com.check.characters.Controls;
 
 /**
  * CPU class responsible for controlling AI character behavior and decision making.
  */
 public class CPU {
+
+    private CPU() {
+        // Private constructor to prevent instantiation
+    }
     /**
      * Generates and executes an AI move based on the character's current state.
      * Uses Chain of Responsibility to determine the appropriate action.

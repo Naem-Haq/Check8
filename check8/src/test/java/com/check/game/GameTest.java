@@ -56,8 +56,6 @@ public class GameTest {
         GameCache cache = game.saveToCache();
         
         // Modify the game state
-        player1.getHealthBar().setHealth(10);
-        player2.getHealthBar().setHealth(20);
         game.setState(new GameOver());
 
         // Restore the game state

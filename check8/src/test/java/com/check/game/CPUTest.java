@@ -3,21 +3,13 @@ package com.check.game;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import com.check.characters.Character;
-import com.check.characters.HealthBar;
 import com.check.items.Inventory;
 import com.check.characters.Controls;
-import com.check.items.Item;
 import java.util.List;
-import java.util.stream.Collectors;
 import com.check.items.HealPotion;
 import com.check.items.DamagePotion;
 
 public class CPUTest {
-    @Test
-    public void testCPUExists() {
-        CPU cpu = new CPU();
-        assertNotNull("CPU should be created", cpu);
-    }
 
     @Test
     public void testGenerateMove() {
@@ -26,7 +18,7 @@ public class CPUTest {
         };
         Inventory inventory = new Inventory();
         character.getInventory().addItems(
-            inventory.getItems().values().stream().flatMap(List::stream).collect(Collectors.toList())
+            inventory.getItems().values().stream().flatMap(List::stream).toList()
         );
 
         int move = CPU.generateMove(character);
@@ -45,7 +37,7 @@ public class CPUTest {
         Inventory inventory = new Inventory();
         inventory.addItem(new HealPotion());
         character.getInventory().addItems(
-            inventory.getItems().values().stream().flatMap(List::stream).collect(Collectors.toList())
+            inventory.getItems().values().stream().flatMap(List::stream).toList()
         );
 
         int move = CPU.generateMove(character);
@@ -64,7 +56,7 @@ public class CPUTest {
         Inventory inventory = new Inventory();
         inventory.addItem(new DamagePotion());
         character.getInventory().addItems(
-            inventory.getItems().values().stream().flatMap(List::stream).collect(Collectors.toList())
+            inventory.getItems().values().stream().flatMap(List::stream).toList()
         );
 
         int move = CPU.generateMove(character);

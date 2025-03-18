@@ -10,7 +10,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-public class RoundTest {
+class RoundTest {
 
     private Round round;
     private Character player1;
@@ -21,7 +21,7 @@ public class RoundTest {
     private HealthBar player2HealthBar;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         player1 = mock(Character.class);
         player2 = mock(Character.class);
         player1Controls = mock(Controls.class);
@@ -36,13 +36,13 @@ public class RoundTest {
     }
 
     @Test
-    public void testRoundInitialization() {
+     void testRoundInitialization() {
         assertNotNull(round);
         assertFalse(round.isComplete());
     }
 
     @Test
-    public void testExecuteActionBothPlayersAttack() {
+     void testExecuteActionBothPlayersAttack() {
         when(player1Controls.pressButton(anyInt(), eq(player2))).thenReturn("Player 1 attacks");
         when(player2Controls.pressButton(anyInt(), eq(player1))).thenReturn("Player 2 attacks");
 
@@ -53,7 +53,7 @@ public class RoundTest {
     }
 
     @Test
-    public void testExecuteActionPlayer1Dodges() {
+     void testExecuteActionPlayer1Dodges() {
         when(player1Controls.pressButton(anyInt(), eq(player2))).thenReturn("Player 1 dodges");
         when(player2Controls.pressButton(anyInt(), eq(player1))).thenReturn("Player 2 attacks");
 
@@ -64,7 +64,7 @@ public class RoundTest {
     }
 
     @Test
-public void testExecuteActionPlayer2Dodges() {
+ void testExecuteActionPlayer2Dodges() {
     when(player1Controls.pressButton(anyInt(), eq(player2))).thenReturn("Player 1 attacks");
     when(player2Controls.pressButton(anyInt(), eq(player1))).thenReturn("Player 2 dodges");
 

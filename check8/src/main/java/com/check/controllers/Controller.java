@@ -15,8 +15,6 @@ import com.check.characters.CharacterCreator.InvalidCharacterException;
 import com.check.characters.Controls;
 import com.check.data.GameHistory;
 import com.check.game.GameState;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Controller {
     Scanner playerInput = new Scanner(System.in);
@@ -24,7 +22,6 @@ public class Controller {
     private Game game;
     private User currentUser;
     private final UI ui;
-    private static final Logger logger = LoggerFactory.getLogger(Controller.class.getName());
 
     public Controller() {
         this.ui = new UI();
@@ -47,8 +44,7 @@ public class Controller {
 
     public void playGame(Character player1, Character player2) {
         ui.displayMessage("Game is starting");
-        Game game = new Game(player1, player2);
-        setGame(game);
+        setGame(new Game(player1, player2));
         ui.displayMessage(game.display());
         playerInput.nextLine();
         playLoop();

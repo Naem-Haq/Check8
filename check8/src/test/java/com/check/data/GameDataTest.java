@@ -8,7 +8,6 @@ import com.check.game.Game;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameDataTest {

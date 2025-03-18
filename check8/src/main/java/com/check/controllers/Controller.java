@@ -243,10 +243,10 @@ public class Controller {
         String password = playerInput.nextLine();
         Login.signUp(userName, password);
         currentUser = Login.logIn(userName, password);
-        setCurrentUser(currentUser);
         if (currentUser != null) {
+            setCurrentUser(currentUser);
             ui.displaySignUpSuccess(userName);
-        }
+        } else ui.displayMessage("SignUp failed - please try again.");
         loadMainMenu();
     }
 
@@ -259,6 +259,8 @@ public class Controller {
         if (currentUser != null) {
             ui.loginSuccess(userName);
             setCurrentUser(currentUser);
+        } else {
+            ui.displayMessage("Login failed - Incorrect username or password, please try again.");
         }
         loadMainMenu();
     }

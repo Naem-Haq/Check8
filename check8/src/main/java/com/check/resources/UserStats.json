@@ -7,9 +7,9 @@
         "username": "testUser"
     },
     "m": {
-        "wins": 2,
-        "gamesPlayed": 2,
-        "ties": 0,
+        "wins": 0,
+        "gamesPlayed": 1,
+        "ties": 1,
         "losses": 0,
         "username": "m"
     }

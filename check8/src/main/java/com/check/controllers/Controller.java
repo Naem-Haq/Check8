@@ -45,6 +45,7 @@ public class Controller {
     public void playGame(Character player1, Character player2) {
         ui.displayMessage("Game is starting");
         setGame(new Game(player1, player2));
+        game.setCurrentUser(currentUser);
         ui.displayMessage(game.display());
         playerInput.nextLine();
         playLoop();
